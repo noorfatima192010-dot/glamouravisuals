@@ -6,6 +6,7 @@
   <title>GlamouraVisuals | Curated Luxury Lifestyle</title>
   <meta name="description" content="GlamouraVisuals is a curated luxury lifestyle aggregator. Discover apparel, jewelry, home decor, cosmetics, tech and travel essentials from the world's finest houses." />
   <meta name="google-site-verification" content="fuqvPR9pxs0kihM69Obs0RJ7dBdLdQWsJLYL0a71Pts" />
+  <meta name="theme-color" content="#09090b" />
 
   <!-- Favicon (high-resolution square) -->
   <link rel="icon" type="image/jpeg" sizes="512x512" href="https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=512&h=512&q=80" />
@@ -28,11 +29,89 @@
     }
   </script>
 
+  <!-- Restore the visitor's saved vibe before first paint -->
+  <script>
+    try {
+      var savedVibe = localStorage.getItem('gv-vibe');
+      if (savedVibe && ['midnight', 'gold', 'studio'].indexOf(savedVibe) > -1) {
+        document.documentElement.setAttribute('data-vibe', savedVibe);
+      }
+    } catch (e) {}
+  </script>
+
   <style>
-    html { scroll-behavior: smooth; }
+    /* ============ VIBE PALETTES ============ */
+    :root {
+      color-scheme: dark;
+      --bg: #09090b;
+      --text: #f4f4f5;
+      --muted: #a1a1aa;
+      --faint: #8a8a93;
+      --surface: rgba(18, 18, 22, .72);
+      --surface-2: rgba(255, 255, 255, .045);
+      --border: rgba(255, 255, 255, .10);
+      --border-strong: rgba(255, 255, 255, .24);
+      --accent: #e8e8ec;
+      --accent-ink: #09090b;
+      --glass: rgba(9, 9, 11, .55);
+      --badge: rgba(9, 9, 11, .62);
+      --orb1: rgba(99, 102, 241, .38);
+      --orb2: rgba(14, 165, 233, .24);
+      --orb3: rgba(168, 85, 247, .28);
+      --vignette: rgba(0, 0, 0, .45);
+      --grain: .07;
+      --shadow: 0 14px 40px -16px rgba(0, 0, 0, .7);
+    }
+    html[data-vibe="gold"] {
+      color-scheme: dark;
+      --bg: #100c07;
+      --text: #f6efe3;
+      --muted: #b8a98f;
+      --faint: #9b8d76;
+      --surface: rgba(30, 22, 12, .72);
+      --surface-2: rgba(217, 182, 115, .07);
+      --border: rgba(217, 182, 115, .20);
+      --border-strong: rgba(217, 182, 115, .50);
+      --accent: #d9b673;
+      --accent-ink: #140e05;
+      --glass: rgba(16, 12, 7, .55);
+      --badge: rgba(16, 12, 7, .62);
+      --orb1: rgba(217, 182, 115, .34);
+      --orb2: rgba(180, 110, 60, .26);
+      --orb3: rgba(130, 70, 70, .30);
+      --vignette: rgba(0, 0, 0, .5);
+    }
+    html[data-vibe="studio"] {
+      color-scheme: light;
+      --bg: #f4f3ef;
+      --text: #15151a;
+      --muted: #5a5a63;
+      --faint: #6c6c74;
+      --surface: rgba(255, 255, 255, .80);
+      --surface-2: rgba(0, 0, 0, .035);
+      --border: rgba(0, 0, 0, .10);
+      --border-strong: rgba(0, 0, 0, .28);
+      --accent: #15151a;
+      --accent-ink: #ffffff;
+      --glass: rgba(244, 243, 239, .62);
+      --badge: rgba(255, 255, 255, .78);
+      --orb1: rgba(160, 160, 178, .38);
+      --orb2: rgba(218, 198, 168, .44);
+      --orb3: rgba(180, 202, 210, .42);
+      --vignette: rgba(0, 0, 0, .06);
+      --grain: .05;
+      --shadow: 0 14px 40px -18px rgba(0, 0, 0, .22);
+    }
+
+    /* ============ BASE ============ */
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--bg);
+      transition: background-color .6s ease;
+    }
     body {
-      background-color: #fafafa;
       font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--text);
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       text-rendering: optimizeLegibility;
@@ -40,7 +119,123 @@
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-    /* Pinterest-style masonry columns */
+    .t-main { color: var(--text); }
+    .t-muted { color: var(--muted); }
+    .t-faint { color: var(--faint); }
+    .eyebrow {
+      font-size: 11px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: .5em; color: var(--faint);
+    }
+
+    /* ============ MOVING AURORA BACKGROUND ============ */
+    .aurora {
+      position: fixed; inset: 0; z-index: -1; overflow: hidden;
+      pointer-events: none; transition: opacity .35s ease;
+    }
+    .aurora.is-switching { opacity: 0; }
+    .orb {
+      position: absolute; border-radius: 50%;
+      filter: blur(70px); will-change: transform;
+    }
+    .orb-1 {
+      width: 56vmax; height: 56vmax; left: -14vmax; top: -20vmax;
+      background: radial-gradient(circle at 50% 50%, var(--orb1), transparent 68%);
+      animation: drift1 28s ease-in-out infinite alternate;
+    }
+    .orb-2 {
+      width: 50vmax; height: 50vmax; right: -16vmax; top: 14vh;
+      background: radial-gradient(circle at 50% 50%, var(--orb2), transparent 68%);
+      animation: drift2 34s ease-in-out infinite alternate;
+    }
+    .orb-3 {
+      width: 54vmax; height: 54vmax; left: 18vw; bottom: -28vmax;
+      background: radial-gradient(circle at 50% 50%, var(--orb3), transparent 68%);
+      animation: drift3 40s ease-in-out infinite alternate;
+    }
+    @keyframes drift1 {
+      0%   { transform: translate3d(0, 0, 0) scale(1); }
+      50%  { transform: translate3d(16vmax, 10vmax, 0) scale(1.18); }
+      100% { transform: translate3d(5vmax, 24vmax, 0) scale(.95); }
+    }
+    @keyframes drift2 {
+      0%   { transform: translate3d(0, 0, 0) scale(1.05); }
+      50%  { transform: translate3d(-18vmax, 12vmax, 0) scale(.9); }
+      100% { transform: translate3d(-6vmax, -10vmax, 0) scale(1.2); }
+    }
+    @keyframes drift3 {
+      0%   { transform: translate3d(0, 0, 0) scale(1); }
+      50%  { transform: translate3d(20vmax, -12vmax, 0) scale(1.15); }
+      100% { transform: translate3d(-10vmax, -4vmax, 0) scale(1); }
+    }
+    .grain {
+      position: absolute; inset: -50%; opacity: var(--grain);
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+      animation: grain 9s steps(9) infinite;
+    }
+    @keyframes grain {
+      0%   { transform: translate(0, 0); }
+      20%  { transform: translate(-4%, 3%); }
+      40%  { transform: translate(3%, -5%); }
+      60%  { transform: translate(-6%, -2%); }
+      80%  { transform: translate(5%, 4%); }
+      100% { transform: translate(0, 0); }
+    }
+    .vignette {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at center, transparent 55%, var(--vignette) 100%);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .orb, .grain { animation: none; }
+      html { scroll-behavior: auto; }
+    }
+
+    /* ============ HEADER / FOOTER GLASS ============ */
+    .glass {
+      background: var(--glass);
+      -webkit-backdrop-filter: blur(20px) saturate(1.5);
+      backdrop-filter: blur(20px) saturate(1.5);
+      border-color: var(--border);
+    }
+    .navlink { color: var(--muted); transition: color .2s ease; }
+    .navlink:hover { color: var(--text); }
+    .btn-accent {
+      background: var(--accent); color: var(--accent-ink);
+      transition: opacity .2s ease, transform .2s ease;
+    }
+    .btn-accent:hover { opacity: .85; }
+
+    /* ============ VIBE SWITCHER ============ */
+    .vibe-btn {
+      display: inline-flex; align-items: center; gap: .6rem; flex-shrink: 0;
+      border-radius: 999px; padding: .65rem 1.25rem;
+      font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .18em;
+      color: var(--muted); background: var(--surface); border: 1px solid var(--border);
+      -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+      transition: all .3s ease; cursor: pointer;
+    }
+    .vibe-btn:hover { border-color: var(--border-strong); color: var(--text); }
+    .vibe-btn[aria-pressed="true"] {
+      background: var(--accent); color: var(--accent-ink); border-color: var(--accent);
+    }
+    .vibe-btn:focus-visible, .cta:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+    .swatch {
+      width: .85rem; height: .85rem; border-radius: 50%;
+      background: var(--sw); border: 1px solid rgba(128, 128, 128, .45);
+    }
+
+    /* ============ CATEGORY PILLS (filter script toggles the Tailwind classes below; we re-theme them) ============ */
+    html .filter-btn {
+      -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    }
+    html .filter-btn.bg-white {
+      background: var(--surface); color: var(--muted); border-color: var(--border);
+    }
+    html .filter-btn.bg-white:hover { border-color: var(--border-strong); color: var(--text); }
+    html .filter-btn.bg-neutral-900 {
+      background: var(--accent); color: var(--accent-ink); border-color: var(--accent);
+    }
+
+    /* ============ PINTEREST-STYLE MASONRY ============ */
     .masonry { column-gap: 1.5rem; columns: 1; }
     @media (min-width: 640px)  { .masonry { columns: 2; } }
     @media (min-width: 1024px) { .masonry { columns: 3; } }
@@ -51,27 +246,148 @@
     }
     .masonry-item.is-hiding { opacity: 0; transform: scale(.96); }
     .masonry-item.is-hidden { display: none; }
-    .card-img { transition: transform .9s cubic-bezier(.2,.7,.2,1); }
+    .card-img { transition: transform .9s cubic-bezier(.2, .7, .2, 1); }
     .masonry-item:hover .card-img { transform: scale(1.05); }
+
+    /* ============ PRODUCT CARD ============ */
+    .glam-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      padding: 1.25rem;
+      box-shadow: var(--shadow);
+      -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+      transition: border-color .3s ease, box-shadow .3s ease, transform .3s ease, background .6s ease;
+    }
+    .group:hover .glam-card {
+      border-color: var(--border-strong);
+      transform: translateY(-3px);
+    }
+    .media {
+      position: relative; overflow: hidden; border-radius: .75rem;
+      background: var(--surface-2);
+    }
+    .badge {
+      position: absolute; top: .75rem; left: .75rem;
+      background: var(--badge); color: var(--text);
+      border: 1px solid var(--border); border-radius: 999px;
+      padding: .375rem 1rem; font-size: 10px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: .2em;
+      -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    }
+
+    /* Piece Notes */
+    .notes-title {
+      font-size: 9.5px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .3em; color: var(--faint); margin: .25rem 0 .35rem;
+    }
+    .notes { border-top: 1px solid var(--border); margin-bottom: 1rem; }
+    .notes > div {
+      display: grid; grid-template-columns: 6.6rem 1fr; gap: .75rem;
+      padding: .55rem 0; border-bottom: 1px solid var(--border);
+    }
+    .notes dt {
+      font-size: 9.5px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: .16em; color: var(--faint); padding-top: 3px;
+    }
+    .notes dd { font-size: 12px; line-height: 1.55; color: var(--muted); }
+
+    /* Cost per wear */
+    .cpw {
+      margin-bottom: 1rem; padding: .75rem .85rem;
+      border: 1px solid var(--border); border-radius: .75rem;
+      background: var(--surface-2);
+    }
+    .cpw-head { display: flex; align-items: baseline; justify-content: space-between; gap: .75rem; margin-bottom: .55rem; }
+    .cpw-label {
+      font-size: 9.5px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .22em; color: var(--faint);
+    }
+    .cpw-result { font-size: 13px; font-weight: 700; color: var(--text); }
+    .cpw-row { display: flex; align-items: center; gap: .75rem; }
+    .cpw-price {
+      width: 6.6rem; flex-shrink: 0;
+      background: var(--surface-2); color: var(--text);
+      border: 1px solid var(--border); border-radius: .5rem;
+      padding: .4rem .6rem; font-size: 12px; font-family: inherit;
+    }
+    .cpw-price::placeholder { color: var(--faint); }
+    .cpw-price:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+    .cpw-range { flex: 1; min-width: 0; accent-color: var(--accent); cursor: pointer; }
+    .cpw-times { font-size: 11px; font-weight: 600; color: var(--muted); min-width: 2.6rem; text-align: right; }
+
+    /* Affiliate button */
+    .cta {
+      display: block; width: 100%; text-align: center;
+      font-size: 12px; font-weight: 700; letter-spacing: .03em;
+      padding: .75rem 0; border-radius: .75rem;
+      border: 1px solid var(--border); background: var(--surface-2); color: var(--text);
+      transition: all .3s ease;
+    }
+    .group:hover .cta, .look-card:hover .cta {
+      background: var(--accent); color: var(--accent-ink); border-color: var(--accent);
+    }
+
+    /* ============ COMPLETE THE LOOK ============ */
+    .look-rail { display: grid; gap: 1.5rem; grid-template-columns: 1fr; }
+    @media (min-width: 768px) { .look-rail { grid-template-columns: repeat(3, 1fr); } }
+    .look-card { position: relative; }
+    .look-card .media img { transition: transform .9s cubic-bezier(.2, .7, .2, 1); }
+    .look-card:hover .media img { transform: scale(1.05); }
+    @media (min-width: 768px) {
+      .look-card:not(:last-child)::after {
+        content: "+"; position: absolute; right: -1.55rem; top: 38%;
+        width: 1.6rem; height: 1.6rem; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 14px; font-weight: 600; z-index: 2;
+        background: var(--accent); color: var(--accent-ink);
+      }
+    }
+    .look-role {
+      font-size: 9.5px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .3em; color: var(--faint);
+    }
+
+    /* ============ AFFILIATE PORTAL PANEL ============ */
+    .panel { background: var(--accent); color: var(--accent-ink); }
+    .panel .panel-eyebrow { opacity: .6; }
+    .panel p.panel-copy { opacity: .78; }
+    .panel .panel-btn {
+      background: var(--accent-ink); color: var(--accent);
+      transition: opacity .2s ease;
+    }
+    .panel .panel-btn:hover { opacity: .85; }
+
+    footer.site-footer { background: var(--glass); border-color: var(--border);
+      -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); }
   </style>
 </head>
 
-<body class="text-neutral-900 min-h-screen flex flex-col">
+<body class="min-h-screen flex flex-col">
+
+  <!-- MOVING BACKGROUND -->
+  <div class="aurora" aria-hidden="true">
+    <span class="orb orb-1"></span>
+    <span class="orb orb-2"></span>
+    <span class="orb orb-3"></span>
+    <span class="grain"></span>
+    <span class="vignette"></span>
+  </div>
 
   <!-- GLASSMORPHIC HEADER -->
-  <header class="sticky top-0 z-50 border-b border-white/60 bg-white/60 backdrop-blur-xl backdrop-saturate-150">
+  <header class="glass sticky top-0 z-50 border-b">
     <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-      <a href="#" class="text-sm sm:text-base font-extrabold uppercase tracking-[0.3em]">
+      <a href="#" class="t-main text-sm sm:text-base font-extrabold uppercase tracking-[0.3em]">
         Glamoura<span class="font-light">Visuals</span>
       </a>
 
       <nav class="hidden md:flex items-center gap-10">
-        <a href="#feed" class="text-[11px] font-semibold uppercase tracking-[0.2em] text-neutral-500 hover:text-neutral-900 transition-colors">Curated Feed</a>
-        <a href="#vibe" class="text-[11px] font-semibold uppercase tracking-[0.2em] text-neutral-500 hover:text-neutral-900 transition-colors">Shop by Vibe</a>
-        <a href="#portal" class="text-[11px] font-semibold uppercase tracking-[0.2em] text-neutral-500 hover:text-neutral-900 transition-colors">Affiliate Portal</a>
+        <a href="#feed" class="navlink text-[11px] font-semibold uppercase tracking-[0.2em]">Curated Feed</a>
+        <a href="#vibe" class="navlink text-[11px] font-semibold uppercase tracking-[0.2em]">Shop by Vibe</a>
+        <a href="#portal" class="navlink text-[11px] font-semibold uppercase tracking-[0.2em]">Affiliate Portal</a>
       </nav>
 
-      <a href="#portal" class="rounded-full bg-neutral-900 text-white text-[11px] font-semibold uppercase tracking-[0.18em] px-6 py-3 hover:bg-neutral-700 transition-colors shadow-lg shadow-neutral-900/10">
+      <a href="#portal" class="btn-accent rounded-full text-[11px] font-semibold uppercase tracking-[0.18em] px-6 py-3 shadow-lg">
         Join the Edit
       </a>
     </div>
@@ -80,18 +396,36 @@
   <main class="flex-grow">
 
     <!-- HERO -->
-    <section class="max-w-4xl mx-auto px-6 pt-20 pb-14 text-center">
-      <p class="text-[11px] font-semibold uppercase tracking-[0.5em] text-neutral-400 mb-6">The Luxury Lifestyle Aggregator</p>
-      <h1 class="text-3xl sm:text-5xl font-light uppercase tracking-[0.25em] leading-snug sm:leading-tight">
+    <section class="max-w-4xl mx-auto px-6 pt-20 pb-12 text-center">
+      <p class="eyebrow mb-6">The Luxury Lifestyle Aggregator</p>
+      <h1 class="t-main text-3xl sm:text-5xl font-light uppercase tracking-[0.25em] leading-snug sm:leading-tight">
         Curated <span class="font-extrabold">Beauty</span>,<br class="hidden sm:block" /> Gathered For You
       </h1>
-      <p class="mt-8 max-w-2xl mx-auto text-sm sm:text-[15px] font-light leading-8 tracking-[0.12em] text-neutral-500">
+      <p class="t-muted mt-8 max-w-2xl mx-auto text-sm sm:text-[15px] font-light leading-8 tracking-[0.12em]">
         GlamouraVisuals hand-selects the most coveted pieces from the world's finest houses and independent ateliers, then gathers them into one visual lookbook. Every find links directly to its original retailer, so you shop the source with complete confidence.
       </p>
     </section>
 
+    <!-- VIBE SWITCHER -->
+    <section id="vibe" class="max-w-7xl mx-auto px-6 pb-8">
+      <p class="eyebrow text-center mb-4">Shop by Vibe</p>
+      <div class="overflow-x-auto no-scrollbar pb-2">
+        <div class="flex gap-3 w-max mx-auto" role="group" aria-label="Choose a vibe">
+          <button type="button" class="vibe-btn" data-vibe="midnight" aria-pressed="true">
+            <i class="swatch" style="--sw: linear-gradient(135deg, #09090b, #6366f1);"></i>Midnight Streetwear
+          </button>
+          <button type="button" class="vibe-btn" data-vibe="gold" aria-pressed="false">
+            <i class="swatch" style="--sw: linear-gradient(135deg, #100c07, #d9b673);"></i>Soft Gold
+          </button>
+          <button type="button" class="vibe-btn" data-vibe="studio" aria-pressed="false">
+            <i class="swatch" style="--sw: linear-gradient(135deg, #f4f3ef, #9a9aa8);"></i>Studio Minimal
+          </button>
+        </div>
+      </div>
+    </section>
+
     <!-- CATEGORY FILTER BAR -->
-    <section id="vibe" class="max-w-7xl mx-auto px-6">
+    <section id="categories" class="max-w-7xl mx-auto px-6">
       <div class="overflow-x-auto no-scrollbar pb-2">
         <div class="flex gap-3 w-max mx-auto" role="tablist" aria-label="Product categories">
           <button data-filter="all" class="filter-btn shrink-0 rounded-full px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.18em] border border-neutral-900 bg-neutral-900 text-white transition-all duration-300">All Items</button>
@@ -111,161 +445,366 @@
 
         <!-- Card 1: Apparel - Hoodie (tall) -->
         <article class="masonry-item group" data-category="apparel">
-          <div class="bg-white border border-neutral-200 rounded-2xl p-5 shadow-sm group-hover:shadow-md transition-all duration-300">
-            <div class="relative overflow-hidden rounded-xl bg-neutral-200">
-              <img class="card-img w-full h-[30rem] object-cover" loading="lazy" alt="Premium heavyweight black hoodie"
+          <div class="glam-card">
+            <div class="media">
+              <!-- SWAP IMAGE HERE: replace the src below with your hoodie photo -->
+              <img class="card-img w-full h-[30rem] object-cover" loading="lazy" alt="Oversized Heavyweight Hoodie"
                    src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=1200&q=85" />
-              <span class="absolute top-3 left-3 rounded-full bg-white/80 backdrop-blur-md px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em]">Apparel</span>
+              <span class="badge">Apparel</span>
             </div>
-            <div class="pt-5 pb-5 px-1">
-              <h3 class="text-sm font-bold uppercase tracking-[0.12em]">Oversized Heavyweight Hoodie</h3>
-              <p class="mt-1 text-xs font-light tracking-wide text-neutral-500">Brushed organic cotton fleece, matte black</p>
+            <div class="pt-5 pb-4 px-1">
+              <h3 class="t-main text-sm font-bold uppercase tracking-[0.12em]">Oversized Heavyweight Hoodie</h3>
+              <p class="t-muted mt-1 text-xs font-light tracking-wide">An oversized streetwear staple</p>
             </div>
-            <a href="https://link.amazon/B0iChvyf3" target="_blank" rel="sponsored noopener" class="bg-neutral-50 border border-neutral-200 text-neutral-800 group-hover:bg-neutral-900 group-hover:text-white group-hover:border-neutral-900 font-bold tracking-wide rounded-xl py-3 w-full block text-center text-xs transition-all duration-300">View Exclusive Piece ↗</a>
+            <p class="notes-title">Piece Notes</p>
+            <dl class="notes">
+              <div><dt>First Impression</dt><dd>Heavy, relaxed, unmistakably streetwear.</dd></div>
+              <div><dt>How It Wears</dt><dd>Built to be worn loose and layered.</dd></div>
+              <div><dt>Pairs With</dt><dd>Structured cargos, a clean sneaker or a sharp oxford.</dd></div>
+            </dl>
+            <div class="cpw" data-unit="wear">
+              <div class="cpw-head"><span class="cpw-label">Cost per wear</span><span class="cpw-result" aria-live="polite">Add price</span></div>
+              <div class="cpw-row">
+                <input class="cpw-price" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Listing price" aria-label="Price shown on the listing" />
+                <input class="cpw-range" type="range" min="1" max="365" value="40" aria-label="How many times you would wear it" />
+                <span class="cpw-times">40×</span>
+              </div>
+            </div>
+            <a href="https://link.amazon/B0iChvyf3" target="_blank" rel="sponsored noopener" class="cta">View Exclusive Piece ↗</a>
           </div>
         </article>
 
         <!-- Card 2: Jewelry (short) -->
         <article class="masonry-item group" data-category="jewelry">
-          <div class="bg-white border border-neutral-200 rounded-2xl p-5 shadow-sm group-hover:shadow-md transition-all duration-300">
-            <div class="relative overflow-hidden rounded-xl bg-neutral-200">
-              <img class="card-img w-full h-72 object-cover" loading="lazy" alt="Polished gold rings"
+          <div class="glam-card">
+            <div class="media">
+              <img class="card-img w-full h-72 object-cover" loading="lazy" alt="Polished Stacking Rings"
                    src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=1200&q=85" />
-              <span class="absolute top-3 left-3 rounded-full bg-white/80 backdrop-blur-md px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em]">Jewelry</span>
+              <span class="badge">Jewelry</span>
             </div>
-            <div class="pt-5 pb-5 px-1">
-              <h3 class="text-sm font-bold uppercase tracking-[0.12em]">Polished Stacking Rings</h3>
-              <p class="mt-1 text-xs font-light tracking-wide text-neutral-500">18k gold vermeil, set of three</p>
+            <div class="pt-5 pb-4 px-1">
+              <h3 class="t-main text-sm font-bold uppercase tracking-[0.12em]">Polished Stacking Rings</h3>
+              <p class="t-muted mt-1 text-xs font-light tracking-wide">Stackable, with a bright finish</p>
             </div>
-            <a href="#" class="bg-neutral-50 border border-neutral-200 text-neutral-800 group-hover:bg-neutral-900 group-hover:text-white group-hover:border-neutral-900 font-bold tracking-wide rounded-xl py-3 w-full block text-center text-xs transition-all duration-300">View Exclusive Piece ↗</a>
+            <p class="notes-title">Piece Notes</p>
+            <dl class="notes">
+              <div><dt>First Impression</dt><dd>Small details with a bright finish.</dd></div>
+              <div><dt>How It Wears</dt><dd>Meant to be layered, mixed and re-stacked.</dd></div>
+              <div><dt>Pairs With</dt><dd>A quiet outfit that needs one gleam.</dd></div>
+            </dl>
+            <div class="cpw" data-unit="wear">
+              <div class="cpw-head"><span class="cpw-label">Cost per wear</span><span class="cpw-result" aria-live="polite">Add price</span></div>
+              <div class="cpw-row">
+                <input class="cpw-price" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Listing price" aria-label="Price shown on the listing" />
+                <input class="cpw-range" type="range" min="1" max="365" value="150" aria-label="How many times you would wear it" />
+                <span class="cpw-times">150×</span>
+              </div>
+            </div>
+            <a href="#" class="cta">View Exclusive Piece ↗</a>
           </div>
         </article>
 
-        <!-- Card 3: Home Decor (medium) -->
+        <!-- Card 3: Home Decor - Lamp (medium) -->
         <article class="masonry-item group" data-category="home-decor">
-          <div class="bg-white border border-neutral-200 rounded-2xl p-5 shadow-sm group-hover:shadow-md transition-all duration-300">
-            <div class="relative overflow-hidden rounded-xl bg-neutral-200">
-              <img class="card-img w-full h-[24rem] object-cover" loading="lazy" alt="Ceramic desk lamp"
+          <div class="glam-card">
+            <div class="media">
+              <img class="card-img w-full h-[24rem] object-cover" loading="lazy" alt="Sculpted Ceramic Desk Lamp"
                    src="https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=1200&q=85" />
-              <span class="absolute top-3 left-3 rounded-full bg-white/80 backdrop-blur-md px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em]">Home Decor</span>
+              <span class="badge">Home Decor</span>
             </div>
-            <div class="pt-5 pb-5 px-1">
-              <h3 class="text-sm font-bold uppercase tracking-[0.12em]">Sculpted Ceramic Desk Lamp</h3>
-              <p class="mt-1 text-xs font-light tracking-wide text-neutral-500">Hand-glazed stoneware, warm diffused glow</p>
+            <div class="pt-5 pb-4 px-1">
+              <h3 class="t-main text-sm font-bold uppercase tracking-[0.12em]">Sculpted Ceramic Desk Lamp</h3>
+              <p class="t-muted mt-1 text-xs font-light tracking-wide">A sculptural light for the desk</p>
             </div>
-            <a href="#" class="bg-neutral-50 border border-neutral-200 text-neutral-800 group-hover:bg-neutral-900 group-hover:text-white group-hover:border-neutral-900 font-bold tracking-wide rounded-xl py-3 w-full block text-center text-xs transition-all duration-300">View Exclusive Piece ↗</a>
+            <p class="notes-title">Piece Notes</p>
+            <dl class="notes">
+              <div><dt>First Impression</dt><dd>An object first, a light second.</dd></div>
+              <div><dt>How It Lives</dt><dd>Soft, low light for late evenings.</dd></div>
+              <div><dt>Pairs With</dt><dd>Books, a dark desk and a single plant.</dd></div>
+            </dl>
+            <div class="cpw" data-unit="use">
+              <div class="cpw-head"><span class="cpw-label">Cost per use</span><span class="cpw-result" aria-live="polite">Add price</span></div>
+              <div class="cpw-row">
+                <input class="cpw-price" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Listing price" aria-label="Price shown on the listing" />
+                <input class="cpw-range" type="range" min="1" max="365" value="300" aria-label="How many times you would use it" />
+                <span class="cpw-times">300×</span>
+              </div>
+            </div>
+            <a href="#" class="cta">View Exclusive Piece ↗</a>
           </div>
         </article>
 
         <!-- Card 4: Apparel - Oxfords (medium) -->
         <article class="masonry-item group" data-category="apparel">
-          <div class="bg-white border border-neutral-200 rounded-2xl p-5 shadow-sm group-hover:shadow-md transition-all duration-300">
-            <div class="relative overflow-hidden rounded-xl bg-neutral-200">
-              <img class="card-img w-full h-96 object-cover" loading="lazy" alt="Minimalist matte-black dress shoes"
+          <div class="glam-card">
+            <div class="media">
+              <!-- SWAP IMAGE HERE: replace the src below with your oxfords photo -->
+              <img class="card-img w-full h-96 object-cover" loading="lazy" alt="Handcrafted Leather Oxfords"
                    src="https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?auto=format&fit=crop&w=1200&q=85" />
-              <span class="absolute top-3 left-3 rounded-full bg-white/80 backdrop-blur-md px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em]">Apparel</span>
+              <span class="badge">Apparel</span>
             </div>
-            <div class="pt-5 pb-5 px-1">
-              <h3 class="text-sm font-bold uppercase tracking-[0.12em]">Handcrafted Leather Oxfords</h3>
-              <p class="mt-1 text-xs font-light tracking-wide text-neutral-500">Full-grain calfskin, Goodyear welted</p>
+            <div class="pt-5 pb-4 px-1">
+              <h3 class="t-main text-sm font-bold uppercase tracking-[0.12em]">Handcrafted Leather Oxfords</h3>
+              <p class="t-muted mt-1 text-xs font-light tracking-wide">The polished counterpoint</p>
             </div>
-            <a href="https://link.amazon/B02NjddGc" target="_blank" rel="sponsored noopener" class="bg-neutral-50 border border-neutral-200 text-neutral-800 group-hover:bg-neutral-900 group-hover:text-white group-hover:border-neutral-900 font-bold tracking-wide rounded-xl py-3 w-full block text-center text-xs transition-all duration-300">View Exclusive Piece ↗</a>
+            <p class="notes-title">Piece Notes</p>
+            <dl class="notes">
+              <div><dt>First Impression</dt><dd>Sharp lines that dress the whole look up.</dd></div>
+              <div><dt>How It Wears</dt><dd>The formal note that sharpens relaxed streetwear.</dd></div>
+              <div><dt>Pairs With</dt><dd>Cargos and a boxy tee for a high-low look.</dd></div>
+            </dl>
+            <div class="cpw" data-unit="wear">
+              <div class="cpw-head"><span class="cpw-label">Cost per wear</span><span class="cpw-result" aria-live="polite">Add price</span></div>
+              <div class="cpw-row">
+                <input class="cpw-price" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Listing price" aria-label="Price shown on the listing" />
+                <input class="cpw-range" type="range" min="1" max="365" value="100" aria-label="How many times you would wear them" />
+                <span class="cpw-times">100×</span>
+              </div>
+            </div>
+            <a href="https://link.amazon/B02NjddGc" target="_blank" rel="sponsored noopener" class="cta">View Exclusive Piece ↗</a>
           </div>
         </article>
 
-        <!-- Card 5: Home Decor (tall) -->
+        <!-- Card 5: Home Decor - Sofa (tall) -->
         <article class="masonry-item group" data-category="home-decor">
-          <div class="bg-white border border-neutral-200 rounded-2xl p-5 shadow-sm group-hover:shadow-md transition-all duration-300">
-            <div class="relative overflow-hidden rounded-xl bg-neutral-200">
-              <img class="card-img w-full h-[28rem] object-cover" loading="lazy" alt="Minimalist designer sofa"
+          <div class="glam-card">
+            <div class="media">
+              <img class="card-img w-full h-[28rem] object-cover" loading="lazy" alt="Minimalist Lounge Sofa"
                    src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1200&q=85" />
-              <span class="absolute top-3 left-3 rounded-full bg-white/80 backdrop-blur-md px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em]">Home Decor</span>
+              <span class="badge">Home Decor</span>
             </div>
-            <div class="pt-5 pb-5 px-1">
-              <h3 class="text-sm font-bold uppercase tracking-[0.12em]">Minimalist Lounge Sofa</h3>
-              <p class="mt-1 text-xs font-light tracking-wide text-neutral-500">Solid oak frame, bouclé upholstery</p>
+            <div class="pt-5 pb-4 px-1">
+              <h3 class="t-main text-sm font-bold uppercase tracking-[0.12em]">Minimalist Lounge Sofa</h3>
+              <p class="t-muted mt-1 text-xs font-light tracking-wide">Clean lines, low profile</p>
             </div>
-            <a href="#" class="bg-neutral-50 border border-neutral-200 text-neutral-800 group-hover:bg-neutral-900 group-hover:text-white group-hover:border-neutral-900 font-bold tracking-wide rounded-xl py-3 w-full block text-center text-xs transition-all duration-300">View Exclusive Piece ↗</a>
+            <p class="notes-title">Piece Notes</p>
+            <dl class="notes">
+              <div><dt>First Impression</dt><dd>A quiet shape that anchors the room.</dd></div>
+              <div><dt>How It Lives</dt><dd>Made for slow evenings and long conversations.</dd></div>
+              <div><dt>Pairs With</dt><dd>Warm lighting and natural textures.</dd></div>
+            </dl>
+            <div class="cpw" data-unit="use">
+              <div class="cpw-head"><span class="cpw-label">Cost per use</span><span class="cpw-result" aria-live="polite">Add price</span></div>
+              <div class="cpw-row">
+                <input class="cpw-price" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Listing price" aria-label="Price shown on the listing" />
+                <input class="cpw-range" type="range" min="1" max="365" value="365" aria-label="How many times you would use it" />
+                <span class="cpw-times">365×</span>
+              </div>
+            </div>
+            <a href="#" class="cta">View Exclusive Piece ↗</a>
           </div>
         </article>
 
         <!-- Card 6: Cosmetics (short) -->
         <article class="masonry-item group" data-category="cosmetics">
-          <div class="bg-white border border-neutral-200 rounded-2xl p-5 shadow-sm group-hover:shadow-md transition-all duration-300">
-            <div class="relative overflow-hidden rounded-xl bg-neutral-200">
-              <img class="card-img w-full h-72 object-cover" loading="lazy" alt="Botanical face oil in glass dropper bottle"
+          <div class="glam-card">
+            <div class="media">
+              <img class="card-img w-full h-72 object-cover" loading="lazy" alt="Radiance Botanical Face Oil"
                    src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=1200&q=85" />
-              <span class="absolute top-3 left-3 rounded-full bg-white/80 backdrop-blur-md px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em]">Cosmetics</span>
+              <span class="badge">Cosmetics</span>
             </div>
-            <div class="pt-5 pb-5 px-1">
-              <h3 class="text-sm font-bold uppercase tracking-[0.12em]">Radiance Botanical Face Oil</h3>
-              <p class="mt-1 text-xs font-light tracking-wide text-neutral-500">Cold-pressed rosehip and squalane</p>
+            <div class="pt-5 pb-4 px-1">
+              <h3 class="t-main text-sm font-bold uppercase tracking-[0.12em]">Radiance Botanical Face Oil</h3>
+              <p class="t-muted mt-1 text-xs font-light tracking-wide">A botanical finishing touch</p>
             </div>
-            <a href="#" class="bg-neutral-50 border border-neutral-200 text-neutral-800 group-hover:bg-neutral-900 group-hover:text-white group-hover:border-neutral-900 font-bold tracking-wide rounded-xl py-3 w-full block text-center text-xs transition-all duration-300">View Exclusive Piece ↗</a>
+            <p class="notes-title">Piece Notes</p>
+            <dl class="notes">
+              <div><dt>First Impression</dt><dd>Glass, light and a small daily ritual.</dd></div>
+              <div><dt>How It Lives</dt><dd>A calm minute in the morning or evening routine.</dd></div>
+              <div><dt>Pairs With</dt><dd>Simple routines and soft light.</dd></div>
+            </dl>
+            <div class="cpw" data-unit="use">
+              <div class="cpw-head"><span class="cpw-label">Cost per use</span><span class="cpw-result" aria-live="polite">Add price</span></div>
+              <div class="cpw-row">
+                <input class="cpw-price" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Listing price" aria-label="Price shown on the listing" />
+                <input class="cpw-range" type="range" min="1" max="365" value="90" aria-label="How many times you would use it" />
+                <span class="cpw-times">90×</span>
+              </div>
+            </div>
+            <a href="#" class="cta">View Exclusive Piece ↗</a>
           </div>
         </article>
 
         <!-- Card 7: Tech Accessories (tall) -->
         <article class="masonry-item group" data-category="tech-accessories">
-          <div class="bg-white border border-neutral-200 rounded-2xl p-5 shadow-sm group-hover:shadow-md transition-all duration-300">
-            <div class="relative overflow-hidden rounded-xl bg-neutral-200">
-              <img class="card-img w-full h-[26rem] object-cover" loading="lazy" alt="Premium wireless headphones"
+          <div class="glam-card">
+            <div class="media">
+              <img class="card-img w-full h-[26rem] object-cover" loading="lazy" alt="Studio Wireless Headphones"
                    src="https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=1200&q=85" />
-              <span class="absolute top-3 left-3 rounded-full bg-white/80 backdrop-blur-md px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em]">⚡ Tech Accessories</span>
+              <span class="badge">⚡ Tech Accessories</span>
             </div>
-            <div class="pt-5 pb-5 px-1">
-              <h3 class="text-sm font-bold uppercase tracking-[0.12em]">Studio Wireless Headphones</h3>
-              <p class="mt-1 text-xs font-light tracking-wide text-neutral-500">Matte finish, adaptive noise cancelling</p>
+            <div class="pt-5 pb-4 px-1">
+              <h3 class="t-main text-sm font-bold uppercase tracking-[0.12em]">Studio Wireless Headphones</h3>
+              <p class="t-muted mt-1 text-xs font-light tracking-wide">Minimal and made for focus</p>
             </div>
-            <a href="#" class="bg-neutral-50 border border-neutral-200 text-neutral-800 group-hover:bg-neutral-900 group-hover:text-white group-hover:border-neutral-900 font-bold tracking-wide rounded-xl py-3 w-full block text-center text-xs transition-all duration-300">View Exclusive Piece ↗</a>
+            <p class="notes-title">Piece Notes</p>
+            <dl class="notes">
+              <div><dt>First Impression</dt><dd>A low-profile, no-nonsense silhouette.</dd></div>
+              <div><dt>How It Lives</dt><dd>Meant for long sessions and quiet commutes.</dd></div>
+              <div><dt>Pairs With</dt><dd>A dark desk setup or an all-black outfit.</dd></div>
+            </dl>
+            <div class="cpw" data-unit="use">
+              <div class="cpw-head"><span class="cpw-label">Cost per use</span><span class="cpw-result" aria-live="polite">Add price</span></div>
+              <div class="cpw-row">
+                <input class="cpw-price" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Listing price" aria-label="Price shown on the listing" />
+                <input class="cpw-range" type="range" min="1" max="365" value="250" aria-label="How many times you would use it" />
+                <span class="cpw-times">250×</span>
+              </div>
+            </div>
+            <a href="#" class="cta">View Exclusive Piece ↗</a>
           </div>
         </article>
 
         <!-- Card 8: Travel Essentials (medium) -->
         <article class="masonry-item group" data-category="travel-essentials">
-          <div class="bg-white border border-neutral-200 rounded-2xl p-5 shadow-sm group-hover:shadow-md transition-all duration-300">
-            <div class="relative overflow-hidden rounded-xl bg-neutral-200">
-              <img class="card-img w-full h-96 object-cover" loading="lazy" alt="Premium leather travel backpack"
+          <div class="glam-card">
+            <div class="media">
+              <img class="card-img w-full h-96 object-cover" loading="lazy" alt="Weekender Travel Backpack"
                    src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=1200&q=85" />
-              <span class="absolute top-3 left-3 rounded-full bg-white/80 backdrop-blur-md px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em]">🧳 Travel Essentials</span>
+              <span class="badge">🧳 Travel Essentials</span>
             </div>
-            <div class="pt-5 pb-5 px-1">
-              <h3 class="text-sm font-bold uppercase tracking-[0.12em]">Weekender Travel Backpack</h3>
-              <p class="mt-1 text-xs font-light tracking-wide text-neutral-500">Vegetable-tanned leather, carry-on ready</p>
+            <div class="pt-5 pb-4 px-1">
+              <h3 class="t-main text-sm font-bold uppercase tracking-[0.12em]">Weekender Travel Backpack</h3>
+              <p class="t-muted mt-1 text-xs font-light tracking-wide">Made for short getaways</p>
             </div>
-            <a href="#" class="bg-neutral-50 border border-neutral-200 text-neutral-800 group-hover:bg-neutral-900 group-hover:text-white group-hover:border-neutral-900 font-bold tracking-wide rounded-xl py-3 w-full block text-center text-xs transition-all duration-300">View Exclusive Piece ↗</a>
+            <p class="notes-title">Piece Notes</p>
+            <dl class="notes">
+              <div><dt>First Impression</dt><dd>A bag that looks right in any terminal.</dd></div>
+              <div><dt>How It Lives</dt><dd>Packed light for a weekend away.</dd></div>
+              <div><dt>Pairs With</dt><dd>The hoodie, the cargos and an early flight.</dd></div>
+            </dl>
+            <div class="cpw" data-unit="use">
+              <div class="cpw-head"><span class="cpw-label">Cost per use</span><span class="cpw-result" aria-live="polite">Add price</span></div>
+              <div class="cpw-row">
+                <input class="cpw-price" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Listing price" aria-label="Price shown on the listing" />
+                <input class="cpw-range" type="range" min="1" max="365" value="60" aria-label="How many times you would use it" />
+                <span class="cpw-times">60×</span>
+              </div>
+            </div>
+            <a href="#" class="cta">View Exclusive Piece ↗</a>
           </div>
         </article>
 
         <!-- Card 9: Apparel - Cargos (tall) -->
         <article class="masonry-item group" data-category="apparel">
-          <div class="bg-white border border-neutral-200 rounded-2xl p-5 shadow-sm group-hover:shadow-md transition-all duration-300">
-            <div class="relative overflow-hidden rounded-xl bg-neutral-200">
-              <img class="card-img w-full h-[28rem] object-cover" loading="lazy" alt="Structured street cargo utility pants"
+          <div class="glam-card">
+            <div class="media">
+              <!-- SWAP IMAGE HERE: replace the src below with your cargo pants photo -->
+              <img class="card-img w-full h-[28rem] object-cover" loading="lazy" alt="Relaxed-Fit Structured Cargos"
                    src="https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=1200&q=85" />
-              <span class="absolute top-3 left-3 rounded-full bg-white/80 backdrop-blur-md px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em]">Apparel</span>
+              <span class="badge">Apparel</span>
             </div>
-            <div class="pt-5 pb-5 px-1">
-              <h3 class="text-sm font-bold uppercase tracking-[0.12em]">Relaxed-Fit Structured Cargos</h3>
-              <p class="mt-1 text-xs font-light tracking-wide text-neutral-500">Heavy cotton twill, tailored utility pockets</p>
+            <div class="pt-5 pb-4 px-1">
+              <h3 class="t-main text-sm font-bold uppercase tracking-[0.12em]">Relaxed-Fit Structured Cargos</h3>
+              <p class="t-muted mt-1 text-xs font-light tracking-wide">Utility pockets, relaxed cut</p>
             </div>
-            <a href="https://link.amazon/B0fpdcRzc" target="_blank" rel="sponsored noopener" class="bg-neutral-50 border border-neutral-200 text-neutral-800 group-hover:bg-neutral-900 group-hover:text-white group-hover:border-neutral-900 font-bold tracking-wide rounded-xl py-3 w-full block text-center text-xs transition-all duration-300">View Exclusive Piece ↗</a>
+            <p class="notes-title">Piece Notes</p>
+            <dl class="notes">
+              <div><dt>First Impression</dt><dd>Utility details with a tailored attitude.</dd></div>
+              <div><dt>How It Wears</dt><dd>Cut relaxed; made to sit loose, not slim.</dd></div>
+              <div><dt>Pairs With</dt><dd>An oversized hoodie and polished shoes.</dd></div>
+            </dl>
+            <div class="cpw" data-unit="wear">
+              <div class="cpw-head"><span class="cpw-label">Cost per wear</span><span class="cpw-result" aria-live="polite">Add price</span></div>
+              <div class="cpw-row">
+                <input class="cpw-price" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Listing price" aria-label="Price shown on the listing" />
+                <input class="cpw-range" type="range" min="1" max="365" value="60" aria-label="How many times you would wear them" />
+                <span class="cpw-times">60×</span>
+              </div>
+            </div>
+            <a href="https://link.amazon/B0fpdcRzc" target="_blank" rel="sponsored noopener" class="cta">View Exclusive Piece ↗</a>
           </div>
         </article>
 
         <!-- Card 10: Apparel - Heavyweight Tee (medium) -->
         <article class="masonry-item group" data-category="apparel">
-          <div class="bg-white border border-neutral-200 rounded-2xl p-5 shadow-sm group-hover:shadow-md transition-all duration-300">
-            <div class="relative overflow-hidden rounded-xl bg-neutral-200">
-              <img class="card-img w-full h-96 object-cover" loading="lazy" alt="Thick boxy heavyweight black street tee"
+          <div class="glam-card">
+            <div class="media">
+              <!-- SWAP IMAGE HERE: replace the src below with your tee photo -->
+              <img class="card-img w-full h-96 object-cover" loading="lazy" alt="Oversized Heavyweight Cotton Tee"
                    src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=1200&q=85" />
-              <span class="absolute top-3 left-3 rounded-full bg-white/80 backdrop-blur-md px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em]">Apparel</span>
+              <span class="badge">Apparel</span>
             </div>
-            <div class="pt-5 pb-5 px-1">
-              <h3 class="text-sm font-bold uppercase tracking-[0.12em]">Oversized Heavyweight Cotton Tee</h3>
-              <p class="mt-1 text-xs font-light tracking-wide text-neutral-500">Dense 280gsm jersey, boxy drape</p>
+            <div class="pt-5 pb-4 px-1">
+              <h3 class="t-main text-sm font-bold uppercase tracking-[0.12em]">Oversized Heavyweight Cotton Tee</h3>
+              <p class="t-muted mt-1 text-xs font-light tracking-wide">Boxy, oversized cut</p>
             </div>
-            <a href="https://link.amazon/B0hnvxMLp" target="_blank" rel="sponsored noopener" class="bg-neutral-50 border border-neutral-200 text-neutral-800 group-hover:bg-neutral-900 group-hover:text-white group-hover:border-neutral-900 font-bold tracking-wide rounded-xl py-3 w-full block text-center text-xs transition-all duration-300">View Exclusive Piece ↗</a>
+            <p class="notes-title">Piece Notes</p>
+            <dl class="notes">
+              <div><dt>First Impression</dt><dd>A clean, boxy canvas for the whole outfit.</dd></div>
+              <div><dt>How It Wears</dt><dd>Meant to be worn oversized and untucked.</dd></div>
+              <div><dt>Pairs With</dt><dd>Layered under the hoodie, over the cargos.</dd></div>
+            </dl>
+            <div class="cpw" data-unit="wear">
+              <div class="cpw-head"><span class="cpw-label">Cost per wear</span><span class="cpw-result" aria-live="polite">Add price</span></div>
+              <div class="cpw-row">
+                <input class="cpw-price" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Listing price" aria-label="Price shown on the listing" />
+                <input class="cpw-range" type="range" min="1" max="365" value="80" aria-label="How many times you would wear it" />
+                <span class="cpw-times">80×</span>
+              </div>
+            </div>
+            <a href="https://link.amazon/B0hnvxMLp" target="_blank" rel="sponsored noopener" class="cta">View Exclusive Piece ↗</a>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- COMPLETE THE LOOK -->
+    <section id="looks" class="max-w-7xl mx-auto px-6 pb-24">
+      <div class="text-center mb-12">
+        <p class="eyebrow mb-4">Complete the Look</p>
+        <h2 class="t-main text-2xl sm:text-4xl font-light uppercase tracking-[0.2em] leading-snug">Look 01 <span class="font-extrabold">Midnight Utility</span></h2>
+        <p class="t-muted mt-5 max-w-xl mx-auto text-sm font-light leading-8 tracking-[0.1em]">Three pieces from the edit, styled together as one outfit.</p>
+      </div>
+
+      <div class="look-rail">
+
+        <!-- Look piece 1: Hoodie -->
+        <article class="look-card">
+          <div class="glam-card">
+            <div class="media">
+              <!-- SWAP IMAGE HERE: same hoodie photo as Card 1 -->
+              <img class="w-full aspect-[4/5] object-cover" loading="lazy" alt="Oversized Heavyweight Hoodie"
+                   src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=1200&q=85" />
+            </div>
+            <div class="pt-5 pb-4 px-1">
+              <p class="look-role">The Top</p>
+              <h3 class="t-main mt-1 text-sm font-bold uppercase tracking-[0.12em]">Oversized Heavyweight Hoodie</h3>
+            </div>
+            <a href="https://link.amazon/B0iChvyf3" target="_blank" rel="sponsored noopener" class="cta">View Piece ↗</a>
+          </div>
+        </article>
+
+        <!-- Look piece 2: Cargos -->
+        <article class="look-card">
+          <div class="glam-card">
+            <div class="media">
+              <!-- SWAP IMAGE HERE: same cargo photo as Card 9 -->
+              <img class="w-full aspect-[4/5] object-cover" loading="lazy" alt="Relaxed-Fit Structured Cargos"
+                   src="https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=1200&q=85" />
+            </div>
+            <div class="pt-5 pb-4 px-1">
+              <p class="look-role">The Bottom</p>
+              <h3 class="t-main mt-1 text-sm font-bold uppercase tracking-[0.12em]">Relaxed-Fit Structured Cargos</h3>
+            </div>
+            <a href="https://link.amazon/B0fpdcRzc" target="_blank" rel="sponsored noopener" class="cta">View Piece ↗</a>
+          </div>
+        </article>
+
+        <!-- Look piece 3: Oxfords -->
+        <article class="look-card">
+          <div class="glam-card">
+            <div class="media">
+              <!-- SWAP IMAGE HERE: same oxfords photo as Card 4 -->
+              <img class="w-full aspect-[4/5] object-cover" loading="lazy" alt="Handcrafted Leather Oxfords"
+                   src="https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?auto=format&fit=crop&w=1200&q=85" />
+            </div>
+            <div class="pt-5 pb-4 px-1">
+              <p class="look-role">The Finish</p>
+              <h3 class="t-main mt-1 text-sm font-bold uppercase tracking-[0.12em]">Handcrafted Leather Oxfords</h3>
+            </div>
+            <a href="https://link.amazon/B02NjddGc" target="_blank" rel="sponsored noopener" class="cta">View Piece ↗</a>
           </div>
         </article>
 
@@ -274,26 +813,26 @@
 
     <!-- AFFILIATE PORTAL CALLOUT -->
     <section id="portal" class="max-w-5xl mx-auto px-6 pb-24">
-      <div class="rounded-[2rem] bg-neutral-900 text-white text-center px-8 py-16 sm:py-20">
-        <p class="text-[11px] font-semibold uppercase tracking-[0.5em] text-neutral-400 mb-5">Affiliate Portal</p>
+      <div class="panel rounded-[2rem] text-center px-8 py-16 sm:py-20">
+        <p class="panel-eyebrow text-[11px] font-semibold uppercase tracking-[0.5em] mb-5">Affiliate Portal</p>
         <h2 class="text-2xl sm:text-4xl font-light uppercase tracking-[0.2em] leading-snug">Curate. Share. <span class="font-extrabold">Earn.</span></h2>
-        <p class="mt-6 max-w-xl mx-auto text-sm font-light leading-8 tracking-[0.1em] text-neutral-300">
+        <p class="panel-copy mt-6 max-w-xl mx-auto text-sm font-light leading-8 tracking-[0.1em]">
           Partner with GlamouraVisuals to turn your taste into income. Access exclusive brand commissions, real-time analytics and a dedicated creator concierge.
         </p>
-        <a href="#" class="inline-block mt-10 rounded-full bg-white text-neutral-900 text-[11px] font-bold uppercase tracking-[0.2em] px-8 py-4 hover:bg-neutral-200 transition-colors">Apply for Access</a>
+        <a href="#" class="panel-btn inline-block mt-10 rounded-full text-[11px] font-bold uppercase tracking-[0.2em] px-8 py-4">Apply for Access</a>
       </div>
     </section>
 
   </main>
 
   <!-- FOOTER -->
-  <footer class="border-t border-neutral-200 bg-white">
+  <footer class="site-footer border-t">
     <div class="max-w-7xl mx-auto px-6 py-10 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
-      <p class="text-xs font-extrabold uppercase tracking-[0.3em]">Glamoura<span class="font-light">Visuals</span></p>
-      <p class="text-[11px] font-light tracking-[0.1em] text-neutral-500 max-w-md">
-        GlamouraVisuals is a participant in affiliate programs. We may earn a commission when you purchase through our links, at no extra cost to you.
+      <p class="t-main text-xs font-extrabold uppercase tracking-[0.3em]">Glamoura<span class="font-light">Visuals</span></p>
+      <p class="t-muted text-[11px] font-light tracking-[0.1em] max-w-md">
+        As an Amazon Associate I earn from qualifying purchases. GlamouraVisuals is a participant in affiliate programs and may earn a commission when you purchase through our links, at no extra cost to you.
       </p>
-      <p class="text-[11px] tracking-[0.1em] text-neutral-400">&copy; 2026 GlamouraVisuals</p>
+      <p class="t-faint text-[11px] tracking-[0.1em]">&copy; 2026 GlamouraVisuals</p>
     </div>
   </footer>
 
@@ -351,6 +890,78 @@
         img.addEventListener('error', function () {
           img.style.visibility = 'hidden';
         });
+      });
+    })();
+  </script>
+
+  <!-- VIBE SWITCHER + COST-PER-WEAR TOOL -->
+  <script>
+    (function () {
+      // ----- Vibe switcher -----
+      var root = document.documentElement;
+      var vibeButtons = document.querySelectorAll('.vibe-btn');
+      var aurora = document.querySelector('.aurora');
+      var themeMeta = document.querySelector('meta[name="theme-color"]');
+      var THEME_COLORS = { midnight: '#09090b', gold: '#100c07', studio: '#f4f3ef' };
+
+      function markPressed(vibe) {
+        vibeButtons.forEach(function (btn) {
+          btn.setAttribute('aria-pressed', btn.getAttribute('data-vibe') === vibe ? 'true' : 'false');
+        });
+      }
+
+      function applyVibe(vibe, animate) {
+        markPressed(vibe);
+        function commit() {
+          if (vibe === 'midnight') { root.removeAttribute('data-vibe'); }
+          else { root.setAttribute('data-vibe', vibe); }
+          if (themeMeta) { themeMeta.setAttribute('content', THEME_COLORS[vibe]); }
+          if (aurora) { aurora.classList.remove('is-switching'); }
+        }
+        if (animate && aurora) {
+          aurora.classList.add('is-switching');
+          setTimeout(commit, 320);
+        } else {
+          commit();
+        }
+        try { localStorage.setItem('gv-vibe', vibe); } catch (e) {}
+      }
+
+      var current = root.getAttribute('data-vibe') || 'midnight';
+      markPressed(current);
+      if (themeMeta) { themeMeta.setAttribute('content', THEME_COLORS[current]); }
+
+      vibeButtons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          applyVibe(btn.getAttribute('data-vibe'), true);
+        });
+      });
+
+      // ----- Cost-per-wear tool -----
+      // Change this one value to switch the currency symbol shown in results.
+      var CURRENCY = '$';
+
+      document.querySelectorAll('.cpw').forEach(function (box) {
+        var price = box.querySelector('.cpw-price');
+        var range = box.querySelector('.cpw-range');
+        var times = box.querySelector('.cpw-times');
+        var out = box.querySelector('.cpw-result');
+        var unit = box.getAttribute('data-unit') || 'wear';
+
+        function update() {
+          var p = parseFloat(price.value);
+          var n = parseInt(range.value, 10);
+          times.textContent = n + '×';
+          if (!isFinite(p) || p <= 0) {
+            out.textContent = 'Add price';
+            return;
+          }
+          out.textContent = CURRENCY + (p / n).toFixed(2) + ' / ' + unit;
+        }
+
+        price.addEventListener('input', update);
+        range.addEventListener('input', update);
+        update();
       });
     })();
   </script>
