@@ -217,7 +217,7 @@
     .vibe-btn[aria-pressed="true"] {
       background: var(--accent); color: var(--accent-ink); border-color: var(--accent);
     }
-    .vibe-btn:focus-visible, .cta:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+    .vibe-btn:focus-visible, .cta:focus-visible, .styled-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
     .swatch {
       width: .85rem; height: .85rem; border-radius: 50%;
       background: var(--sw); border: 1px solid rgba(128, 128, 128, .45);
@@ -275,6 +275,14 @@
       text-transform: uppercase; letter-spacing: .2em;
       -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
     }
+    .mood-tag {
+      position: absolute; bottom: .75rem; left: .75rem;
+      background: var(--badge); color: var(--muted);
+      border: 1px solid var(--border); border-radius: 999px;
+      padding: .3rem .8rem; font-size: 9px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: .18em;
+      -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    }
 
     /* Piece Notes */
     .notes-title {
@@ -292,29 +300,16 @@
     }
     .notes dd { font-size: 12px; line-height: 1.55; color: var(--muted); }
 
-    /* Cost per wear */
-    .cpw {
-      margin-bottom: 1rem; padding: .75rem .85rem;
-      border: 1px solid var(--border); border-radius: .75rem;
-      background: var(--surface-2);
+    /* "Styled in Look 01" link */
+    .styled-wrap { margin-bottom: 1rem; }
+    .styled-link {
+      display: inline-flex; align-items: center; gap: .4rem;
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .2em; color: var(--muted);
+      border-bottom: 1px solid var(--border-strong); padding-bottom: 2px;
+      transition: color .2s ease, border-color .2s ease;
     }
-    .cpw-head { display: flex; align-items: baseline; justify-content: space-between; gap: .75rem; margin-bottom: .55rem; }
-    .cpw-label {
-      font-size: 9.5px; font-weight: 700; text-transform: uppercase;
-      letter-spacing: .22em; color: var(--faint);
-    }
-    .cpw-result { font-size: 13px; font-weight: 700; color: var(--text); }
-    .cpw-row { display: flex; align-items: center; gap: .75rem; }
-    .cpw-price {
-      width: 6.6rem; flex-shrink: 0;
-      background: var(--surface-2); color: var(--text);
-      border: 1px solid var(--border); border-radius: .5rem;
-      padding: .4rem .6rem; font-size: 12px; font-family: inherit;
-    }
-    .cpw-price::placeholder { color: var(--faint); }
-    .cpw-price:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
-    .cpw-range { flex: 1; min-width: 0; accent-color: var(--accent); cursor: pointer; }
-    .cpw-times { font-size: 11px; font-weight: 600; color: var(--muted); min-width: 2.6rem; text-align: right; }
+    .styled-link:hover { color: var(--text); border-color: var(--text); }
 
     /* Affiliate button */
     .cta {
@@ -441,16 +436,22 @@
 
     <!-- PINTEREST-STYLE PRODUCT GRID -->
     <section id="feed" class="max-w-7xl mx-auto px-6 py-14">
+
+      <p class="t-faint text-center text-[11px] font-light tracking-[0.12em] leading-6 max-w-xl mx-auto mb-10">
+        Photography is for mood and inspiration. Tap through to see the exact item, colors and sizes on the retailer's page.
+      </p>
+
       <div class="masonry" id="product-grid">
 
         <!-- Card 1: Apparel - Hoodie (tall) -->
         <article class="masonry-item group" data-category="apparel">
           <div class="glam-card">
             <div class="media">
-              <!-- SWAP IMAGE HERE: replace the src below with your hoodie photo -->
-              <img class="card-img w-full h-[30rem] object-cover" loading="lazy" alt="Oversized Heavyweight Hoodie"
+              <!-- SWAP IMAGE HERE: replace the src below with a mood photo for the hoodie -->
+              <img class="card-img w-full h-[30rem] object-cover" loading="lazy" alt="Mood image for Oversized Heavyweight Hoodie"
                    src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=1200&q=85" />
               <span class="badge">Apparel</span>
+              <span class="mood-tag">Mood image</span>
             </div>
             <div class="pt-5 pb-4 px-1">
               <h3 class="t-main text-sm font-bold uppercase tracking-[0.12em]">Oversized Heavyweight Hoodie</h3>
@@ -462,15 +463,8 @@
               <div><dt>How It Wears</dt><dd>Built to be worn loose and layered.</dd></div>
               <div><dt>Pairs With</dt><dd>Structured cargos, a clean sneaker or a sharp oxford.</dd></div>
             </dl>
-            <div class="cpw" data-unit="wear">
-              <div class="cpw-head"><span class="cpw-label">Cost per wear</span><span class="cpw-result" aria-live="polite">Add price</span></div>
-              <div class="cpw-row">
-                <input class="cpw-price" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Listing price" aria-label="Price shown on the listing" />
-                <input class="cpw-range" type="range" min="1" max="365" value="40" aria-label="How many times you would wear it" />
-                <span class="cpw-times">40×</span>
-              </div>
-            </div>
-            <a href="https://link.amazon/B0iChvyf3" target="_blank" rel="sponsored noopener" class="cta">View Exclusive Piece ↗</a>
+            <div class="styled-wrap"><a href="#looks" class="styled-link">Styled in Look 01 →</a></div>
+            <a href="https://link.amazon/B0iChvyf3" target="_blank" rel="sponsored noopener" class="cta">See it on Amazon ↗</a>
           </div>
         </article>
 
@@ -478,9 +472,10 @@
         <article class="masonry-item group" data-category="jewelry">
           <div class="glam-card">
             <div class="media">
-              <img class="card-img w-full h-72 object-cover" loading="lazy" alt="Polished Stacking Rings"
+              <img class="card-img w-full h-72 object-cover" loading="lazy" alt="Mood image for Polished Stacking Rings"
                    src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=1200&q=85" />
               <span class="badge">Jewelry</span>
+              <span class="mood-tag">Mood image</span>
             </div>
             <div class="pt-5 pb-4 px-1">
               <h3 class="t-main text-sm font-bold uppercase tracking-[0.12em]">Polished Stacking Rings</h3>
@@ -492,14 +487,6 @@
               <div><dt>How It Wears</dt><dd>Meant to be layered, mixed and re-stacked.</dd></div>
               <div><dt>Pairs With</dt><dd>A quiet outfit that needs one gleam.</dd></div>
             </dl>
-            <div class="cpw" data-unit="wear">
-              <div class="cpw-head"><span class="cpw-label">Cost per wear</span><span class="cpw-result" aria-live="polite">Add price</span></div>
-              <div class="cpw-row">
-                <input class="cpw-price" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Listing price" aria-label="Price shown on the listing" />
-                <input class="cpw-range" type="range" min="1" max="365" value="150" aria-label="How many times you would wear it" />
-                <span class="cpw-times">150×</span>
-              </div>
-            </div>
             <a href="#" class="cta">View Exclusive Piece ↗</a>
           </div>
         </article>
@@ -508,9 +495,10 @@
         <article class="masonry-item group" data-category="home-decor">
           <div class="glam-card">
             <div class="media">
-              <img class="card-img w-full h-[24rem] object-cover" loading="lazy" alt="Sculpted Ceramic Desk Lamp"
+              <img class="card-img w-full h-[24rem] object-cover" loading="lazy" alt="Mood image for Sculpted Ceramic Desk Lamp"
                    src="https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=1200&q=85" />
               <span class="badge">Home Decor</span>
+              <span class="mood-tag">Mood image</span>
             </div>
             <div class="pt-5 pb-4 px-1">
               <h3 class="t-main text-sm font-bold uppercase tracking-[0.12em]">Sculpted Ceramic Desk Lamp</h3>
@@ -522,14 +510,6 @@
               <div><dt>How It Lives</dt><dd>Soft, low light for late evenings.</dd></div>
               <div><dt>Pairs With</dt><dd>Books, a dark desk and a single plant.</dd></div>
             </dl>
-            <div class="cpw" data-unit="use">
-              <div class="cpw-head"><span class="cpw-label">Cost per use</span><span class="cpw-result" aria-live="polite">Add price</span></div>
-              <div class="cpw-row">
-                <input class="cpw-price" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Listing price" aria-label="Price shown on the listing" />
-                <input class="cpw-range" type="range" min="1" max="365" value="300" aria-label="How many times you would use it" />
-                <span class="cpw-times">300×</span>
-              </div>
-            </div>
             <a href="#" class="cta">View Exclusive Piece ↗</a>
           </div>
         </article>
@@ -538,10 +518,11 @@
         <article class="masonry-item group" data-category="apparel">
           <div class="glam-card">
             <div class="media">
-              <!-- SWAP IMAGE HERE: replace the src below with your oxfords photo -->
-              <img class="card-img w-full h-96 object-cover" loading="lazy" alt="Handcrafted Leather Oxfords"
+              <!-- SWAP IMAGE HERE: replace the src below with a mood photo for the oxfords -->
+              <img class="card-img w-full h-96 object-cover" loading="lazy" alt="Mood image for Handcrafted Leather Oxfords"
                    src="https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?auto=format&fit=crop&w=1200&q=85" />
               <span class="badge">Apparel</span>
+              <span class="mood-tag">Mood image</span>
             </div>
             <div class="pt-5 pb-4 px-1">
               <h3 class="t-main text-sm font-bold uppercase tracking-[0.12em]">Handcrafted Leather Oxfords</h3>
@@ -553,15 +534,8 @@
               <div><dt>How It Wears</dt><dd>The formal note that sharpens relaxed streetwear.</dd></div>
               <div><dt>Pairs With</dt><dd>Cargos and a boxy tee for a high-low look.</dd></div>
             </dl>
-            <div class="cpw" data-unit="wear">
-              <div class="cpw-head"><span class="cpw-label">Cost per wear</span><span class="cpw-result" aria-live="polite">Add price</span></div>
-              <div class="cpw-row">
-                <input class="cpw-price" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Listing price" aria-label="Price shown on the listing" />
-                <input class="cpw-range" type="range" min="1" max="365" value="100" aria-label="How many times you would wear them" />
-                <span class="cpw-times">100×</span>
-              </div>
-            </div>
-            <a href="https://link.amazon/B02NjddGc" target="_blank" rel="sponsored noopener" class="cta">View Exclusive Piece ↗</a>
+            <div class="styled-wrap"><a href="#looks" class="styled-link">Styled in Look 01 →</a></div>
+            <a href="https://link.amazon/B02NjddGc" target="_blank" rel="sponsored noopener" class="cta">See it on Amazon ↗</a>
           </div>
         </article>
 
@@ -569,9 +543,10 @@
         <article class="masonry-item group" data-category="home-decor">
           <div class="glam-card">
             <div class="media">
-              <img class="card-img w-full h-[28rem] object-cover" loading="lazy" alt="Minimalist Lounge Sofa"
+              <img class="card-img w-full h-[28rem] object-cover" loading="lazy" alt="Mood image for Minimalist Lounge Sofa"
                    src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1200&q=85" />
               <span class="badge">Home Decor</span>
+              <span class="mood-tag">Mood image</span>
             </div>
             <div class="pt-5 pb-4 px-1">
               <h3 class="t-main text-sm font-bold uppercase tracking-[0.12em]">Minimalist Lounge Sofa</h3>
@@ -583,14 +558,6 @@
               <div><dt>How It Lives</dt><dd>Made for slow evenings and long conversations.</dd></div>
               <div><dt>Pairs With</dt><dd>Warm lighting and natural textures.</dd></div>
             </dl>
-            <div class="cpw" data-unit="use">
-              <div class="cpw-head"><span class="cpw-label">Cost per use</span><span class="cpw-result" aria-live="polite">Add price</span></div>
-              <div class="cpw-row">
-                <input class="cpw-price" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Listing price" aria-label="Price shown on the listing" />
-                <input class="cpw-range" type="range" min="1" max="365" value="365" aria-label="How many times you would use it" />
-                <span class="cpw-times">365×</span>
-              </div>
-            </div>
             <a href="#" class="cta">View Exclusive Piece ↗</a>
           </div>
         </article>
@@ -599,9 +566,10 @@
         <article class="masonry-item group" data-category="cosmetics">
           <div class="glam-card">
             <div class="media">
-              <img class="card-img w-full h-72 object-cover" loading="lazy" alt="Radiance Botanical Face Oil"
+              <img class="card-img w-full h-72 object-cover" loading="lazy" alt="Mood image for Radiance Botanical Face Oil"
                    src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=1200&q=85" />
               <span class="badge">Cosmetics</span>
+              <span class="mood-tag">Mood image</span>
             </div>
             <div class="pt-5 pb-4 px-1">
               <h3 class="t-main text-sm font-bold uppercase tracking-[0.12em]">Radiance Botanical Face Oil</h3>
@@ -613,14 +581,6 @@
               <div><dt>How It Lives</dt><dd>A calm minute in the morning or evening routine.</dd></div>
               <div><dt>Pairs With</dt><dd>Simple routines and soft light.</dd></div>
             </dl>
-            <div class="cpw" data-unit="use">
-              <div class="cpw-head"><span class="cpw-label">Cost per use</span><span class="cpw-result" aria-live="polite">Add price</span></div>
-              <div class="cpw-row">
-                <input class="cpw-price" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Listing price" aria-label="Price shown on the listing" />
-                <input class="cpw-range" type="range" min="1" max="365" value="90" aria-label="How many times you would use it" />
-                <span class="cpw-times">90×</span>
-              </div>
-            </div>
             <a href="#" class="cta">View Exclusive Piece ↗</a>
           </div>
         </article>
@@ -629,9 +589,10 @@
         <article class="masonry-item group" data-category="tech-accessories">
           <div class="glam-card">
             <div class="media">
-              <img class="card-img w-full h-[26rem] object-cover" loading="lazy" alt="Studio Wireless Headphones"
+              <img class="card-img w-full h-[26rem] object-cover" loading="lazy" alt="Mood image for Studio Wireless Headphones"
                    src="https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=1200&q=85" />
               <span class="badge">⚡ Tech Accessories</span>
+              <span class="mood-tag">Mood image</span>
             </div>
             <div class="pt-5 pb-4 px-1">
               <h3 class="t-main text-sm font-bold uppercase tracking-[0.12em]">Studio Wireless Headphones</h3>
@@ -643,14 +604,6 @@
               <div><dt>How It Lives</dt><dd>Meant for long sessions and quiet commutes.</dd></div>
               <div><dt>Pairs With</dt><dd>A dark desk setup or an all-black outfit.</dd></div>
             </dl>
-            <div class="cpw" data-unit="use">
-              <div class="cpw-head"><span class="cpw-label">Cost per use</span><span class="cpw-result" aria-live="polite">Add price</span></div>
-              <div class="cpw-row">
-                <input class="cpw-price" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Listing price" aria-label="Price shown on the listing" />
-                <input class="cpw-range" type="range" min="1" max="365" value="250" aria-label="How many times you would use it" />
-                <span class="cpw-times">250×</span>
-              </div>
-            </div>
             <a href="#" class="cta">View Exclusive Piece ↗</a>
           </div>
         </article>
@@ -659,9 +612,10 @@
         <article class="masonry-item group" data-category="travel-essentials">
           <div class="glam-card">
             <div class="media">
-              <img class="card-img w-full h-96 object-cover" loading="lazy" alt="Weekender Travel Backpack"
+              <img class="card-img w-full h-96 object-cover" loading="lazy" alt="Mood image for Weekender Travel Backpack"
                    src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=1200&q=85" />
               <span class="badge">🧳 Travel Essentials</span>
+              <span class="mood-tag">Mood image</span>
             </div>
             <div class="pt-5 pb-4 px-1">
               <h3 class="t-main text-sm font-bold uppercase tracking-[0.12em]">Weekender Travel Backpack</h3>
@@ -673,14 +627,6 @@
               <div><dt>How It Lives</dt><dd>Packed light for a weekend away.</dd></div>
               <div><dt>Pairs With</dt><dd>The hoodie, the cargos and an early flight.</dd></div>
             </dl>
-            <div class="cpw" data-unit="use">
-              <div class="cpw-head"><span class="cpw-label">Cost per use</span><span class="cpw-result" aria-live="polite">Add price</span></div>
-              <div class="cpw-row">
-                <input class="cpw-price" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Listing price" aria-label="Price shown on the listing" />
-                <input class="cpw-range" type="range" min="1" max="365" value="60" aria-label="How many times you would use it" />
-                <span class="cpw-times">60×</span>
-              </div>
-            </div>
             <a href="#" class="cta">View Exclusive Piece ↗</a>
           </div>
         </article>
@@ -689,10 +635,11 @@
         <article class="masonry-item group" data-category="apparel">
           <div class="glam-card">
             <div class="media">
-              <!-- SWAP IMAGE HERE: replace the src below with your cargo pants photo -->
-              <img class="card-img w-full h-[28rem] object-cover" loading="lazy" alt="Relaxed-Fit Structured Cargos"
+              <!-- SWAP IMAGE HERE: replace the src below with a mood photo for the cargos -->
+              <img class="card-img w-full h-[28rem] object-cover" loading="lazy" alt="Mood image for Relaxed-Fit Structured Cargos"
                    src="https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=1200&q=85" />
               <span class="badge">Apparel</span>
+              <span class="mood-tag">Mood image</span>
             </div>
             <div class="pt-5 pb-4 px-1">
               <h3 class="t-main text-sm font-bold uppercase tracking-[0.12em]">Relaxed-Fit Structured Cargos</h3>
@@ -704,15 +651,8 @@
               <div><dt>How It Wears</dt><dd>Cut relaxed; made to sit loose, not slim.</dd></div>
               <div><dt>Pairs With</dt><dd>An oversized hoodie and polished shoes.</dd></div>
             </dl>
-            <div class="cpw" data-unit="wear">
-              <div class="cpw-head"><span class="cpw-label">Cost per wear</span><span class="cpw-result" aria-live="polite">Add price</span></div>
-              <div class="cpw-row">
-                <input class="cpw-price" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Listing price" aria-label="Price shown on the listing" />
-                <input class="cpw-range" type="range" min="1" max="365" value="60" aria-label="How many times you would wear them" />
-                <span class="cpw-times">60×</span>
-              </div>
-            </div>
-            <a href="https://link.amazon/B0fpdcRzc" target="_blank" rel="sponsored noopener" class="cta">View Exclusive Piece ↗</a>
+            <div class="styled-wrap"><a href="#looks" class="styled-link">Styled in Look 01 →</a></div>
+            <a href="https://link.amazon/B0fpdcRzc" target="_blank" rel="sponsored noopener" class="cta">See it on Amazon ↗</a>
           </div>
         </article>
 
@@ -720,10 +660,11 @@
         <article class="masonry-item group" data-category="apparel">
           <div class="glam-card">
             <div class="media">
-              <!-- SWAP IMAGE HERE: replace the src below with your tee photo -->
-              <img class="card-img w-full h-96 object-cover" loading="lazy" alt="Oversized Heavyweight Cotton Tee"
+              <!-- SWAP IMAGE HERE: replace the src below with a mood photo for the tee -->
+              <img class="card-img w-full h-96 object-cover" loading="lazy" alt="Mood image for Oversized Heavyweight Cotton Tee"
                    src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=1200&q=85" />
               <span class="badge">Apparel</span>
+              <span class="mood-tag">Mood image</span>
             </div>
             <div class="pt-5 pb-4 px-1">
               <h3 class="t-main text-sm font-bold uppercase tracking-[0.12em]">Oversized Heavyweight Cotton Tee</h3>
@@ -735,15 +676,7 @@
               <div><dt>How It Wears</dt><dd>Meant to be worn oversized and untucked.</dd></div>
               <div><dt>Pairs With</dt><dd>Layered under the hoodie, over the cargos.</dd></div>
             </dl>
-            <div class="cpw" data-unit="wear">
-              <div class="cpw-head"><span class="cpw-label">Cost per wear</span><span class="cpw-result" aria-live="polite">Add price</span></div>
-              <div class="cpw-row">
-                <input class="cpw-price" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Listing price" aria-label="Price shown on the listing" />
-                <input class="cpw-range" type="range" min="1" max="365" value="80" aria-label="How many times you would wear it" />
-                <span class="cpw-times">80×</span>
-              </div>
-            </div>
-            <a href="https://link.amazon/B0hnvxMLp" target="_blank" rel="sponsored noopener" class="cta">View Exclusive Piece ↗</a>
+            <a href="https://link.amazon/B0hnvxMLp" target="_blank" rel="sponsored noopener" class="cta">See it on Amazon ↗</a>
           </div>
         </article>
 
@@ -764,15 +697,16 @@
         <article class="look-card">
           <div class="glam-card">
             <div class="media">
-              <!-- SWAP IMAGE HERE: same hoodie photo as Card 1 -->
-              <img class="w-full aspect-[4/5] object-cover" loading="lazy" alt="Oversized Heavyweight Hoodie"
+              <!-- SWAP IMAGE HERE: same mood photo as Card 1 -->
+              <img class="w-full aspect-[4/5] object-cover" loading="lazy" alt="Mood image for Oversized Heavyweight Hoodie"
                    src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=1200&q=85" />
+              <span class="mood-tag">Mood image</span>
             </div>
             <div class="pt-5 pb-4 px-1">
               <p class="look-role">The Top</p>
               <h3 class="t-main mt-1 text-sm font-bold uppercase tracking-[0.12em]">Oversized Heavyweight Hoodie</h3>
             </div>
-            <a href="https://link.amazon/B0iChvyf3" target="_blank" rel="sponsored noopener" class="cta">View Piece ↗</a>
+            <a href="https://link.amazon/B0iChvyf3" target="_blank" rel="sponsored noopener" class="cta">See it on Amazon ↗</a>
           </div>
         </article>
 
@@ -780,15 +714,16 @@
         <article class="look-card">
           <div class="glam-card">
             <div class="media">
-              <!-- SWAP IMAGE HERE: same cargo photo as Card 9 -->
-              <img class="w-full aspect-[4/5] object-cover" loading="lazy" alt="Relaxed-Fit Structured Cargos"
+              <!-- SWAP IMAGE HERE: same mood photo as Card 9 -->
+              <img class="w-full aspect-[4/5] object-cover" loading="lazy" alt="Mood image for Relaxed-Fit Structured Cargos"
                    src="https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=1200&q=85" />
+              <span class="mood-tag">Mood image</span>
             </div>
             <div class="pt-5 pb-4 px-1">
               <p class="look-role">The Bottom</p>
               <h3 class="t-main mt-1 text-sm font-bold uppercase tracking-[0.12em]">Relaxed-Fit Structured Cargos</h3>
             </div>
-            <a href="https://link.amazon/B0fpdcRzc" target="_blank" rel="sponsored noopener" class="cta">View Piece ↗</a>
+            <a href="https://link.amazon/B0fpdcRzc" target="_blank" rel="sponsored noopener" class="cta">See it on Amazon ↗</a>
           </div>
         </article>
 
@@ -796,15 +731,16 @@
         <article class="look-card">
           <div class="glam-card">
             <div class="media">
-              <!-- SWAP IMAGE HERE: same oxfords photo as Card 4 -->
-              <img class="w-full aspect-[4/5] object-cover" loading="lazy" alt="Handcrafted Leather Oxfords"
+              <!-- SWAP IMAGE HERE: same mood photo as Card 4 -->
+              <img class="w-full aspect-[4/5] object-cover" loading="lazy" alt="Mood image for Handcrafted Leather Oxfords"
                    src="https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?auto=format&fit=crop&w=1200&q=85" />
+              <span class="mood-tag">Mood image</span>
             </div>
             <div class="pt-5 pb-4 px-1">
               <p class="look-role">The Finish</p>
               <h3 class="t-main mt-1 text-sm font-bold uppercase tracking-[0.12em]">Handcrafted Leather Oxfords</h3>
             </div>
-            <a href="https://link.amazon/B02NjddGc" target="_blank" rel="sponsored noopener" class="cta">View Piece ↗</a>
+            <a href="https://link.amazon/B02NjddGc" target="_blank" rel="sponsored noopener" class="cta">See it on Amazon ↗</a>
           </div>
         </article>
 
@@ -894,10 +830,9 @@
     })();
   </script>
 
-  <!-- VIBE SWITCHER + COST-PER-WEAR TOOL -->
+  <!-- VIBE SWITCHER -->
   <script>
     (function () {
-      // ----- Vibe switcher -----
       var root = document.documentElement;
       var vibeButtons = document.querySelectorAll('.vibe-btn');
       var aurora = document.querySelector('.aurora');
@@ -935,33 +870,6 @@
         btn.addEventListener('click', function () {
           applyVibe(btn.getAttribute('data-vibe'), true);
         });
-      });
-
-      // ----- Cost-per-wear tool -----
-      // Change this one value to switch the currency symbol shown in results.
-      var CURRENCY = '$';
-
-      document.querySelectorAll('.cpw').forEach(function (box) {
-        var price = box.querySelector('.cpw-price');
-        var range = box.querySelector('.cpw-range');
-        var times = box.querySelector('.cpw-times');
-        var out = box.querySelector('.cpw-result');
-        var unit = box.getAttribute('data-unit') || 'wear';
-
-        function update() {
-          var p = parseFloat(price.value);
-          var n = parseInt(range.value, 10);
-          times.textContent = n + '×';
-          if (!isFinite(p) || p <= 0) {
-            out.textContent = 'Add price';
-            return;
-          }
-          out.textContent = CURRENCY + (p / n).toFixed(2) + ' / ' + unit;
-        }
-
-        price.addEventListener('input', update);
-        range.addEventListener('input', update);
-        update();
       });
     })();
   </script>
