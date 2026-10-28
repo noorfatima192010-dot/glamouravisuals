@@ -284,6 +284,23 @@
       -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
     }
 
+    /* Placeholder panel shown until a mood photo is added */
+    .ph {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: .7rem; width: 100%; text-align: center; padding: 0 1rem;
+      background:
+        radial-gradient(120% 90% at 25% 15%, var(--surface-2), transparent 60%),
+        linear-gradient(160deg, var(--surface-2), transparent);
+    }
+    .ph-kind {
+      font-size: 1.05rem; font-weight: 300; text-transform: uppercase;
+      letter-spacing: .4em; color: var(--muted);
+    }
+    .ph-note {
+      font-size: 9px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: .22em; color: var(--faint);
+    }
+
     /* Piece Notes */
     .notes-title {
       font-size: 9.5px; font-weight: 700; text-transform: uppercase;
@@ -425,6 +442,7 @@
         <div class="flex gap-3 w-max mx-auto" role="tablist" aria-label="Product categories">
           <button data-filter="all" class="filter-btn shrink-0 rounded-full px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.18em] border border-neutral-900 bg-neutral-900 text-white transition-all duration-300">All Items</button>
           <button data-filter="apparel" class="filter-btn shrink-0 rounded-full px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.18em] border border-neutral-200 bg-white text-neutral-600 hover:border-neutral-900 transition-all duration-300">Apparel</button>
+          <button data-filter="accessories" class="filter-btn shrink-0 rounded-full px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.18em] border border-neutral-200 bg-white text-neutral-600 hover:border-neutral-900 transition-all duration-300">Accessories</button>
           <button data-filter="jewelry" class="filter-btn shrink-0 rounded-full px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.18em] border border-neutral-200 bg-white text-neutral-600 hover:border-neutral-900 transition-all duration-300">Jewelry</button>
           <button data-filter="home-decor" class="filter-btn shrink-0 rounded-full px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.18em] border border-neutral-200 bg-white text-neutral-600 hover:border-neutral-900 transition-all duration-300">Home Decor</button>
           <button data-filter="cosmetics" class="filter-btn shrink-0 rounded-full px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.18em] border border-neutral-200 bg-white text-neutral-600 hover:border-neutral-900 transition-all duration-300">Cosmetics</button>
@@ -903,6 +921,470 @@
               <div><dt>Pairs With</dt><dd>A ribbed long-sleeve and straight-leg denim.</dd></div>
             </dl>
             <a href="https://link.amazon/B02kumpUw" target="_blank" rel="sponsored noopener" class="cta">See it on Amazon ↗</a>
+          </div>
+        </article>
+
+        <!-- Card 21: Apparel - Golf Shoes (women's) -->
+        <article class="masonry-item group" data-category="apparel">
+          <div class="glam-card">
+            <div class="media">
+              <img class="card-img w-full h-80 object-cover" loading="lazy" alt="Mood image for Spikeless Golf Shoes"
+                   src="https://images.unsplash.com/photo-1626361980336-e3eb181ef08d?auto=format&fit=crop&w=1200&q=85" />
+              <span class="badge">Apparel</span>
+              <span class="mood-tag">Mood image</span>
+            </div>
+            <div class="pt-5 pb-4 px-1">
+              <h3 class="t-main text-sm font-bold uppercase tracking-[0.12em]">Spikeless Golf Shoes</h3>
+              <p class="t-muted mt-1 text-xs font-light tracking-wide">Women's · Spikeless</p>
+            </div>
+            <p class="notes-title">Piece Notes</p>
+            <dl class="notes">
+              <div><dt>First Impression</dt><dd>Clean, low-profile and easy on the eye.</dd></div>
+              <div><dt>How It Wears</dt><dd>Spikeless, so it works as an everyday sneaker too.</dd></div>
+              <div><dt>Pairs With</dt><dd>Straight-leg trousers or a tennis skirt.</dd></div>
+            </dl>
+            <a href="https://link.amazon/B0hMhTSLU" target="_blank" rel="sponsored noopener" class="cta">See it on Amazon ↗</a>
+          </div>
+        </article>
+
+        <!-- Card 22: Apparel - Combat Boots (men's) -->
+        <article class="masonry-item group" data-category="apparel">
+          <div class="glam-card">
+            <div class="media">
+              <img class="card-img w-full h-[26rem] object-cover" loading="lazy" alt="Mood image for Zip-Up Combat Boots"
+                   src="https://images.unsplash.com/photo-1613673720017-56e42d90fee4?auto=format&fit=crop&w=1200&q=85" />
+              <span class="badge">Apparel</span>
+              <span class="mood-tag">Mood image</span>
+            </div>
+            <div class="pt-5 pb-4 px-1">
+              <h3 class="t-main text-sm font-bold uppercase tracking-[0.12em]">Zip-Up Combat Boots</h3>
+              <p class="t-muted mt-1 text-xs font-light tracking-wide">Men's · Motorcycle style, with zipper</p>
+            </div>
+            <p class="notes-title">Piece Notes</p>
+            <dl class="notes">
+              <div><dt>First Impression</dt><dd>A sharp, rugged boot with a motorcycle edge.</dd></div>
+              <div><dt>How It Wears</dt><dd>A zipper makes them easy to get on and off.</dd></div>
+              <div><dt>Pairs With</dt><dd>Dark denim and a bomber jacket.</dd></div>
+            </dl>
+            <a href="https://link.amazon/B0f9yteOh" target="_blank" rel="sponsored noopener" class="cta">See it on Amazon ↗</a>
+          </div>
+        </article>
+
+        <!-- Card 23: Apparel - High-Waisted Wide-Leg Jeans (women's) -->
+        <article class="masonry-item group" data-category="apparel">
+          <div class="glam-card">
+            <div class="media">
+              <img class="card-img w-full h-[30rem] object-cover" loading="lazy" alt="Mood image for High-Waisted Wide-Leg Jeans"
+                   src="https://images.unsplash.com/photo-1622023459405-c88ff072bd60?auto=format&fit=crop&w=1200&q=85" />
+              <span class="badge">Apparel</span>
+              <span class="mood-tag">Mood image</span>
+            </div>
+            <div class="pt-5 pb-4 px-1">
+              <h3 class="t-main text-sm font-bold uppercase tracking-[0.12em]">High-Waisted Wide-Leg Jeans</h3>
+              <p class="t-muted mt-1 text-xs font-light tracking-wide">Women's · Straight, wide-leg denim</p>
+            </div>
+            <p class="notes-title">Piece Notes</p>
+            <dl class="notes">
+              <div><dt>First Impression</dt><dd>A long, easy leg with a high waist.</dd></div>
+              <div><dt>How It Wears</dt><dd>Straight and wide through the leg for a relaxed line.</dd></div>
+              <div><dt>Pairs With</dt><dd>A fitted top and a cropped jacket.</dd></div>
+            </dl>
+            <a href="https://link.amazon/B0gWxFvf7" target="_blank" rel="sponsored noopener" class="cta">See it on Amazon ↗</a>
+          </div>
+        </article>
+
+        <!-- Card 24: Apparel - Relaxed-Fit Jeans (men's) -->
+        <article class="masonry-item group" data-category="apparel">
+          <div class="glam-card">
+            <div class="media">
+              <img class="card-img w-full h-96 object-cover" loading="lazy" alt="Mood image for Classic Relaxed-Fit Jeans"
+                   src="https://images.pexels.com/photos/9775671/pexels-photo-9775671.jpeg?auto=compress&cs=tinysrgb&w=1200" />
+              <span class="badge">Apparel</span>
+              <span class="mood-tag">Mood image</span>
+            </div>
+            <div class="pt-5 pb-4 px-1">
+              <h3 class="t-main text-sm font-bold uppercase tracking-[0.12em]">Classic Relaxed-Fit Jeans</h3>
+              <p class="t-muted mt-1 text-xs font-light tracking-wide">Men's · Relaxed fit</p>
+            </div>
+            <p class="notes-title">Piece Notes</p>
+            <dl class="notes">
+              <div><dt>First Impression</dt><dd>Classic denim with a laid-back cut.</dd></div>
+              <div><dt>How It Wears</dt><dd>Relaxed through the fit for everyday wear.</dd></div>
+              <div><dt>Pairs With</dt><dd>A heavyweight tee or a zip hoodie.</dd></div>
+            </dl>
+            <a href="https://link.amazon/B0fTRoD1S" target="_blank" rel="sponsored noopener" class="cta">See it on Amazon ↗</a>
+          </div>
+        </article>
+
+        <!-- Card 25: Apparel - Low-Rise Denim Mini Skirt (women's) -->
+        <article class="masonry-item group" data-category="apparel">
+          <div class="glam-card">
+            <div class="media">
+              <img class="card-img w-full h-[26rem] object-cover" loading="lazy" alt="Mood image for Low-Rise Denim Mini Skirt"
+                   src="https://images.unsplash.com/photo-1627841898714-bfd02f07207d?auto=format&fit=crop&w=1200&q=85" />
+              <span class="badge">Apparel</span>
+              <span class="mood-tag">Mood image</span>
+            </div>
+            <div class="pt-5 pb-4 px-1">
+              <h3 class="t-main text-sm font-bold uppercase tracking-[0.12em]">Low-Rise Denim Mini Skirt</h3>
+              <p class="t-muted mt-1 text-xs font-light tracking-wide">Women's · With shorts underneath</p>
+            </div>
+            <p class="notes-title">Piece Notes</p>
+            <dl class="notes">
+              <div><dt>First Impression</dt><dd>A short, low-rise skirt with a nostalgic feel.</dd></div>
+              <div><dt>How It Wears</dt><dd>Built-in shorts underneath for easy movement.</dd></div>
+              <div><dt>Pairs With</dt><dd>A ribbed top and a cropped jacket.</dd></div>
+            </dl>
+            <a href="https://link.amazon/B0jcyKnbX" target="_blank" rel="sponsored noopener" class="cta">See it on Amazon ↗</a>
+          </div>
+        </article>
+
+        <!-- Card 26: Apparel - Layered Denim Mini Skirt (women's) -->
+        <article class="masonry-item group" data-category="apparel">
+          <div class="glam-card">
+            <div class="media">
+              <img class="card-img w-full h-[28rem] object-cover" loading="lazy" alt="Mood image for Layered Lace-Trim Denim Skirt"
+                   src="https://images.pexels.com/photos/19371784/pexels-photo-19371784.jpeg?auto=compress&cs=tinysrgb&w=1200" />
+              <span class="badge">Apparel</span>
+              <span class="mood-tag">Mood image</span>
+            </div>
+            <div class="pt-5 pb-4 px-1">
+              <h3 class="t-main text-sm font-bold uppercase tracking-[0.12em]">Layered Lace-Trim Denim Skirt</h3>
+              <p class="t-muted mt-1 text-xs font-light tracking-wide">Women's · High waist, A-line skater</p>
+            </div>
+            <p class="notes-title">Piece Notes</p>
+            <dl class="notes">
+              <div><dt>First Impression</dt><dd>Y2K attitude with lace trim and a layered hem.</dd></div>
+              <div><dt>How It Wears</dt><dd>A high waist with an A-line skater shape.</dd></div>
+              <div><dt>Pairs With</dt><dd>A fitted long-sleeve and chunky shoes.</dd></div>
+            </dl>
+            <a href="https://link.amazon/B08GM3Nuj" target="_blank" rel="sponsored noopener" class="cta">See it on Amazon ↗</a>
+          </div>
+        </article>
+
+        <!-- Card 27: Apparel - Denim Jacket (men's) -->
+        <article class="masonry-item group" data-category="apparel">
+          <div class="glam-card">
+            <div class="media">
+              <img class="card-img w-full h-96 object-cover" loading="lazy" alt="Mood image for Heavyweight Denim Jacket"
+                   src="https://images.unsplash.com/photo-1537465978529-d23b17165b3b?auto=format&fit=crop&w=1200&q=85" />
+              <span class="badge">Apparel</span>
+              <span class="mood-tag">Mood image</span>
+            </div>
+            <div class="pt-5 pb-4 px-1">
+              <h3 class="t-main text-sm font-bold uppercase tracking-[0.12em]">Heavyweight Denim Jacket</h3>
+              <p class="t-muted mt-1 text-xs font-light tracking-wide">Men's · Regular fit, chest pockets</p>
+            </div>
+            <p class="notes-title">Piece Notes</p>
+            <dl class="notes">
+              <div><dt>First Impression</dt><dd>A heavyweight classic with chest pockets.</dd></div>
+              <div><dt>How It Wears</dt><dd>Regular fit, made to layer over tees or hoodies.</dd></div>
+              <div><dt>Pairs With</dt><dd>A plain tee and dark jeans.</dd></div>
+            </dl>
+            <a href="https://link.amazon/B0hunVksO" target="_blank" rel="sponsored noopener" class="cta">See it on Amazon ↗</a>
+          </div>
+        </article>
+
+        <!-- Card 28: Apparel - Faux Leather Jacket (women's) -->
+        <article class="masonry-item group" data-category="apparel">
+          <div class="glam-card">
+            <div class="media">
+              <img class="card-img w-full h-[30rem] object-cover" loading="lazy" alt="Mood image for Oversized Faux Leather Jacket"
+                   src="https://images.pexels.com/photos/36976938/pexels-photo-36976938.jpeg?auto=compress&cs=tinysrgb&w=1200" />
+              <span class="badge">Apparel</span>
+              <span class="mood-tag">Mood image</span>
+            </div>
+            <div class="pt-5 pb-4 px-1">
+              <h3 class="t-main text-sm font-bold uppercase tracking-[0.12em]">Oversized Faux Leather Jacket</h3>
+              <p class="t-muted mt-1 text-xs font-light tracking-wide">Women's · For fall and winter</p>
+            </div>
+            <p class="notes-title">Piece Notes</p>
+            <dl class="notes">
+              <div><dt>First Impression</dt><dd>Oversized, glossy and a little dramatic.</dd></div>
+              <div><dt>How It Wears</dt><dd>Meant for fall and winter layering.</dd></div>
+              <div><dt>Pairs With</dt><dd>Ribbed knits and straight-leg jeans.</dd></div>
+            </dl>
+            <a href="https://link.amazon/B09DzoVYP" target="_blank" rel="sponsored noopener" class="cta">See it on Amazon ↗</a>
+          </div>
+        </article>
+
+        <!-- Card 29: Apparel - Rain Coat (women's) -->
+        <article class="masonry-item group" data-category="apparel">
+          <div class="glam-card">
+            <div class="media">
+              <img class="card-img w-full h-[26rem] object-cover" loading="lazy" alt="Mood image for Waterproof Hooded Rain Coat"
+                   src="https://images.unsplash.com/photo-1702579453789-e1ff13afd829?auto=format&fit=crop&w=1200&q=85" />
+              <span class="badge">Apparel</span>
+              <span class="mood-tag">Mood image</span>
+            </div>
+            <div class="pt-5 pb-4 px-1">
+              <h3 class="t-main text-sm font-bold uppercase tracking-[0.12em]">Waterproof Hooded Rain Coat</h3>
+              <p class="t-muted mt-1 text-xs font-light tracking-wide">Women's · Fleece-lined softshell</p>
+            </div>
+            <p class="notes-title">Piece Notes</p>
+            <dl class="notes">
+              <div><dt>First Impression</dt><dd>A practical coat that still looks sharp.</dd></div>
+              <div><dt>How It Wears</dt><dd>Waterproof and fleece-lined, with a hood.</dd></div>
+              <div><dt>Pairs With</dt><dd>Jeans and boots on wet, cold days.</dd></div>
+            </dl>
+            <a href="https://link.amazon/B02Up3W5n" target="_blank" rel="sponsored noopener" class="cta">See it on Amazon ↗</a>
+          </div>
+        </article>
+
+        <!-- Card 30: Apparel - Cropped Utility Anorak (women's) -->
+        <article class="masonry-item group" data-category="apparel">
+          <div class="glam-card">
+            <div class="media">
+              <img class="card-img w-full h-96 object-cover" loading="lazy" alt="Mood image for Cropped Utility Anorak"
+                   src="https://images.pexels.com/photos/8499288/pexels-photo-8499288.jpeg?auto=compress&cs=tinysrgb&w=1200" />
+              <span class="badge">Apparel</span>
+              <span class="mood-tag">Mood image</span>
+            </div>
+            <div class="pt-5 pb-4 px-1">
+              <h3 class="t-main text-sm font-bold uppercase tracking-[0.12em]">Cropped Utility Anorak</h3>
+              <p class="t-muted mt-1 text-xs font-light tracking-wide">Women's · Lightweight, zip-up, oversized</p>
+            </div>
+            <p class="notes-title">Piece Notes</p>
+            <dl class="notes">
+              <div><dt>First Impression</dt><dd>A cropped, utilitarian shape.</dd></div>
+              <div><dt>How It Wears</dt><dd>Lightweight and zip-up, cut oversized.</dd></div>
+              <div><dt>Pairs With</dt><dd>High-waisted pants and a fitted top.</dd></div>
+            </dl>
+            <a href="https://link.amazon/B06kzG34s" target="_blank" rel="sponsored noopener" class="cta">See it on Amazon ↗</a>
+          </div>
+        </article>
+
+        <!-- Card 31: Accessories - Snapback Cap (men's) -->
+        <article class="masonry-item group" data-category="accessories">
+          <div class="glam-card">
+            <div class="media">
+              <img class="card-img w-full h-80 object-cover" loading="lazy" alt="Mood image for Snapback Cap"
+                   src="https://images.unsplash.com/photo-1716902665775-a52db59f3e03?auto=format&fit=crop&w=1200&q=85" />
+              <span class="badge">Accessories</span>
+              <span class="mood-tag">Mood image</span>
+            </div>
+            <div class="pt-5 pb-4 px-1">
+              <h3 class="t-main text-sm font-bold uppercase tracking-[0.12em]">Snapback Cap</h3>
+              <p class="t-muted mt-1 text-xs font-light tracking-wide">Men's · Adjustable snapback</p>
+            </div>
+            <p class="notes-title">Piece Notes</p>
+            <dl class="notes">
+              <div><dt>First Impression</dt><dd>A classic snapback that finishes any streetwear look.</dd></div>
+              <div><dt>How It Wears</dt><dd>Adjustable at the back for an easy fit.</dd></div>
+              <div><dt>Pairs With</dt><dd>A heavyweight hoodie and relaxed cargos.</dd></div>
+            </dl>
+            <a href="https://link.amazon/B0aNvF466" target="_blank" rel="sponsored noopener" class="cta">See it on Amazon ↗</a>
+          </div>
+        </article>
+
+        <!-- Card 32: Accessories - Baseball Cap -->
+        <article class="masonry-item group" data-category="accessories">
+          <div class="glam-card">
+            <div class="media">
+              <img class="card-img w-full h-80 object-cover" loading="lazy" alt="Mood image for Adjustable Baseball Cap"
+                   src="https://images.unsplash.com/photo-1609868656710-4f299e957ec5?auto=format&fit=crop&w=1200&q=85" />
+              <span class="badge">Accessories</span>
+              <span class="mood-tag">Mood image</span>
+            </div>
+            <div class="pt-5 pb-4 px-1">
+              <h3 class="t-main text-sm font-bold uppercase tracking-[0.12em]">Adjustable Baseball Cap</h3>
+              <p class="t-muted mt-1 text-xs font-light tracking-wide">Adjustable fit, all seasons</p>
+            </div>
+            <p class="notes-title">Piece Notes</p>
+            <dl class="notes">
+              <div><dt>First Impression</dt><dd>A simple, easy cap for every day.</dd></div>
+              <div><dt>How It Wears</dt><dd>Adjustable, made for workouts and outdoor activities.</dd></div>
+              <div><dt>Pairs With</dt><dd>Athleisure, or a plain tee and denim.</dd></div>
+            </dl>
+            <a href="https://link.amazon/B02tgOfxa" target="_blank" rel="sponsored noopener" class="cta">See it on Amazon ↗</a>
+          </div>
+        </article>
+
+        <!-- Card 33: Accessories - Watch Cap Beanie (men's) -->
+        <article class="masonry-item group" data-category="accessories">
+          <div class="glam-card">
+            <div class="media">
+              <img class="card-img w-full h-96 object-cover" loading="lazy" alt="Mood image for Classic Watch Cap Beanie"
+                   src="https://images.unsplash.com/photo-1614696398628-0991e8f40e03?auto=format&fit=crop&w=1200&q=85" />
+              <span class="badge">Accessories</span>
+              <span class="mood-tag">Mood image</span>
+            </div>
+            <div class="pt-5 pb-4 px-1">
+              <h3 class="t-main text-sm font-bold uppercase tracking-[0.12em]">Classic Watch Cap Beanie</h3>
+              <p class="t-muted mt-1 text-xs font-light tracking-wide">Men's · Knit watch cap</p>
+            </div>
+            <p class="notes-title">Piece Notes</p>
+            <dl class="notes">
+              <div><dt>First Impression</dt><dd>A snug, no-fuss beanie.</dd></div>
+              <div><dt>How It Wears</dt><dd>Pulled down low for warmth.</dd></div>
+              <div><dt>Pairs With</dt><dd>A bomber jacket or a zip hoodie.</dd></div>
+            </dl>
+            <a href="https://link.amazon/B0japxQKY" target="_blank" rel="sponsored noopener" class="cta">See it on Amazon ↗</a>
+          </div>
+        </article>
+
+        <!-- Card 34: Accessories - Winter Set (women's) -->
+        <article class="masonry-item group" data-category="accessories">
+          <div class="glam-card">
+            <div class="media">
+              <!-- REPLACE the .ph block below with a free (non-Unsplash+) mood <img> when you have a photo -->
+              <div class="ph h-[26rem]" role="img" aria-label="Mood image coming soon for 4-in-1 Winter Beanie Set">
+                <span class="ph-kind">Winter Set</span>
+                <span class="ph-note">Mood image coming soon</span>
+              </div>
+              <span class="badge">Accessories</span>
+            </div>
+            <div class="pt-5 pb-4 px-1">
+              <h3 class="t-main text-sm font-bold uppercase tracking-[0.12em]">4-in-1 Winter Beanie Set</h3>
+              <p class="t-muted mt-1 text-xs font-light tracking-wide">Women's · Beanie, scarf, gloves &amp; ear warmer</p>
+            </div>
+            <p class="notes-title">Piece Notes</p>
+            <dl class="notes">
+              <div><dt>First Impression</dt><dd>A full winter set in one box.</dd></div>
+              <div><dt>How It Wears</dt><dd>Hat, scarf, gloves and ear warmer, with touchscreen gloves.</dd></div>
+              <div><dt>Pairs With</dt><dd>A long coat and straight-leg denim.</dd></div>
+            </dl>
+            <a href="https://link.amazon/B0ixupfJ4" target="_blank" rel="sponsored noopener" class="cta">See it on Amazon ↗</a>
+          </div>
+        </article>
+
+        <!-- Card 35: Accessories - Belts 3-Pack (women's) -->
+        <article class="masonry-item group" data-category="accessories">
+          <div class="glam-card">
+            <div class="media">
+              <!-- REPLACE the .ph block below with a mood <img> when you have a photo -->
+              <div class="ph h-72" role="img" aria-label="Mood image coming soon for Gold-Buckle Belt 3-Pack">
+                <span class="ph-kind">Belts</span>
+                <span class="ph-note">Mood image coming soon</span>
+              </div>
+              <span class="badge">Accessories</span>
+            </div>
+            <div class="pt-5 pb-4 px-1">
+              <h3 class="t-main text-sm font-bold uppercase tracking-[0.12em]">Gold-Buckle Belt 3-Pack</h3>
+              <p class="t-muted mt-1 text-xs font-light tracking-wide">Women's · Leather waist belts</p>
+            </div>
+            <p class="notes-title">Piece Notes</p>
+            <dl class="notes">
+              <div><dt>First Impression</dt><dd>Three belts with gold buckles.</dd></div>
+              <div><dt>How It Wears</dt><dd>Made to define the waist on jeans, dresses and pants.</dd></div>
+              <div><dt>Pairs With</dt><dd>High-waisted denim or a long cardigan.</dd></div>
+            </dl>
+            <a href="https://link.amazon/B0dLY0ZMp" target="_blank" rel="sponsored noopener" class="cta">See it on Amazon ↗</a>
+          </div>
+        </article>
+
+        <!-- Card 36: Accessories - Stretch Belt (men's) -->
+        <article class="masonry-item group" data-category="accessories">
+          <div class="glam-card">
+            <div class="media">
+              <img class="card-img w-full h-72 object-cover" loading="lazy" alt="Mood image for Stretch Elastic Belt"
+                   src="https://images.pexels.com/photos/31367058/pexels-photo-31367058.jpeg?auto=compress&cs=tinysrgb&w=1200" />
+              <span class="badge">Accessories</span>
+              <span class="mood-tag">Mood image</span>
+            </div>
+            <div class="pt-5 pb-4 px-1">
+              <h3 class="t-main text-sm font-bold uppercase tracking-[0.12em]">Stretch Elastic Belt</h3>
+              <p class="t-muted mt-1 text-xs font-light tracking-wide">Men's · For golf and casual wear</p>
+            </div>
+            <p class="notes-title">Piece Notes</p>
+            <dl class="notes">
+              <div><dt>First Impression</dt><dd>A quiet, minimal belt that stays out of the way.</dd></div>
+              <div><dt>How It Wears</dt><dd>Elastic stretch, made for golf and casual wear.</dd></div>
+              <div><dt>Pairs With</dt><dd>Chinos, joggers or relaxed jeans.</dd></div>
+            </dl>
+            <a href="https://link.amazon/B06gnXizh" target="_blank" rel="sponsored noopener" class="cta">See it on Amazon ↗</a>
+          </div>
+        </article>
+
+        <!-- Card 37: Accessories - No-Show Socks (women's) -->
+        <article class="masonry-item group" data-category="accessories">
+          <div class="glam-card">
+            <div class="media">
+              <img class="card-img w-full h-72 object-cover" loading="lazy" alt="Mood image for No-Show Ankle Socks"
+                   src="https://images.unsplash.com/photo-1631180543602-727e1197619d?auto=format&fit=crop&w=1200&q=85" />
+              <span class="badge">Accessories</span>
+              <span class="mood-tag">Mood image</span>
+            </div>
+            <div class="pt-5 pb-4 px-1">
+              <h3 class="t-main text-sm font-bold uppercase tracking-[0.12em]">No-Show Ankle Socks</h3>
+              <p class="t-muted mt-1 text-xs font-light tracking-wide">Women's · Low cut, non-slip, multi-pack</p>
+            </div>
+            <p class="notes-title">Piece Notes</p>
+            <dl class="notes">
+              <div><dt>First Impression</dt><dd>Barely there under low-profile sneakers.</dd></div>
+              <div><dt>How It Wears</dt><dd>Low-cut, no-show style with a non-slip fit.</dd></div>
+              <div><dt>Pairs With</dt><dd>Low-top sneakers and cropped jeans.</dd></div>
+            </dl>
+            <a href="https://link.amazon/B0csmAKUN" target="_blank" rel="sponsored noopener" class="cta">See it on Amazon ↗</a>
+          </div>
+        </article>
+
+        <!-- Card 38: Accessories - Crew Socks 5-Pack (men's) -->
+        <article class="masonry-item group" data-category="accessories">
+          <div class="glam-card">
+            <div class="media">
+              <img class="card-img w-full h-80 object-cover" loading="lazy" alt="Mood image for Cushioned Crew Socks 5-Pack"
+                   src="https://images.pexels.com/photos/19882183/pexels-photo-19882183.jpeg?auto=compress&cs=tinysrgb&w=1200" />
+              <span class="badge">Accessories</span>
+              <span class="mood-tag">Mood image</span>
+            </div>
+            <div class="pt-5 pb-4 px-1">
+              <h3 class="t-main text-sm font-bold uppercase tracking-[0.12em]">Cushioned Crew Socks 5-Pack</h3>
+              <p class="t-muted mt-1 text-xs font-light tracking-wide">Men's · Mid-calf</p>
+            </div>
+            <p class="notes-title">Piece Notes</p>
+            <dl class="notes">
+              <div><dt>First Impression</dt><dd>A clean everyday basic in a multi-pack.</dd></div>
+              <div><dt>How It Wears</dt><dd>Mid-calf crew height with cushioning.</dd></div>
+              <div><dt>Pairs With</dt><dd>Sneakers, boots and relaxed pants.</dd></div>
+            </dl>
+            <a href="https://link.amazon/B03bRkN4W" target="_blank" rel="sponsored noopener" class="cta">See it on Amazon ↗</a>
+          </div>
+        </article>
+
+        <!-- Card 39: Accessories - Tassel Scarf (women's) -->
+        <article class="masonry-item group" data-category="accessories">
+          <div class="glam-card">
+            <div class="media">
+              <img class="card-img w-full h-[26rem] object-cover" loading="lazy" alt="Mood image for Soft Tassel Scarf"
+                   src="https://images.pexels.com/photos/18777436/pexels-photo-18777436.jpeg?auto=compress&cs=tinysrgb&w=1200" />
+              <span class="badge">Accessories</span>
+              <span class="mood-tag">Mood image</span>
+            </div>
+            <div class="pt-5 pb-4 px-1">
+              <h3 class="t-main text-sm font-bold uppercase tracking-[0.12em]">Soft Tassel Scarf</h3>
+              <p class="t-muted mt-1 text-xs font-light tracking-wide">Women's · Warm shawl scarf</p>
+            </div>
+            <p class="notes-title">Piece Notes</p>
+            <dl class="notes">
+              <div><dt>First Impression</dt><dd>Soft, draped and warm-looking.</dd></div>
+              <div><dt>How It Wears</dt><dd>A big shawl-style scarf with tassels for cold weather.</dd></div>
+              <div><dt>Pairs With</dt><dd>A faux leather jacket or a chunky cardigan.</dd></div>
+            </dl>
+            <a href="https://link.amazon/B0fYfiFux" target="_blank" rel="sponsored noopener" class="cta">See it on Amazon ↗</a>
+          </div>
+        </article>
+
+        <!-- Card 40: Accessories - Silk-Look Head Scarves (women's) -->
+        <article class="masonry-item group" data-category="accessories">
+          <div class="glam-card">
+            <div class="media">
+              <img class="card-img w-full h-80 object-cover" loading="lazy" alt="Mood image for Silk-Look Head Scarves 4-Pack"
+                   src="https://images.pexels.com/photos/8891490/pexels-photo-8891490.jpeg?auto=compress&cs=tinysrgb&w=1200" />
+              <span class="badge">Accessories</span>
+              <span class="mood-tag">Mood image</span>
+            </div>
+            <div class="pt-5 pb-4 px-1">
+              <h3 class="t-main text-sm font-bold uppercase tracking-[0.12em]">Silk-Look Head Scarves 4-Pack</h3>
+              <p class="t-muted mt-1 text-xs font-light tracking-wide">Women's · Satin square scarves</p>
+            </div>
+            <p class="notes-title">Piece Notes</p>
+            <dl class="notes">
+              <div><dt>First Impression</dt><dd>Satin-look squares with a vintage feel.</dd></div>
+              <div><dt>How It Wears</dt><dd>Tie it at the neck, in the hair or on a bag.</dd></div>
+              <div><dt>Pairs With</dt><dd>A ribbed top and a leather jacket.</dd></div>
+            </dl>
+            <a href="https://link.amazon/B0d47kEP7" target="_blank" rel="sponsored noopener" class="cta">See it on Amazon ↗</a>
           </div>
         </article>
 
