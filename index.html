@@ -454,6 +454,16 @@
 
     <!-- PINTEREST-STYLE PRODUCT GRID -->
     <section id="feed" class="max-w-7xl mx-auto px-6 py-14">
+            <!-- SEARCH -->
+      <div class="search-wrap">
+        <label for="search-input" class="sr-only">Search vibes, moods or pieces</label>
+        <div class="search-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <input id="search-input" type="search" placeholder="Search vibes, moods or pieces (try “cozy” or “jeans”)" autocomplete="off" />
+          <button type="button" id="search-clear" class="search-clear is-gone" aria-label="Clear search">&times;</button>
+        </div>
+        <p id="search-status" class="search-status" aria-live="polite"></p>
+      </div>
 
       <p class="t-faint text-center text-[11px] font-light tracking-[0.12em] leading-6 max-w-xl mx-auto mb-10">
         Photography is for mood and inspiration. Tap through to see the exact item, colors and sizes on the retailer's page.
@@ -1586,7 +1596,7 @@
       });
     })();
   </script>
-    <!-- VIBE FOLDERS + LOOKS -->
+     <!-- VIBE FOLDERS + LOOKS + SEARCH -->
   <script>
     (function () {
       function U(id) { return 'https://images.unsplash.com/' + id + '?auto=format&fit=crop&w=1200&q=85'; }
@@ -1676,22 +1686,46 @@
         i.addEventListener('error', function () { i.style.visibility = 'hidden'; });
         return i;
       }
-
-      var folders = $('vibes');
-      var detail = $('vibe-detail');
-      var grid = $('product-grid');
-      var current = 'all';
-
-            function sync() {
-        var inVibe = !detail.classList.contains('is-gone');
-        var onAll = current === 'all';
-        folders.classList.toggle('is-gone', inVibe || !onAll);
-        grid.classList.toggle('is-gone', inVibe || onAll);
+      function norm(s) {
+        return String(s).toLowerCase().replace(/['\u2019]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
+      }
+      function matches(hay, tokens) {
+        var padded = ' ' + hay + ' ';
+        for (var i = 0; i < tokens.length; i++) {
+          if (padded.indexOf(' ' + tokens[i]) === -1) { return false; }
+        }
+        return true;
+      }
+      function plural(n, w) { return n + ' ' + w + (n === 1 ? '' : 's'); }
+      function txt(root, sel) { var n = root.querySelector(sel); return n ? n.textContent : ''; }
+      function goTo(node) {
+        if (node && !node.classList.contains('is-gone')) { node.scrollIntoView({ block: 'start' }); }
       }
 
-      /* ---------- FOLDER COVERS ---------- */
+      var folders = $('vibes');
+      var folderGrid = $('folder-grid');
+      var detail = $('vibe-detail');
+      var grid = $('product-grid');
+      var input = $('search-input');
+      var clearBtn = $('search-clear');
+      var statusEl = $('search-status');
+      var headBlock = folders.querySelector('.text-center');
+      var allPill = document.querySelector('.filter-btn[data-filter="all"]');
+      grid.classList.add('anchor');
+
+      var state = { filter: 'all', vibe: null, query: '' };
+
+      /* small labels used while searching */
+      var vibesLabel = el('p', 'eyebrow result-label is-gone', 'Matching vibes');
+      folders.insertBefore(vibesLabel, folderGrid);
+      var prodLabel = el('p', 'eyebrow result-label is-gone', 'Matching pieces');
+      grid.parentNode.insertBefore(prodLabel, grid);
+      var none = el('p', 't-muted no-results is-gone', '');
+      grid.parentNode.insertBefore(none, grid.nextSibling);
+
+      /* ---------- FOLDER TILES ---------- */
+      var tiles = [];
       function renderFolders() {
-        var wrap = $('folder-grid');
         VIBES.forEach(function (v) {
           var b = el('button', 'folder');
           b.type = 'button';
@@ -1703,11 +1737,93 @@
           body.appendChild(el('span', 'folder-tag', v.tag));
           b.appendChild(body);
           b.addEventListener('click', function () { openVibe(v.id); });
-          wrap.appendChild(b);
+          folderGrid.appendChild(b);
+
+          var parts = [v.name, v.tag, 'vibe mood look outfit'];
+          v.looks.forEach(function (l) { parts.push(l.name); });
+          tiles.push({ el: b, hay: norm(parts.join(' ')) });
         });
       }
 
-      /* ---------- OPEN A VIBE ---------- */
+      /* ---------- SEARCH INDEX FOR PRODUCT CARDS ---------- */
+      var linkInfo = {};
+      VIBES.forEach(function (v) {
+        v.looks.forEach(function (look) {
+          look.items.forEach(function (it) {
+            var link = P[it[0]].l;
+            linkInfo[link] = (linkInfo[link] || '') + ' ' + v.name + ' ' + v.tag + ' ' + look.name;
+          });
+        });
+      });
+      var cards = [];
+      Array.prototype.forEach.call(grid.querySelectorAll('.masonry-item'), function (card) {
+        var cta = card.querySelector('.cta');
+        var link = cta ? cta.getAttribute('href') : '';
+        var notes = [];
+        Array.prototype.forEach.call(card.querySelectorAll('.notes dd'), function (n) { notes.push(n.textContent); });
+        cards.push({
+          el: card,
+          cat: card.getAttribute('data-category'),
+          hay: norm([txt(card, 'h3'), txt(card, 'p.t-muted'), txt(card, '.badge'), card.getAttribute('data-category'), notes.join(' '), linkInfo[link] || ''].join(' '))
+        });
+      });
+
+      /* ---------- ONE FUNCTION DECIDES WHAT IS ON SCREEN ---------- */
+      function render() {
+        var tokens = norm(state.query) ? norm(state.query).split(' ') : [];
+        var searching = tokens.length > 0;
+        var inVibe = state.vibe !== null;
+        var onAll = state.filter === 'all';
+
+        clearBtn.classList.toggle('is-gone', !state.query);
+
+        var shown = 0;
+        cards.forEach(function (c) {
+          var ok = !searching || matches(c.hay, tokens);
+          c.el.classList.toggle('is-gone', !ok);
+          if (ok && (onAll || c.cat === state.filter)) { shown++; }
+        });
+
+        var tilesShown = 0;
+        tiles.forEach(function (t) {
+          var ok = !searching || matches(t.hay, tokens);
+          t.el.classList.toggle('is-gone', !ok);
+          if (ok) { tilesShown++; }
+        });
+
+        var showFolders = !inVibe && onAll && (!searching || tilesShown > 0);
+        var showGrid = !inVibe && (!onAll || searching);
+
+        folders.classList.toggle('is-gone', !showFolders);
+        headBlock.classList.toggle('is-gone', searching);
+        vibesLabel.classList.toggle('is-gone', !(searching && showFolders));
+        grid.classList.toggle('is-gone', !showGrid);
+        prodLabel.classList.toggle('is-gone', !(showGrid && searching && onAll && tilesShown > 0 && shown > 0));
+
+        var empty = !inVibe && searching && shown === 0 && (!onAll || tilesShown === 0);
+        none.classList.toggle('is-gone', !empty);
+        if (empty) {
+          none.textContent = 'No matches for \u201c' + state.query.trim() + '\u201d' + (onAll ? '' : ' in this category') + '. Try a vibe like \u201ccozy\u201d or a piece like \u201cjeans\u201d.';
+        }
+
+        var msg = '';
+        if (searching && !inVibe && !empty) {
+          msg = plural(shown, 'piece');
+          if (onAll) { msg = plural(tilesShown, 'vibe') + ' \u00b7 ' + msg; }
+        }
+        statusEl.textContent = msg;
+
+        detail.classList.toggle('is-gone', !inVibe);
+        if (!inVibe) { detail.textContent = ''; }
+      }
+
+      /* ---------- OPEN / CLOSE A VIBE ---------- */
+      function closeVibe() {
+        state.vibe = null;
+        render();
+        goTo(folders.classList.contains('is-gone') ? grid : folders);
+      }
+
       function openVibe(id) {
         var v = VIBES.filter(function (x) { return x.id === id; })[0];
         if (!v) { return; }
@@ -1715,11 +1831,7 @@
 
         var back = el('button', 'back-btn', '\u2190 All vibes');
         back.type = 'button';
-        back.addEventListener('click', function () {
-          closeDetail();
-          sync();
-          folders.scrollIntoView({ block: 'start' });
-        });
+        back.addEventListener('click', closeVibe);
         detail.appendChild(back);
 
         var head = el('div', 'vibe-head');
@@ -1747,10 +1859,10 @@
             media.appendChild(el('span', 'mood-tag', 'Mood image'));
             card.appendChild(media);
 
-            var txt = el('div', 'piece-text');
-            txt.appendChild(el('p', 'look-role', it[1]));
-            txt.appendChild(el('h4', 'piece-name', p.n));
-            card.appendChild(txt);
+            var t = el('div', 'piece-text');
+            t.appendChild(el('p', 'look-role', it[1]));
+            t.appendChild(el('h4', 'piece-name', p.n));
+            card.appendChild(t);
 
             var a = el('a', 'cta', 'See it on Amazon \u2197');
             a.href = p.l;
@@ -1767,27 +1879,51 @@
 
         detail.appendChild(el('p', 't-faint vibe-note', 'Photos are mood images. Tap through to see the exact item, colors and sizes on the retailer\u2019s page.'));
 
-        detail.classList.remove('is-gone');
-        sync();
-        detail.scrollIntoView({ block: 'start' });
+        state.vibe = id;
+        render();
+        goTo(detail);
       }
 
       /* ---------- WIRING ---------- */
-      var allPill = document.querySelector('.filter-btn[data-filter="all"]');
-
       document.querySelectorAll('.filter-btn').forEach(function (btn) {
         btn.addEventListener('click', function () {
-          current = btn.getAttribute('data-filter');
-          closeDetail();
-          sync();
+          state.filter = btn.getAttribute('data-filter');
+          state.vibe = null;
+          render();
         });
       });
 
-      // "Styled in Look 01 ->" links on the cards open Urban Fashion
+      input.addEventListener('input', function () {
+        state.query = input.value;
+        state.vibe = null;
+        render();
+      });
+      input.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          input.blur();
+          goTo(folders.classList.contains('is-gone') ? grid : folders);
+        } else if (e.key === 'Escape') {
+          input.value = '';
+          state.query = '';
+          render();
+        }
+      });
+      clearBtn.addEventListener('click', function () {
+        input.value = '';
+        state.query = '';
+        state.vibe = null;
+        render();
+        input.focus();
+      });
+
+      // "Styled in Look 01" links on the cards open Urban Fashion
       document.querySelectorAll('.styled-link').forEach(function (a) {
         a.addEventListener('click', function (e) {
           e.preventDefault();
           if (allPill) { allPill.click(); }
+          input.value = '';
+          state.query = '';
           openVibe('urban');
         });
       });
@@ -1797,12 +1933,16 @@
         a.addEventListener('click', function (e) {
           e.preventDefault();
           if (allPill) { allPill.click(); }
-          folders.scrollIntoView({ block: 'start' });
+          input.value = '';
+          state.query = '';
+          state.vibe = null;
+          render();
+          goTo(folders);
         });
       });
 
       renderFolders();
-      sync();
+      render();
     })();
   </script>
   <style>
@@ -1871,6 +2011,31 @@
   .piece-text { padding: .9rem .25rem .8rem; }
   .piece-name { color: var(--text); margin-top: .25rem; font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; line-height: 1.45; }
   .outfit .cta { font-size: 11px; padding: .65rem 0; }
+</style>
+  <style>
+  .is-gone { display: none !important; }
+  .search-wrap { max-width: 36rem; margin: 0 auto 2.5rem; }
+  .search-box { position: relative; display: flex; align-items: center; }
+  .search-box svg { position: absolute; left: 1.1rem; width: 1rem; height: 1rem; color: var(--faint); pointer-events: none; }
+  .search-box input {
+    width: 100%; font-family: inherit; font-size: 16px; letter-spacing: .04em; color: var(--text);
+    background: var(--surface); border: 1px solid var(--border); border-radius: 999px;
+    padding: .9rem 3rem .9rem 2.9rem; outline: none;
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    transition: border-color .3s ease;
+  }
+  @media (min-width: 768px) { .search-box input { font-size: 13px; } }
+  .search-box input::placeholder { color: var(--faint); }
+  .search-box input:focus { border-color: var(--border-strong); }
+  .search-box input::-webkit-search-cancel-button { display: none; }
+  .search-clear {
+    position: absolute; right: .6rem; width: 1.9rem; height: 1.9rem; border: 0; border-radius: 50%;
+    cursor: pointer; font-size: 1.15rem; line-height: 1; color: var(--muted); background: var(--surface-2);
+  }
+  .search-clear:hover { color: var(--text); }
+  .search-status { text-align: center; margin-top: .9rem; min-height: 1rem; font-size: 11px; font-weight: 300; letter-spacing: .12em; color: var(--faint); }
+  .result-label { text-align: center; margin: 0 0 1.5rem; }
+  .no-results { text-align: center; font-size: 13px; font-weight: 300; letter-spacing: .08em; line-height: 1.8; padding: 3rem 1rem; }
 </style>
 </body>
 </html>
