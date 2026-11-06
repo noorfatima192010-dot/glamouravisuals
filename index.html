@@ -395,7 +395,7 @@
 
             <nav class="hidden md:flex items-center gap-10">
         <a href="#feed" class="navlink text-[11px] font-semibold uppercase tracking-[0.2em]">Curated Feed</a>
-        <a href="#vibe" class="navlink text-[11px] font-semibold uppercase tracking-[0.2em]">Shop by Vibe</a>
+        <a href="#vibes" class="navlink text-[11px] font-semibold uppercase tracking-[0.2em]">Shop by Vibe</a>
         <a href="#about" class="navlink text-[11px] font-semibold uppercase tracking-[0.2em]">About</a>
       </nav>
 
@@ -420,7 +420,7 @@
 
     <!-- VIBE SWITCHER -->
     <section id="vibe" class="max-w-7xl mx-auto px-6 pb-8">
-      <p class="eyebrow text-center mb-4">Shop by Vibe</p>
+      <p class="eyebrow text-center mb-4">Theme</p>
       <div class="overflow-x-auto no-scrollbar pb-2">
         <div class="flex gap-3 w-max mx-auto" role="group" aria-label="Choose a vibe">
           <button type="button" class="vibe-btn" data-vibe="midnight" aria-pressed="true">
@@ -458,7 +458,20 @@
       <p class="t-faint text-center text-[11px] font-light tracking-[0.12em] leading-6 max-w-xl mx-auto mb-10">
         Photography is for mood and inspiration. Tap through to see the exact item, colors and sizes on the retailer's page.
       </p>
+      <!-- VIBE FOLDERS (shown on All Items) -->
+      <div id="vibes" class="anchor mb-16">
+        <div class="text-center mb-10">
+          <p class="eyebrow mb-4">Shop by Vibe</p>
+          <h2 class="t-main text-2xl sm:text-4xl font-light uppercase tracking-[0.2em] leading-snug">Pick a <span class="font-extrabold">Mood</span></h2>
+          <p class="t-muted mt-5 max-w-xl mx-auto text-sm font-light leading-8 tracking-[0.1em]">Each vibe is a folder of complete looks. Open one to see the full outfit, piece by piece.</p>
+        </div>
+        <div id="folder-grid" class="folder-grid"></div>
+        <p class="eyebrow text-center mt-16">Or browse everything</p>
+      </div>
 
+      <!-- VIBE DETAIL (opens when a folder is clicked) -->
+      <div id="vibe-detail" class="anchor is-gone"></div>
+      
       <div class="masonry" id="product-grid">
 
         <!-- Card 1: Apparel - Hoodie (tall) -->
@@ -1571,6 +1584,228 @@
           applyVibe(btn.getAttribute('data-vibe'), true);
         });
       });
+    })();
+  </script>
+    <!-- VIBE FOLDERS + LOOKS -->
+  <script>
+    (function () {
+      function U(id) { return 'https://images.unsplash.com/' + id + '?auto=format&fit=crop&w=1200&q=85'; }
+      function X(id) { return 'https://images.pexels.com/photos/' + id + '/pexels-photo-' + id + '.jpeg?auto=compress&cs=tinysrgb&w=1200'; }
+      function A(code) { return 'https://link.amazon/' + code; }
+
+      /* ---------- PRODUCTS (same links and photos as your cards) ---------- */
+      var P = {
+        hoodie:    { n: 'Oversized Heavyweight Hoodie',      l: A('B0iChvyf3'), i: U('photo-1564557287817-3785e38ec1f5') },
+        cargos:    { n: 'Relaxed-Fit Structured Cargos',     l: A('B0fpdcRzc'), i: U('photo-1780764459892-9aae22bde7b5'), pos: '50% 70%' },
+        oxfords:   { n: 'Handcrafted Leather Oxfords',       l: A('B02NjddGc'), i: U('photo-1563434564528-8fdf5996e622') },
+        tee:       { n: 'Oversized Heavyweight Cotton Tee',  l: A('B0hnvxMLp'), i: U('photo-1702388519753-b02fc42f0b78') },
+        cordpants: { n: 'Wide-Leg Corduroy Pants',           l: A('B0aUYVTRH'), i: U('photo-1790270491984-f922f11fb36c') },
+        bell:      { n: 'Ribbed Bell-Sleeve Knit Top',       l: A('B09IvF5y7'), i: X('11411135') },
+        fitted:    { n: 'Ribbed Fitted Long-Sleeve Top',     l: A('B0aMLJMYG'), i: X('32605350') },
+        crewneck:  { n: 'Loose-Fit Crewneck Sweatshirt',     l: A('B0gxvChxj'), i: X('29493504') },
+        bomber:    { n: 'Lightweight Bomber Jacket',         l: A('B0gKjefV0'), i: U('photo-1590789188781-4c90c12f0f0b') },
+        linen:     { n: 'Linen Button-Down Shirt',           l: A('B0fbPjSbV'), i: X('5191435') },
+        cordpull:  { n: 'Oversized Corduroy Pullover',       l: A('B0ccr1ogc'), i: X('10431684') },
+        cardigan:  { n: 'Chunky Knit Lantern-Sleeve Cardigan', l: A('B02kumpUw'), i: X('6630834') },
+        golf:      { n: 'Spikeless Golf Shoes',              l: A('B0hMhTSLU'), i: U('photo-1626361980336-e3eb181ef08d') },
+        combat:    { n: 'Zip-Up Combat Boots',               l: A('B0f9yteOh'), i: U('photo-1613673720017-56e42d90fee4') },
+        wide:      { n: 'High-Waisted Wide-Leg Jeans',       l: A('B0gWxFvf7'), i: U('photo-1622023459405-c88ff072bd60') },
+        relaxed:   { n: 'Classic Relaxed-Fit Jeans',         l: A('B0fTRoD1S'), i: X('9775671') },
+        lowrise:   { n: 'Low-Rise Denim Mini Skirt',         l: A('B0jcyKnbX'), i: U('photo-1627841898714-bfd02f07207d') },
+        lace:      { n: 'Layered Lace-Trim Denim Skirt',     l: A('B08GM3Nuj'), i: X('19371784') },
+        leather:   { n: 'Oversized Faux Leather Jacket',     l: A('B09DzoVYP'), i: X('36976938') },
+        rain:      { n: 'Waterproof Hooded Rain Coat',       l: A('B02Up3W5n'), i: U('photo-1702579453789-e1ff13afd829') },
+        anorak:    { n: 'Cropped Utility Anorak',            l: A('B06kzG34s'), i: X('8499288') },
+        snapback:  { n: 'Snapback Cap',                      l: A('B0aNvF466'), i: U('photo-1716902665775-a52db59f3e03') },
+        cap:       { n: 'Adjustable Baseball Cap',           l: A('B02tgOfxa'), i: U('photo-1609868656710-4f299e957ec5') },
+        watchcap:  { n: 'Classic Watch Cap Beanie',          l: A('B0japxQKY'), i: U('photo-1614696398628-0991e8f40e03') },
+        winter:    { n: '4-in-1 Winter Beanie Set',          l: A('B0ixupfJ4'), i: U('photo-1708533643337-afbfc999ebc6') },
+        belts:     { n: 'Gold-Buckle Belt 3-Pack',           l: A('B0dLY0ZMp'), i: U('photo-1552224614-2a4345873a96') },
+        stretch:   { n: 'Stretch Elastic Belt',              l: A('B06gnXizh'), i: X('31367058') },
+        crewsocks: { n: 'Cushioned Crew Socks 5-Pack',       l: A('B03bRkN4W'), i: X('19882183') },
+        tassel:    { n: 'Soft Tassel Scarf',                 l: A('B0fYfiFux'), i: X('18777436') },
+        headscarf: { n: 'Silk-Look Head Scarves 4-Pack',     l: A('B0d47kEP7'), i: X('8891490') }
+      };
+
+      /* ---------- VIBES & LOOKS (edit this list to add or change looks) ---------- */
+      var VIBES = [
+        { id: 'romantic', name: 'Romantic Weather', tag: 'Soft layers for grey, dreamy days', cover: 'lace',
+          looks: [
+            { name: 'Rainy Day Date', who: 'Her', items: [['bell', 'The Top'], ['lace', 'The Skirt'], ['rain', 'The Layer'], ['headscarf', 'The Detail']] },
+            { name: 'Golden Hour', who: 'Her', items: [['fitted', 'The Top'], ['wide', 'The Bottom'], ['belts', 'The Belt'], ['headscarf', 'The Detail'], ['golf', 'The Shoes']] }
+          ] },
+        { id: 'urban', name: 'Urban Fashion', tag: 'Street-ready pieces, built for the city', cover: 'hoodie',
+          looks: [
+            { name: 'Midnight Utility', items: [['hoodie', 'The Top'], ['cargos', 'The Bottom'], ['oxfords', 'The Finish'], ['snapback', 'The Cap']] },
+            { name: 'Downtown Layers', who: 'Him', items: [['bomber', 'The Layer'], ['tee', 'The Top'], ['relaxed', 'The Bottom'], ['combat', 'The Boots'], ['cap', 'The Cap']] },
+            { name: 'City Edge', who: 'Her', items: [['leather', 'The Layer'], ['fitted', 'The Top'], ['wide', 'The Bottom'], ['belts', 'The Belt']] }
+          ] },
+        { id: 'cozy', name: 'Cozy Season', tag: 'Chunky knits and warm layers', cover: 'cardigan',
+          looks: [
+            { name: 'Soft Knits', who: 'Her', items: [['cardigan', 'The Layer'], ['fitted', 'The Top'], ['wide', 'The Bottom'], ['tassel', 'The Scarf']] },
+            { name: 'Lazy Weekend', who: 'Him', items: [['crewneck', 'The Top'], ['cordpants', 'The Bottom'], ['watchcap', 'The Beanie'], ['crewsocks', 'The Socks']] },
+            { name: 'Corduroy Day', who: 'Her', items: [['cordpull', 'The Top'], ['wide', 'The Bottom'], ['winter', 'The Winter Set'], ['golf', 'The Shoes']] }
+          ] },
+        { id: 'clean', name: 'Clean Lines', tag: 'Simple shapes, quiet confidence', cover: 'anorak',
+          looks: [
+            { name: 'Quiet Neutrals', who: 'Her', items: [['anorak', 'The Layer'], ['fitted', 'The Top'], ['wide', 'The Bottom'], ['belts', 'The Belt']] },
+            { name: 'Linen & Leather', who: 'Him', items: [['linen', 'The Top'], ['relaxed', 'The Bottom'], ['oxfords', 'The Shoes'], ['stretch', 'The Belt']] }
+          ] },
+        { id: 'y2k', name: 'Y2K', tag: 'Low-rise, lace and a little nostalgia', cover: 'lowrise',
+          looks: [
+            { name: 'Low-Rise Nostalgia', who: 'Her', items: [['fitted', 'The Top'], ['lowrise', 'The Skirt'], ['belts', 'The Belt'], ['headscarf', 'The Detail']] },
+            { name: 'Lace & Leather', who: 'Her', items: [['bell', 'The Top'], ['lace', 'The Skirt'], ['leather', 'The Layer'], ['belts', 'The Belt']] }
+          ] }
+      ];
+
+      /* ---------- HELPERS ---------- */
+      function $(id) { return document.getElementById(id); }
+      function el(tag, cls, text) {
+        var e = document.createElement(tag);
+        if (cls) { e.className = cls; }
+        if (text != null) { e.textContent = text; }
+        return e;
+      }
+      function photo(p, cls, alt) {
+        var i = document.createElement('img');
+        if (cls) { i.className = cls; }
+        i.loading = 'lazy';
+        i.alt = alt;
+        i.src = p.i;
+        if (p.pos) { i.style.objectPosition = p.pos; }
+        i.addEventListener('error', function () { i.style.visibility = 'hidden'; });
+        return i;
+      }
+
+      var folders = $('vibes');
+      var detail = $('vibe-detail');
+      var grid = $('product-grid');
+      var current = 'all';
+
+      function sync() {
+        var inVibe = !detail.classList.contains('is-gone');
+        folders.classList.toggle('is-gone', inVibe || current !== 'all');
+        grid.classList.toggle('is-gone', inVibe);
+      }
+      function closeDetail() {
+        detail.textContent = '';
+        detail.classList.add('is-gone');
+      }
+
+      /* ---------- FOLDER COVERS ---------- */
+      function renderFolders() {
+        var wrap = $('folder-grid');
+        VIBES.forEach(function (v) {
+          var b = el('button', 'folder');
+          b.type = 'button';
+          b.setAttribute('aria-label', 'Open ' + v.name + ' looks');
+          b.appendChild(photo(P[v.cover], '', 'Mood image for ' + v.name));
+          b.appendChild(el('span', 'badge', v.looks.length + (v.looks.length === 1 ? ' look' : ' looks')));
+          var body = el('span', 'folder-body');
+          body.appendChild(el('span', 'folder-name', v.name));
+          body.appendChild(el('span', 'folder-tag', v.tag));
+          b.appendChild(body);
+          b.addEventListener('click', function () { openVibe(v.id); });
+          wrap.appendChild(b);
+        });
+      }
+
+      /* ---------- OPEN A VIBE ---------- */
+      function openVibe(id) {
+        var v = VIBES.filter(function (x) { return x.id === id; })[0];
+        if (!v) { return; }
+        detail.textContent = '';
+
+        var back = el('button', 'back-btn', '\u2190 All vibes');
+        back.type = 'button';
+        back.addEventListener('click', function () {
+          closeDetail();
+          sync();
+          folders.scrollIntoView({ block: 'start' });
+        });
+        detail.appendChild(back);
+
+        var head = el('div', 'vibe-head');
+        head.appendChild(el('p', 'eyebrow', 'Vibe'));
+        head.appendChild(el('h2', 'vibe-title', v.name));
+        head.appendChild(el('p', 'vibe-sub', v.tag));
+        detail.appendChild(head);
+
+        v.looks.forEach(function (look, idx) {
+          var block = el('section', 'look-block');
+          var meta = el('div', 'look-meta');
+          meta.appendChild(el('span', 'look-num', 'Look ' + (idx < 9 ? '0' : '') + (idx + 1)));
+          meta.appendChild(el('h3', 'look-name', look.name));
+          if (look.who) { meta.appendChild(el('span', 'look-who', look.who)); }
+          block.appendChild(meta);
+
+          var row = el('div', 'outfit');
+          row.style.setProperty('--n', look.items.length);
+          look.items.forEach(function (it) {
+            var p = P[it[0]];
+            var art = el('article', 'look-card');
+            var card = el('div', 'glam-card');
+            var media = el('div', 'media');
+            media.appendChild(photo(p, 'piece-img', 'Mood image for ' + p.n));
+            media.appendChild(el('span', 'mood-tag', 'Mood image'));
+            card.appendChild(media);
+
+            var txt = el('div', 'piece-text');
+            txt.appendChild(el('p', 'look-role', it[1]));
+            txt.appendChild(el('h4', 'piece-name', p.n));
+            card.appendChild(txt);
+
+            var a = el('a', 'cta', 'See it on Amazon \u2197');
+            a.href = p.l;
+            a.target = '_blank';
+            a.rel = 'sponsored noopener';
+            card.appendChild(a);
+
+            art.appendChild(card);
+            row.appendChild(art);
+          });
+          block.appendChild(row);
+          detail.appendChild(block);
+        });
+
+        detail.appendChild(el('p', 't-faint vibe-note', 'Photos are mood images. Tap through to see the exact item, colors and sizes on the retailer\u2019s page.'));
+
+        detail.classList.remove('is-gone');
+        sync();
+        detail.scrollIntoView({ block: 'start' });
+      }
+
+      /* ---------- WIRING ---------- */
+      var allPill = document.querySelector('.filter-btn[data-filter="all"]');
+
+      document.querySelectorAll('.filter-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          current = btn.getAttribute('data-filter');
+          closeDetail();
+          sync();
+        });
+      });
+
+      // "Styled in Look 01 ->" links on the cards open Urban Fashion
+      document.querySelectorAll('.styled-link').forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          e.preventDefault();
+          if (allPill) { allPill.click(); }
+          openVibe('urban');
+        });
+      });
+
+      // Header "Shop by Vibe" link goes back to the folders
+      document.querySelectorAll('a[href="#vibes"]').forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          e.preventDefault();
+          if (allPill) { allPill.click(); }
+          folders.scrollIntoView({ block: 'start' });
+        });
+      });
+
+      renderFolders();
+      sync();
     })();
   </script>
 </body>
