@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GlamouraVisuals | Curated Luxury Lifestyle</title>
+  <title>GlamouraVisuals | Curated Lifestyle Lookbook</title>
   <meta name="description" content="GlamouraVisuals is a curated lifestyle lookbook. Browse apparel and accessories picked to work together, with links to each item on Amazon." />
   <meta name="google-site-verification" content="fuqvPR9pxs0kihM69Obs0RJ7dBdLdQWsJLYL0a71Pts" />
   <meta name="theme-color" content="#09090b" />
@@ -29,7 +29,7 @@
     }
   </script>
 
-  <!-- Restore the visitor's saved vibe before first paint -->
+  <!-- Restore the visitor's saved theme before first paint -->
   <script>
     try {
       var savedVibe = localStorage.getItem('gv-vibe');
@@ -40,7 +40,7 @@
   </script>
 
   <style>
-    /* ============ VIBE PALETTES ============ */
+    /* ============ THEME PALETTES ============ */
     :root {
       color-scheme: dark;
       --bg: #09090b;
@@ -118,6 +118,8 @@
     }
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .is-gone { display: none !important; }
+    .anchor { scroll-margin-top: 6.5rem; }
 
     .t-main { color: var(--text); }
     .t-muted { color: var(--muted); }
@@ -204,7 +206,7 @@
     }
     .btn-accent:hover { opacity: .85; }
 
-    /* ============ VIBE SWITCHER ============ */
+    /* ============ THEME SWITCHER ============ */
     .vibe-btn {
       display: inline-flex; align-items: center; gap: .6rem; flex-shrink: 0;
       border-radius: 999px; padding: .65rem 1.25rem;
@@ -234,6 +236,30 @@
     html .filter-btn.bg-neutral-900 {
       background: var(--accent); color: var(--accent-ink); border-color: var(--accent);
     }
+
+    /* ============ SEARCH ============ */
+    .search-wrap { max-width: 36rem; margin: 0 auto 2.5rem; }
+    .search-box { position: relative; display: flex; align-items: center; }
+    .search-box svg { position: absolute; left: 1.1rem; width: 1rem; height: 1rem; color: var(--faint); pointer-events: none; }
+    .search-box input {
+      width: 100%; font-family: inherit; font-size: 16px; letter-spacing: .04em; color: var(--text);
+      background: var(--surface); border: 1px solid var(--border); border-radius: 999px;
+      padding: .9rem 3rem .9rem 2.9rem; outline: none;
+      -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+      transition: border-color .3s ease;
+    }
+    @media (min-width: 768px) { .search-box input { font-size: 13px; } }
+    .search-box input::placeholder { color: var(--faint); }
+    .search-box input:focus { border-color: var(--border-strong); }
+    .search-box input::-webkit-search-cancel-button { display: none; }
+    .search-clear {
+      position: absolute; right: .6rem; width: 1.9rem; height: 1.9rem; border: 0; border-radius: 50%;
+      cursor: pointer; font-size: 1.15rem; line-height: 1; color: var(--muted); background: var(--surface-2);
+    }
+    .search-clear:hover { color: var(--text); }
+    .search-status { text-align: center; margin-top: .9rem; min-height: 1rem; font-size: 11px; font-weight: 300; letter-spacing: .12em; color: var(--faint); }
+    .result-label { text-align: center; margin: 0 0 1.5rem; }
+    .no-results { text-align: center; font-size: 13px; font-weight: 300; letter-spacing: .08em; line-height: 1.8; padding: 3rem 1rem; }
 
     /* ============ PINTEREST-STYLE MASONRY ============ */
     .masonry { column-gap: 1.5rem; columns: 1; }
@@ -284,23 +310,6 @@
       -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
     }
 
-    /* Placeholder panel shown until a mood photo is added */
-    .ph {
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: .7rem; width: 100%; text-align: center; padding: 0 1rem;
-      background:
-        radial-gradient(120% 90% at 25% 15%, var(--surface-2), transparent 60%),
-        linear-gradient(160deg, var(--surface-2), transparent);
-    }
-    .ph-kind {
-      font-size: 1.05rem; font-weight: 300; text-transform: uppercase;
-      letter-spacing: .4em; color: var(--muted);
-    }
-    .ph-note {
-      font-size: 9px; font-weight: 600; text-transform: uppercase;
-      letter-spacing: .22em; color: var(--faint);
-    }
-
     /* Piece Notes */
     .notes-title {
       font-size: 9.5px; font-weight: 700; text-transform: uppercase;
@@ -340,27 +349,79 @@
       background: var(--accent); color: var(--accent-ink); border-color: var(--accent);
     }
 
-    /* ============ COMPLETE THE LOOK ============ */
-    .look-rail { display: grid; gap: 1.5rem; grid-template-columns: 1fr; }
-    @media (min-width: 768px) { .look-rail { grid-template-columns: repeat(3, 1fr); } }
+    /* ============ LOOK CARDS (used inside vibe folders) ============ */
     .look-card { position: relative; }
     .look-card .media img { transition: transform .9s cubic-bezier(.2, .7, .2, 1); }
     .look-card:hover .media img { transform: scale(1.05); }
-    @media (min-width: 768px) {
-      .look-card:not(:last-child)::after {
-        content: "+"; position: absolute; right: -1.55rem; top: 38%;
-        width: 1.6rem; height: 1.6rem; border-radius: 50%;
-        display: flex; align-items: center; justify-content: center;
-        font-size: 14px; font-weight: 600; z-index: 2;
-        background: var(--accent); color: var(--accent-ink);
-      }
-    }
     .look-role {
       font-size: 9.5px; font-weight: 700; text-transform: uppercase;
       letter-spacing: .3em; color: var(--faint);
     }
 
-    /* ============ AFFILIATE PORTAL PANEL ============ */
+    /* ============ MOOD FOLDER TILES ============ */
+    .folder-grid { display: grid; gap: 1rem; grid-template-columns: repeat(2, 1fr); }
+    @media (min-width: 768px)  { .folder-grid { gap: 1.5rem; grid-template-columns: repeat(3, 1fr); } }
+    .folder {
+      position: relative; display: block; width: 100%; padding: 0; margin: 0;
+      text-align: left; font-family: inherit; cursor: pointer;
+      aspect-ratio: 4 / 5; border-radius: 1.1rem; overflow: hidden;
+      border: 1px solid var(--border); background: var(--surface-2); box-shadow: var(--shadow);
+      transition: transform .3s ease, border-color .3s ease;
+    }
+    .folder:hover { transform: translateY(-4px); border-color: var(--border-strong); }
+    .folder:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+    .folder img {
+      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+      transition: transform .9s cubic-bezier(.2, .7, .2, 1);
+    }
+    .folder:hover img { transform: scale(1.06); }
+    .folder::after {
+      content: ""; position: absolute; inset: 0; pointer-events: none;
+      background: linear-gradient(to top, rgba(0, 0, 0, .82) 0%, rgba(0, 0, 0, .15) 55%, rgba(0, 0, 0, 0) 100%);
+    }
+    .folder .badge { z-index: 2; }
+    .folder-body { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; display: block; padding: 1rem; color: #fff; }
+    @media (min-width: 768px) { .folder-body { padding: 1.4rem; } }
+    .folder-name {
+      display: block; font-size: .9rem; font-weight: 800; text-transform: uppercase;
+      letter-spacing: .14em; line-height: 1.3; color: #fff;
+    }
+    .folder-tag { display: block; margin-top: .4rem; font-size: 11px; font-weight: 300; letter-spacing: .03em; line-height: 1.45; color: rgba(255, 255, 255, .85); }
+    @media (min-width: 768px) {
+      .folder-name { font-size: 1.1rem; }
+      .folder-tag { font-size: 12.5px; }
+    }
+
+    /* ============ INSIDE A VIBE ============ */
+    .back-btn {
+      display: inline-flex; align-items: center; margin-bottom: 2rem; cursor: pointer; font-family: inherit;
+      border-radius: 999px; padding: .65rem 1.25rem;
+      font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .18em;
+      color: var(--muted); background: var(--surface); border: 1px solid var(--border);
+      transition: all .3s ease;
+    }
+    .back-btn:hover { color: var(--text); border-color: var(--border-strong); }
+    .vibe-head { text-align: center; margin-bottom: 3.5rem; }
+    .vibe-head .eyebrow { margin-bottom: 1rem; }
+    .vibe-title { color: var(--text); font-size: 1.75rem; font-weight: 300; text-transform: uppercase; letter-spacing: .2em; line-height: 1.3; }
+    @media (min-width: 640px) { .vibe-title { font-size: 2.5rem; } }
+    .vibe-sub { color: var(--muted); margin-top: 1rem; font-size: 14px; font-weight: 300; letter-spacing: .1em; }
+    .vibe-note { text-align: center; font-size: 11px; font-weight: 300; letter-spacing: .12em; line-height: 1.6; max-width: 36rem; margin: 0 auto; }
+
+    .look-block { margin-bottom: 4rem; }
+    .look-meta { display: flex; flex-wrap: wrap; align-items: baseline; gap: .75rem 1rem; margin-bottom: 1.25rem; }
+    .look-num { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .3em; color: var(--faint); }
+    .look-name { color: var(--text); font-size: 1.15rem; font-weight: 800; text-transform: uppercase; letter-spacing: .14em; }
+    .look-who { font-size: 9.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .18em; color: var(--muted); border: 1px solid var(--border); border-radius: 999px; padding: .25rem .75rem; }
+    .outfit { display: grid; gap: 1rem; grid-template-columns: repeat(2, 1fr); }
+    @media (min-width: 768px) { .outfit { gap: 1.5rem; grid-template-columns: repeat(var(--n), 1fr); } }
+    .outfit .glam-card { padding: .75rem; }
+    .piece-img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
+    .piece-text { padding: .9rem .25rem .8rem; }
+    .piece-name { color: var(--text); margin-top: .25rem; font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; line-height: 1.45; }
+    .outfit .cta { font-size: 11px; padding: .65rem 0; }
+
+    /* ============ ABOUT PANEL ============ */
     .panel { background: var(--accent); color: var(--accent-ink); }
     .panel .panel-eyebrow { opacity: .6; }
     .panel p.panel-copy { opacity: .78; }
@@ -393,7 +454,7 @@
         Glamoura<span class="font-light">Visuals</span>
       </a>
 
-            <nav class="hidden md:flex items-center gap-10">
+      <nav class="hidden md:flex items-center gap-10">
         <a href="#feed" class="navlink text-[11px] font-semibold uppercase tracking-[0.2em]">Curated Feed</a>
         <a href="#vibes" class="navlink text-[11px] font-semibold uppercase tracking-[0.2em]">Shop by Vibe</a>
         <a href="#about" class="navlink text-[11px] font-semibold uppercase tracking-[0.2em]">About</a>
@@ -407,7 +468,7 @@
 
   <main class="flex-grow">
 
-        <!-- HERO -->
+    <!-- HERO -->
     <section class="max-w-4xl mx-auto px-6 pt-20 pb-12 text-center">
       <p class="eyebrow mb-6">A Curated Lifestyle Lookbook</p>
       <h1 class="t-main text-3xl sm:text-5xl font-light uppercase tracking-[0.25em] leading-snug sm:leading-tight">
@@ -418,11 +479,11 @@
       </p>
     </section>
 
-    <!-- VIBE SWITCHER -->
+    <!-- THEME SWITCHER -->
     <section id="vibe" class="max-w-7xl mx-auto px-6 pb-8">
       <p class="eyebrow text-center mb-4">Theme</p>
       <div class="overflow-x-auto no-scrollbar pb-2">
-        <div class="flex gap-3 w-max mx-auto" role="group" aria-label="Choose a vibe">
+        <div class="flex gap-3 w-max mx-auto" role="group" aria-label="Choose a theme">
           <button type="button" class="vibe-btn" data-vibe="midnight" aria-pressed="true">
             <i class="swatch" style="--sw: linear-gradient(135deg, #09090b, #6366f1);"></i>Midnight Streetwear
           </button>
@@ -452,9 +513,10 @@
       </div>
     </section>
 
-    <!-- PINTEREST-STYLE PRODUCT GRID -->
+    <!-- FEED: SEARCH + VIBE FOLDERS + PRODUCT GRID -->
     <section id="feed" class="max-w-7xl mx-auto px-6 py-14">
-            <!-- SEARCH -->
+
+      <!-- SEARCH -->
       <div class="search-wrap">
         <label for="search-input" class="sr-only">Search vibes, moods or pieces</label>
         <div class="search-box">
@@ -468,6 +530,7 @@
       <p class="t-faint text-center text-[11px] font-light tracking-[0.12em] leading-6 max-w-xl mx-auto mb-10">
         Photography is for mood and inspiration. Tap through to see the exact item, colors and sizes on the retailer's page.
       </p>
+
       <!-- VIBE FOLDERS (shown on All Items) -->
       <div id="vibes" class="anchor mb-16">
         <div class="text-center mb-10">
@@ -476,12 +539,11 @@
           <p class="t-muted mt-5 max-w-xl mx-auto text-sm font-light leading-8 tracking-[0.1em]">Each vibe is a folder of complete looks. Open one to see the full outfit, piece by piece.</p>
         </div>
         <div id="folder-grid" class="folder-grid"></div>
-        <p class="eyebrow text-center mt-16">Or browse everything</p>
       </div>
 
       <!-- VIBE DETAIL (opens when a folder is clicked) -->
       <div id="vibe-detail" class="anchor is-gone"></div>
-      
+
       <div class="masonry" id="product-grid">
 
         <!-- Card 1: Apparel - Hoodie (tall) -->
@@ -503,7 +565,7 @@
               <div><dt>How It Wears</dt><dd>Built to be worn loose and layered.</dd></div>
               <div><dt>Pairs With</dt><dd>Structured cargos, a clean sneaker or a sharp oxford.</dd></div>
             </dl>
-            <div class="styled-wrap"><a href="#looks" class="styled-link">Styled in Look 01 →</a></div>
+            <div class="styled-wrap"><a href="#vibes" class="styled-link">Styled in Look 01 →</a></div>
             <a href="https://link.amazon/B0iChvyf3" target="_blank" rel="sponsored noopener" class="cta">See it on Amazon ↗</a>
           </div>
         </article>
@@ -573,7 +635,7 @@
               <div><dt>How It Wears</dt><dd>The formal note that sharpens relaxed streetwear.</dd></div>
               <div><dt>Pairs With</dt><dd>Cargos and a boxy tee for a high-low look.</dd></div>
             </dl>
-            <div class="styled-wrap"><a href="#looks" class="styled-link">Styled in Look 01 →</a></div>
+            <div class="styled-wrap"><a href="#vibes" class="styled-link">Styled in Look 01 →</a></div>
             <a href="https://link.amazon/B02NjddGc" target="_blank" rel="sponsored noopener" class="cta">See it on Amazon ↗</a>
           </div>
         </article>
@@ -689,7 +751,7 @@
               <div><dt>How It Wears</dt><dd>Cut relaxed; made to sit loose, not slim.</dd></div>
               <div><dt>Pairs With</dt><dd>An oversized hoodie and polished shoes.</dd></div>
             </dl>
-            <div class="styled-wrap"><a href="#looks" class="styled-link">Styled in Look 01 →</a></div>
+            <div class="styled-wrap"><a href="#vibes" class="styled-link">Styled in Look 01 →</a></div>
             <a href="https://link.amazon/B0fpdcRzc" target="_blank" rel="sponsored noopener" class="cta">See it on Amazon ↗</a>
           </div>
         </article>
@@ -1246,7 +1308,7 @@
           </div>
         </article>
 
-                <!-- Card 34: Accessories - Winter Set (women's) -->
+        <!-- Card 34: Accessories - Winter Set (women's) -->
         <article class="masonry-item group" data-category="accessories">
           <div class="glam-card">
             <div class="media">
@@ -1268,7 +1330,7 @@
             <a href="https://link.amazon/B0ixupfJ4" target="_blank" rel="sponsored noopener" class="cta">See it on Amazon ↗</a>
           </div>
         </article>
-        
+
         <!-- Card 35: Accessories - Belts 3-Pack (women's) -->
         <article class="masonry-item group" data-category="accessories">
           <div class="glam-card">
@@ -1410,68 +1472,7 @@
       </div>
     </section>
 
-    <!-- COMPLETE THE LOOK -->
-    <section id="looks" class="max-w-7xl mx-auto px-6 pb-24">
-      <div class="text-center mb-12">
-        <p class="eyebrow mb-4">Complete the Look</p>
-        <h2 class="t-main text-2xl sm:text-4xl font-light uppercase tracking-[0.2em] leading-snug">Look 01 <span class="font-extrabold">Midnight Utility</span></h2>
-        <p class="t-muted mt-5 max-w-xl mx-auto text-sm font-light leading-8 tracking-[0.1em]">Three pieces from the edit, styled together as one outfit.</p>
-      </div>
-
-      <div class="look-rail">
-
-        <!-- Look piece 1: Hoodie -->
-        <article class="look-card">
-          <div class="glam-card">
-            <div class="media">
-              <img class="w-full aspect-[4/5] object-cover" loading="lazy" alt="Mood image for Oversized Heavyweight Hoodie"
-                   src="https://images.unsplash.com/photo-1564557287817-3785e38ec1f5?auto=format&fit=crop&w=1200&q=85" />
-              <span class="mood-tag">Mood image</span>
-            </div>
-            <div class="pt-5 pb-4 px-1">
-              <p class="look-role">The Top</p>
-              <h3 class="t-main mt-1 text-sm font-bold uppercase tracking-[0.12em]">Oversized Heavyweight Hoodie</h3>
-            </div>
-            <a href="https://link.amazon/B0iChvyf3" target="_blank" rel="sponsored noopener" class="cta">See it on Amazon ↗</a>
-          </div>
-        </article>
-
-        <!-- Look piece 2: Cargos -->
-        <article class="look-card">
-          <div class="glam-card">
-            <div class="media">
-              <img class="w-full aspect-[4/5] object-cover object-[50%_70%]" loading="lazy" alt="Mood image for Relaxed-Fit Structured Cargos"
-                   src="https://images.unsplash.com/photo-1780764459892-9aae22bde7b5?auto=format&fit=crop&w=1200&q=85" />
-              <span class="mood-tag">Mood image</span>
-            </div>
-            <div class="pt-5 pb-4 px-1">
-              <p class="look-role">The Bottom</p>
-              <h3 class="t-main mt-1 text-sm font-bold uppercase tracking-[0.12em]">Relaxed-Fit Structured Cargos</h3>
-            </div>
-            <a href="https://link.amazon/B0fpdcRzc" target="_blank" rel="sponsored noopener" class="cta">See it on Amazon ↗</a>
-          </div>
-        </article>
-
-        <!-- Look piece 3: Oxfords -->
-        <article class="look-card">
-          <div class="glam-card">
-            <div class="media">
-              <img class="w-full aspect-[4/5] object-cover" loading="lazy" alt="Mood image for Handcrafted Leather Oxfords"
-                   src="https://images.unsplash.com/photo-1563434564528-8fdf5996e622?auto=format&fit=crop&w=1200&q=85" />
-              <span class="mood-tag">Mood image</span>
-            </div>
-            <div class="pt-5 pb-4 px-1">
-              <p class="look-role">The Finish</p>
-              <h3 class="t-main mt-1 text-sm font-bold uppercase tracking-[0.12em]">Handcrafted Leather Oxfords</h3>
-            </div>
-            <a href="https://link.amazon/B02NjddGc" target="_blank" rel="sponsored noopener" class="cta">See it on Amazon ↗</a>
-          </div>
-        </article>
-
-      </div>
-    </section>
-
-        <!-- ABOUT -->
+    <!-- ABOUT -->
     <section id="about" class="max-w-5xl mx-auto px-6 pb-24">
       <div class="panel rounded-[2rem] text-center px-8 py-16 sm:py-20">
         <p class="panel-eyebrow text-[11px] font-semibold uppercase tracking-[0.5em] mb-5">About</p>
@@ -1553,7 +1554,7 @@
     })();
   </script>
 
-  <!-- VIBE SWITCHER -->
+  <!-- THEME SWITCHER -->
   <script>
     (function () {
       var root = document.documentElement;
@@ -1596,14 +1597,15 @@
       });
     })();
   </script>
-     <!-- VIBE FOLDERS + LOOKS + SEARCH -->
+
+  <!-- VIBE FOLDERS + LOOKS + SEARCH -->
   <script>
     (function () {
       function U(id) { return 'https://images.unsplash.com/' + id + '?auto=format&fit=crop&w=1200&q=85'; }
       function X(id) { return 'https://images.pexels.com/photos/' + id + '/pexels-photo-' + id + '.jpeg?auto=compress&cs=tinysrgb&w=1200'; }
       function A(code) { return 'https://link.amazon/' + code; }
 
-      /* ---------- PRODUCTS (same links and photos as your cards) ---------- */
+      /* ---------- PRODUCTS (same links and photos as the cards) ---------- */
       var P = {
         hoodie:    { n: 'Oversized Heavyweight Hoodie',      l: A('B0iChvyf3'), i: U('photo-1564557287817-3785e38ec1f5') },
         cargos:    { n: 'Relaxed-Fit Structured Cargos',     l: A('B0fpdcRzc'), i: U('photo-1780764459892-9aae22bde7b5'), pos: '50% 70%' },
@@ -1929,7 +1931,7 @@
       });
 
       // Header "Shop by Vibe" link goes back to the folders
-      document.querySelectorAll('a[href="#vibes"]').forEach(function (a) {
+      document.querySelectorAll('a[href="#vibes"]:not(.styled-link)').forEach(function (a) {
         a.addEventListener('click', function (e) {
           e.preventDefault();
           if (allPill) { allPill.click(); }
@@ -1945,97 +1947,5 @@
       render();
     })();
   </script>
-  <style>
-  .is-gone { display: none !important; }
-  .anchor { scroll-margin-top: 6.5rem; }
-
-  /* Mood folder tiles */
-  .folder-grid { display: grid; gap: 1rem; grid-template-columns: repeat(2, 1fr); }
-  @media (min-width: 768px)  { .folder-grid { gap: 1.5rem; grid-template-columns: repeat(3, 1fr); } }
-  .folder {
-    position: relative; display: block; width: 100%; padding: 0; margin: 0;
-    text-align: left; font-family: inherit; cursor: pointer;
-    aspect-ratio: 4 / 5; border-radius: 1.1rem; overflow: hidden;
-    border: 1px solid var(--border); background: var(--surface-2); box-shadow: var(--shadow);
-    transition: transform .3s ease, border-color .3s ease;
-  }
-  .folder:hover { transform: translateY(-4px); border-color: var(--border-strong); }
-  .folder:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-  .folder img {
-    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
-    transition: transform .9s cubic-bezier(.2, .7, .2, 1);
-  }
-  .folder:hover img { transform: scale(1.06); }
-  .folder::after {
-    content: ""; position: absolute; inset: 0; pointer-events: none;
-    background: linear-gradient(to top, rgba(0, 0, 0, .82) 0%, rgba(0, 0, 0, .15) 55%, rgba(0, 0, 0, 0) 100%);
-  }
-  .folder .badge { z-index: 2; }
-  .folder-body { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; display: block; padding: 1rem; color: #fff; }
-  @media (min-width: 768px) { .folder-body { padding: 1.4rem; } }
-  .folder-name {
-    display: block; font-size: .9rem; font-weight: 800; text-transform: uppercase;
-    letter-spacing: .14em; line-height: 1.3; color: #fff;
-  }
-  .folder-tag { display: block; margin-top: .4rem; font-size: 11px; font-weight: 300; letter-spacing: .03em; line-height: 1.45; color: rgba(255, 255, 255, .85); }
-  @media (min-width: 768px) {
-    .folder-name { font-size: 1.1rem; }
-    .folder-tag { font-size: 12.5px; }
-  }
-
-  /* Inside a vibe */
-  .back-btn {
-    display: inline-flex; align-items: center; margin-bottom: 2rem; cursor: pointer; font-family: inherit;
-    border-radius: 999px; padding: .65rem 1.25rem;
-    font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .18em;
-    color: var(--muted); background: var(--surface); border: 1px solid var(--border);
-    transition: all .3s ease;
-  }
-  .back-btn:hover { color: var(--text); border-color: var(--border-strong); }
-  .vibe-head { text-align: center; margin-bottom: 3.5rem; }
-  .vibe-head .eyebrow { margin-bottom: 1rem; }
-  .vibe-title { color: var(--text); font-size: 1.75rem; font-weight: 300; text-transform: uppercase; letter-spacing: .2em; line-height: 1.3; }
-  @media (min-width: 640px) { .vibe-title { font-size: 2.5rem; } }
-  .vibe-sub { color: var(--muted); margin-top: 1rem; font-size: 14px; font-weight: 300; letter-spacing: .1em; }
-  .vibe-note { text-align: center; font-size: 11px; font-weight: 300; letter-spacing: .12em; line-height: 1.6; max-width: 36rem; margin: 0 auto; }
-
-  .look-block { margin-bottom: 4rem; }
-  .look-meta { display: flex; flex-wrap: wrap; align-items: baseline; gap: .75rem 1rem; margin-bottom: 1.25rem; }
-  .look-num { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .3em; color: var(--faint); }
-  .look-name { color: var(--text); font-size: 1.15rem; font-weight: 800; text-transform: uppercase; letter-spacing: .14em; }
-  .look-who { font-size: 9.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .18em; color: var(--muted); border: 1px solid var(--border); border-radius: 999px; padding: .25rem .75rem; }
-  .outfit { display: grid; gap: 1rem; grid-template-columns: repeat(2, 1fr); }
-  @media (min-width: 768px) { .outfit { gap: 1.5rem; grid-template-columns: repeat(var(--n), 1fr); } }
-  .outfit .glam-card { padding: .75rem; }
-  .piece-img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
-  .piece-text { padding: .9rem .25rem .8rem; }
-  .piece-name { color: var(--text); margin-top: .25rem; font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; line-height: 1.45; }
-  .outfit .cta { font-size: 11px; padding: .65rem 0; }
-</style>
-  <style>
-  .is-gone { display: none !important; }
-  .search-wrap { max-width: 36rem; margin: 0 auto 2.5rem; }
-  .search-box { position: relative; display: flex; align-items: center; }
-  .search-box svg { position: absolute; left: 1.1rem; width: 1rem; height: 1rem; color: var(--faint); pointer-events: none; }
-  .search-box input {
-    width: 100%; font-family: inherit; font-size: 16px; letter-spacing: .04em; color: var(--text);
-    background: var(--surface); border: 1px solid var(--border); border-radius: 999px;
-    padding: .9rem 3rem .9rem 2.9rem; outline: none;
-    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
-    transition: border-color .3s ease;
-  }
-  @media (min-width: 768px) { .search-box input { font-size: 13px; } }
-  .search-box input::placeholder { color: var(--faint); }
-  .search-box input:focus { border-color: var(--border-strong); }
-  .search-box input::-webkit-search-cancel-button { display: none; }
-  .search-clear {
-    position: absolute; right: .6rem; width: 1.9rem; height: 1.9rem; border: 0; border-radius: 50%;
-    cursor: pointer; font-size: 1.15rem; line-height: 1; color: var(--muted); background: var(--surface-2);
-  }
-  .search-clear:hover { color: var(--text); }
-  .search-status { text-align: center; margin-top: .9rem; min-height: 1rem; font-size: 11px; font-weight: 300; letter-spacing: .12em; color: var(--faint); }
-  .result-label { text-align: center; margin: 0 0 1.5rem; }
-  .no-results { text-align: center; font-size: 13px; font-weight: 300; letter-spacing: .08em; line-height: 1.8; padding: 3rem 1rem; }
-</style>
 </body>
 </html>
