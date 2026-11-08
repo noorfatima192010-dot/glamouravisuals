@@ -6,6 +6,12 @@
   <title>GlamouraVisuals | Curated Lifestyle Lookbook</title>
   <meta name="description" content="GlamouraVisuals is a curated lifestyle lookbook. Browse apparel and accessories picked to work together, with links to each item on Amazon." />
   <meta name="google-site-verification" content="fuqvPR9pxs0kihM69Obs0RJ7dBdLdQWsJLYL0a71Pts" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="GlamouraVisuals" />
+  <meta property="og:title" content="GlamouraVisuals | Curated Lifestyle Lookbook" />
+  <meta property="og:description" content="Outfits picked to work together, grouped by mood. Browse the looks and shop each piece on Amazon." />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1564557287817-3785e38ec1f5?auto=format&fit=crop&w=1200&h=630&q=80" />
+  <meta name="twitter:card" content="summary_large_image" />
   <meta name="theme-color" content="#09090b" />
 
   <!-- Favicon (high-resolution square) -->
@@ -421,6 +427,23 @@
     .piece-name { color: var(--text); margin-top: .25rem; font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; line-height: 1.45; }
     .outfit .cta { font-size: 11px; padding: .65rem 0; }
 
+    /* ============ SHOP-FOR TOGGLE ============ */
+    .seg {
+      display: inline-flex; gap: .25rem; padding: .25rem; border-radius: 999px;
+      background: var(--surface); border: 1px solid var(--border);
+      -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    }
+    .seg-btn {
+      border: 0; cursor: pointer; font-family: inherit; border-radius: 999px; padding: .55rem 1.1rem;
+      font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .16em;
+      color: var(--muted); background: transparent; transition: all .3s ease;
+    }
+    .seg-btn:hover { color: var(--text); }
+    .seg-btn[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
+    .seg-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .vibe-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 2rem; }
+    .vibe-bar .back-btn { margin-bottom: 0; }
+
     /* ============ ABOUT PANEL ============ */
     .panel { background: var(--accent); color: var(--accent-ink); }
     .panel .panel-eyebrow { opacity: .6; }
@@ -513,6 +536,17 @@
       </div>
     </section>
 
+    <!-- SHOP FOR (Everyone / Women's / Men's) -->
+    <section class="max-w-7xl mx-auto px-6 pt-5" aria-label="Shop for">
+      <div class="flex justify-center">
+        <div class="seg" role="group" aria-label="Shop for">
+          <button type="button" class="seg-btn" data-gender="all" aria-pressed="true">Everyone</button>
+          <button type="button" class="seg-btn" data-gender="women" aria-pressed="false">Women's</button>
+          <button type="button" class="seg-btn" data-gender="men" aria-pressed="false">Men's</button>
+        </div>
+      </div>
+    </section>
+
     <!-- FEED: SEARCH + VIBE FOLDERS + PRODUCT GRID -->
     <section id="feed" class="max-w-7xl mx-auto px-6 py-14">
 
@@ -570,8 +604,8 @@
           </div>
         </article>
 
-        <!-- Card 2: Jewelry (short) -->
-        <article class="masonry-item group" data-category="jewelry">
+        <!-- Card 2: Jewelry (short) - HIDDEN until an Amazon link is added: swap the href, then delete the word "hidden" -->
+        <article class="masonry-item group" data-category="jewelry" hidden>
           <div class="glam-card">
             <div class="media">
               <img class="card-img w-full h-72 object-cover" loading="lazy" alt="Mood image for Polished Stacking Rings"
@@ -593,8 +627,8 @@
           </div>
         </article>
 
-        <!-- Card 3: Home Decor - Lamp (medium) -->
-        <article class="masonry-item group" data-category="home-decor">
+        <!-- Card 3: Home Decor - Lamp (medium) - HIDDEN until an Amazon link is added: swap the href, then delete the word "hidden" -->
+        <article class="masonry-item group" data-category="home-decor" hidden>
           <div class="glam-card">
             <div class="media">
               <img class="card-img w-full h-[24rem] object-cover" loading="lazy" alt="Mood image for Sculpted Ceramic Desk Lamp"
@@ -640,8 +674,8 @@
           </div>
         </article>
 
-        <!-- Card 5: Home Decor - Sofa (tall) -->
-        <article class="masonry-item group" data-category="home-decor">
+        <!-- Card 5: Home Decor - Sofa (tall) - HIDDEN until an Amazon link is added: swap the href, then delete the word "hidden" -->
+        <article class="masonry-item group" data-category="home-decor" hidden>
           <div class="glam-card">
             <div class="media">
               <img class="card-img w-full h-[28rem] object-cover" loading="lazy" alt="Mood image for Minimalist Lounge Sofa"
@@ -663,8 +697,8 @@
           </div>
         </article>
 
-        <!-- Card 6: Cosmetics (short) -->
-        <article class="masonry-item group" data-category="cosmetics">
+        <!-- Card 6: Cosmetics (short) - HIDDEN until an Amazon link is added: swap the href, then delete the word "hidden" -->
+        <article class="masonry-item group" data-category="cosmetics" hidden>
           <div class="glam-card">
             <div class="media">
               <img class="card-img w-full h-72 object-cover" loading="lazy" alt="Mood image for Radiance Botanical Face Oil"
@@ -686,8 +720,8 @@
           </div>
         </article>
 
-        <!-- Card 7: Tech Accessories (tall) -->
-        <article class="masonry-item group" data-category="tech-accessories">
+        <!-- Card 7: Tech Accessories (tall) - HIDDEN until an Amazon link is added: swap the href, then delete the word "hidden" -->
+        <article class="masonry-item group" data-category="tech-accessories" hidden>
           <div class="glam-card">
             <div class="media">
               <img class="card-img w-full h-[26rem] object-cover" loading="lazy" alt="Mood image for Studio Wireless Headphones"
@@ -709,8 +743,8 @@
           </div>
         </article>
 
-        <!-- Card 8: Travel Essentials (medium) -->
-        <article class="masonry-item group" data-category="travel-essentials">
+        <!-- Card 8: Travel Essentials (medium) - HIDDEN until an Amazon link is added: swap the href, then delete the word "hidden" -->
+        <article class="masonry-item group" data-category="travel-essentials" hidden>
           <div class="glam-card">
             <div class="media">
               <img class="card-img w-full h-96 object-cover" loading="lazy" alt="Mood image for Weekender Travel Backpack"
@@ -1492,7 +1526,14 @@
       <p class="t-muted text-[11px] font-light tracking-[0.1em] max-w-md">
         As an Amazon Associate I earn from qualifying purchases. GlamouraVisuals is a participant in affiliate programs and may earn a commission when you purchase through our links, at no extra cost to you.
       </p>
-      <p class="t-faint text-[11px] tracking-[0.1em]">&copy; 2026 GlamouraVisuals</p>
+      <div class="text-center sm:text-right">
+        <p class="text-[11px] tracking-[0.1em] mb-2">
+          <a href="privacy.html" class="navlink">Privacy</a> &nbsp;·&nbsp;
+          <a href="disclosure.html" class="navlink">Affiliate Disclosure</a> &nbsp;·&nbsp;
+          <a href="contact.html" class="navlink">Contact</a>
+        </p>
+        <p class="t-faint text-[11px] tracking-[0.1em]">&copy; 2026 GlamouraVisuals</p>
+      </div>
     </div>
   </footer>
 
@@ -1715,7 +1756,23 @@
       var allPill = document.querySelector('.filter-btn[data-filter="all"]');
       grid.classList.add('anchor');
 
-      var state = { filter: 'all', vibe: null, query: '' };
+      var state = { filter: 'all', vibe: null, query: '', gender: 'all' };
+      var BASE = location.pathname + location.search;
+      var ownEntries = 0;
+
+      function fits(g) { return g === 'all' || state.gender === 'all' || g === state.gender; }
+      function lookGender(look) { return look.who === 'Her' ? 'women' : (look.who === 'Him' ? 'men' : 'all'); }
+      function genderOf(card) {
+        var s = txt(card, 'p.t-muted').toLowerCase();
+        if (s.indexOf('women') === 0) { return 'women'; }
+        if (s.indexOf('men') === 0) { return 'men'; }
+        return 'all';
+      }
+      function leaveVibeUrl() {
+        if (/^#vibe-/.test(location.hash)) {
+          try { history.replaceState(null, '', BASE); } catch (e) {}
+        }
+      }
 
       /* small labels used while searching */
       var vibesLabel = el('p', 'eyebrow result-label is-gone', 'Matching vibes');
@@ -1733,17 +1790,18 @@
           b.type = 'button';
           b.setAttribute('aria-label', 'Open ' + v.name + ' looks');
           b.appendChild(photo(P[v.cover], '', 'Mood image for ' + v.name));
-          b.appendChild(el('span', 'badge', v.looks.length + (v.looks.length === 1 ? ' look' : ' looks')));
+          var badge = el('span', 'badge', '');
+          b.appendChild(badge);
           var body = el('span', 'folder-body');
           body.appendChild(el('span', 'folder-name', v.name));
           body.appendChild(el('span', 'folder-tag', v.tag));
           b.appendChild(body);
-          b.addEventListener('click', function () { openVibe(v.id); });
+          b.addEventListener('click', function () { enterVibe(v.id); });
           folderGrid.appendChild(b);
 
           var parts = [v.name, v.tag, 'vibe mood look outfit'];
           v.looks.forEach(function (l) { parts.push(l.name); });
-          tiles.push({ el: b, hay: norm(parts.join(' ')) });
+          tiles.push({ el: b, v: v, badge: badge, hay: norm(parts.join(' ')) });
         });
       }
 
@@ -1758,7 +1816,7 @@
         });
       });
       var cards = [];
-      Array.prototype.forEach.call(grid.querySelectorAll('.masonry-item'), function (card) {
+      Array.prototype.forEach.call(grid.querySelectorAll('.masonry-item:not([hidden])'), function (card) {
         var cta = card.querySelector('.cta');
         var link = cta ? cta.getAttribute('href') : '';
         var notes = [];
@@ -1766,6 +1824,7 @@
         cards.push({
           el: card,
           cat: card.getAttribute('data-category'),
+          g: genderOf(card),
           hay: norm([txt(card, 'h3'), txt(card, 'p.t-muted'), txt(card, '.badge'), card.getAttribute('data-category'), notes.join(' '), linkInfo[link] || ''].join(' '))
         });
       });
@@ -1781,14 +1840,16 @@
 
         var shown = 0;
         cards.forEach(function (c) {
-          var ok = !searching || matches(c.hay, tokens);
+          var ok = fits(c.g) && (!searching || matches(c.hay, tokens));
           c.el.classList.toggle('is-gone', !ok);
           if (ok && (onAll || c.cat === state.filter)) { shown++; }
         });
 
         var tilesShown = 0;
         tiles.forEach(function (t) {
-          var ok = !searching || matches(t.hay, tokens);
+          var n = t.v.looks.filter(function (l) { return fits(lookGender(l)); }).length;
+          t.badge.textContent = n + (n === 1 ? ' look' : ' looks');
+          var ok = n > 0 && (!searching || matches(t.hay, tokens));
           t.el.classList.toggle('is-gone', !ok);
           if (ok) { tilesShown++; }
         });
@@ -1802,10 +1863,12 @@
         grid.classList.toggle('is-gone', !showGrid);
         prodLabel.classList.toggle('is-gone', !(showGrid && searching && onAll && tilesShown > 0 && shown > 0));
 
-        var empty = !inVibe && searching && shown === 0 && (!onAll || tilesShown === 0);
+        var empty = !inVibe && shown === 0 && (!onAll || (searching && tilesShown === 0));
         none.classList.toggle('is-gone', !empty);
         if (empty) {
-          none.textContent = 'No matches for \u201c' + state.query.trim() + '\u201d' + (onAll ? '' : ' in this category') + '. Try a vibe like \u201ccozy\u201d or a piece like \u201cjeans\u201d.';
+          none.textContent = searching
+            ? 'No matches for \u201c' + state.query.trim() + '\u201d' + (onAll ? '' : ' in this category') + '. Try a vibe like \u201ccozy\u201d or a piece like \u201cjeans\u201d.'
+            : 'Nothing here for this filter yet. Try Everyone or another category.';
         }
 
         var msg = '';
@@ -1826,15 +1889,44 @@
         goTo(folders.classList.contains('is-gone') ? grid : folders);
       }
 
-      function openVibe(id) {
+      function enterVibe(id) {
+        ownEntries++;
+        location.hash = 'vibe-' + id;
+      }
+
+      function openVibe(id, keepScroll) {
         var v = VIBES.filter(function (x) { return x.id === id; })[0];
         if (!v) { return; }
         detail.textContent = '';
 
+        var bar = el('div', 'vibe-bar');
         var back = el('button', 'back-btn', '\u2190 All vibes');
         back.type = 'button';
-        back.addEventListener('click', closeVibe);
-        detail.appendChild(back);
+        back.addEventListener('click', function () {
+          if (ownEntries > 0) { history.back(); }
+          else {
+            try { history.replaceState(null, '', BASE); } catch (e) {}
+            closeVibe();
+          }
+        });
+        bar.appendChild(back);
+
+        var share = el('button', 'back-btn', 'Copy link');
+        share.type = 'button';
+        share.addEventListener('click', function () {
+          var url = location.href.split('#')[0] + '#vibe-' + v.id;
+          function done() {
+            share.textContent = 'Link copied';
+            setTimeout(function () { share.textContent = 'Copy link'; }, 1800);
+          }
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(url).then(done, function () { window.prompt('Copy this link', url); });
+          } else {
+            window.prompt('Copy this link', url);
+          }
+        });
+        bar.appendChild(share);
+        detail.appendChild(bar);
 
         var head = el('div', 'vibe-head');
         head.appendChild(el('p', 'eyebrow', 'Vibe'));
@@ -1842,7 +1934,12 @@
         head.appendChild(el('p', 'vibe-sub', v.tag));
         detail.appendChild(head);
 
-        v.looks.forEach(function (look, idx) {
+        var shownLooks = v.looks.filter(function (l) { return fits(lookGender(l)); });
+        if (!shownLooks.length) {
+          detail.appendChild(el('p', 't-muted no-results', 'No looks in this vibe for that filter yet. Switch to Everyone to see them all.'));
+        }
+
+        shownLooks.forEach(function (look, idx) {
           var block = el('section', 'look-block');
           var meta = el('div', 'look-meta');
           meta.appendChild(el('span', 'look-num', 'Look ' + (idx < 9 ? '0' : '') + (idx + 1)));
@@ -1883,7 +1980,7 @@
 
         state.vibe = id;
         render();
-        goTo(detail);
+        if (!keepScroll) { goTo(detail); }
       }
 
       /* ---------- WIRING ---------- */
@@ -1891,6 +1988,7 @@
         btn.addEventListener('click', function () {
           state.filter = btn.getAttribute('data-filter');
           state.vibe = null;
+          leaveVibeUrl();
           render();
         });
       });
@@ -1898,6 +1996,7 @@
       input.addEventListener('input', function () {
         state.query = input.value;
         state.vibe = null;
+        leaveVibeUrl();
         render();
       });
       input.addEventListener('keydown', function (e) {
@@ -1915,6 +2014,7 @@
         input.value = '';
         state.query = '';
         state.vibe = null;
+        leaveVibeUrl();
         render();
         input.focus();
       });
@@ -1926,7 +2026,7 @@
           if (allPill) { allPill.click(); }
           input.value = '';
           state.query = '';
-          openVibe('urban');
+          enterVibe('urban');
         });
       });
 
@@ -1938,13 +2038,37 @@
           input.value = '';
           state.query = '';
           state.vibe = null;
+          leaveVibeUrl();
           render();
           goTo(folders);
         });
       });
 
+      // Women's / Men's toggle
+      var segBtns = document.querySelectorAll('.seg-btn');
+      segBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          state.gender = btn.getAttribute('data-gender');
+          segBtns.forEach(function (b) { b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
+          if (state.vibe !== null) { openVibe(state.vibe, true); } else { render(); }
+        });
+      });
+
+      // Vibe links: the URL hash drives what is open, so the browser Back button
+      // returns to the folders instead of leaving the site.
+      function fromHash() {
+        var m = /^#vibe-([a-z0-9]+)$/.exec(location.hash);
+        if (m) {
+          if (state.vibe !== m[1]) { openVibe(m[1]); }
+        } else if (state.vibe !== null) {
+          closeVibe();
+        }
+      }
+      window.addEventListener('hashchange', fromHash);
+
       renderFolders();
       render();
+      fromHash();
     })();
   </script>
 </body>
