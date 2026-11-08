@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact | GlamouraVisuals</title>
+  <meta name="description" content="Get in touch with GlamouraVisuals." />
+  <meta name="theme-color" content="#09090b" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet" />
+  <style>
+    :root { --bg:#09090b; --text:#f4f4f5; --muted:#a1a1aa; --faint:#8a8a93; --border:rgba(255,255,255,.12); --accent:#e8e8ec; --ink:#09090b; }
+    * { box-sizing: border-box; }
+    html { background: var(--bg); }
+    body {
+      margin: 0; min-height: 100vh; color: var(--text); font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased; line-height: 1.8; font-weight: 300; letter-spacing: .02em;
+      background: radial-gradient(60vmax 60vmax at 10% -10%, rgba(99,102,241,.28), transparent 70%),
+                  radial-gradient(50vmax 50vmax at 100% 20%, rgba(14,165,233,.16), transparent 70%), var(--bg);
+    }
+    header { border-bottom: 1px solid var(--border); background: rgba(9,9,11,.6); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+    .bar { max-width: 52rem; margin: 0 auto; padding: 0 1.5rem; height: 5rem; display: flex; align-items: center; justify-content: space-between; }
+    .logo { color: var(--text); text-decoration: none; font-weight: 800; font-size: .95rem; text-transform: uppercase; letter-spacing: .3em; }
+    .logo span { font-weight: 300; }
+    .home { color: var(--muted); text-decoration: none; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .18em; border: 1px solid var(--border); border-radius: 999px; padding: .6rem 1.2rem; }
+    .home:hover { color: var(--text); }
+    main { max-width: 44rem; margin: 0 auto; padding: 4rem 1.5rem 5rem; }
+    .eyebrow { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .5em; color: var(--faint); margin: 0 0 1rem; }
+    h1 { margin: 0 0 .5rem; font-size: clamp(1.6rem, 5vw, 2.4rem); font-weight: 300; text-transform: uppercase; letter-spacing: .2em; line-height: 1.3; }
+    h2 { margin: 2.5rem 0 .5rem; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .22em; color: var(--text); }
+    p, li { color: var(--muted); font-size: 14.5px; }
+    ul { padding-left: 1.2rem; }
+    a { color: var(--text); }
+    .updated { color: var(--faint); font-size: 12px; margin-bottom: 2rem; }
+    .callout { border: 1px solid var(--border); border-radius: 1rem; padding: 1.25rem 1.5rem; background: rgba(255,255,255,.04); margin: 1.5rem 0; }
+    .callout p { margin: 0; color: var(--text); }
+    footer { border-top: 1px solid var(--border); padding: 2rem 1.5rem; text-align: center; font-size: 11px; letter-spacing: .1em; color: var(--faint); }
+    footer a { color: var(--muted); text-decoration: none; }
+    footer a:hover { color: var(--text); }
+  </style>
+</head>
+<body>
+  <header><div class="bar">
+    <a class="logo" href="index.html">Glamoura<span>Visuals</span></a>
+    <a class="home" href="index.html">Back to the Edit</a>
+  </div></header>
+  <main>
+
+    <p class="eyebrow">Say hello</p>
+    <h1>Contact</h1>
+    <p class="updated">We read every message.</p>
+
+    <p>Questions about a look, a broken link, a photo, or this site? Send us an email and we will get back to you as soon as we can.</p>
+
+    <div class="callout"><p>Email: <a href="mailto:glamouravisuals@gmail.com"> glamouravisuals@gmail.com</a></p></div>
+
+    <h2>Good to know</h2>
+    <ul>
+      <li>We do not sell products ourselves. Orders, returns and shipping questions go to the retailer you bought from.</li>
+      <li>See how we earn from links on our <a href="disclosure.html">Affiliate Disclosure</a> page.</li>
+    </ul>
+
+  </main>
+  <footer>
+    <a href="privacy.html">Privacy</a> &nbsp;·&nbsp; <a href="disclosure.html">Affiliate Disclosure</a> &nbsp;·&nbsp; <a href="contact.html">Contact</a>
+    <p style="margin:.75rem 0 0;font-size:11px;">&copy; 2026 GlamouraVisuals</p>
+  </footer>
+</body>
+</html>
