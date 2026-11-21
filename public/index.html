@@ -6,7 +6,6 @@
   <title>GlamouraVisuals | Curated Lifestyle Lookbook</title>
   <meta name="description" content="GlamouraVisuals is a curated lifestyle lookbook. Browse apparel and accessories picked to work together, with links to each item on Amazon." />
   <meta name="google-site-verification" content="fuqvPR9pxs0kihM69Obs0RJ7dBdLdQWsJLYL0a71Pts" />
-  <meta name="p:domain_verify" content="9018efe378776c711207904000e43dda"/>
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="GlamouraVisuals" />
   <meta property="og:title" content="GlamouraVisuals | Curated Lifestyle Lookbook" />
@@ -448,6 +447,38 @@
     .vibe-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 2rem; }
     .vibe-bar .back-btn { margin-bottom: 0; }
 
+    /* ============ FIND YOUR VIBE QUIZ ============ */
+    .quiz {
+      max-width: 40rem; margin: 0 auto 3rem; padding: 1.75rem 1.25rem; text-align: center;
+      border: 1px solid var(--border); background: var(--surface); border-radius: 1.1rem; box-shadow: var(--shadow);
+    }
+    @media (min-width: 640px) { .quiz { padding: 2.25rem 2.25rem; } }
+    .quiz-title { color: var(--text); font-size: 1.35rem; font-weight: 300; text-transform: uppercase; letter-spacing: .18em; line-height: 1.35; margin-top: .75rem; }
+    .quiz-q { color: var(--text); font-size: 1.05rem; font-weight: 700; letter-spacing: .06em; line-height: 1.45; margin: .9rem 0 1.4rem; }
+    .quiz-copy { color: var(--muted); font-size: 13px; font-weight: 300; letter-spacing: .06em; line-height: 1.8; margin: .9rem auto 1.4rem; max-width: 28rem; }
+    .quiz-prog { display: flex; justify-content: center; gap: .4rem; margin-bottom: .4rem; }
+    .quiz-prog i { width: 1.6rem; height: 3px; border-radius: 2px; background: var(--border-strong); opacity: .5; }
+    .quiz-prog i.on { background: var(--accent); opacity: 1; }
+    .quiz-opts { display: grid; gap: .7rem; grid-template-columns: 1fr; }
+    @media (min-width: 560px) { .quiz-opts.two { grid-template-columns: repeat(2, 1fr); } }
+    .quiz-opt {
+      cursor: pointer; font-family: inherit; text-align: left; border-radius: .9rem; padding: .9rem 1.1rem;
+      font-size: 13px; font-weight: 500; letter-spacing: .04em; line-height: 1.45;
+      color: var(--text); background: transparent; border: 1px solid var(--border); transition: all .25s ease;
+    }
+    .quiz-opt:hover { border-color: var(--accent); transform: translateY(-1px); }
+    .quiz-opt:focus-visible, .quiz-go:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+    .quiz-opt.on { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+    .quiz-go {
+      cursor: pointer; font-family: inherit; border: 0; border-radius: 999px; padding: .85rem 1.9rem;
+      font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .18em;
+      background: var(--accent); color: var(--accent-ink); transition: opacity .2s ease;
+    }
+    .quiz-go:hover { opacity: .85; }
+    .quiz-links { display: flex; flex-wrap: wrap; gap: .6rem; justify-content: center; margin-top: 1.1rem; }
+    .quiz-links .back-btn { margin: 0; }
+    .quiz-img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: .9rem; margin: 1rem 0 1.2rem; }
+
     /* ============ ABOUT PANEL ============ */
     .panel { background: var(--accent); color: var(--accent-ink); }
     .panel .panel-eyebrow { opacity: .6; }
@@ -503,6 +534,9 @@
       </h1>
       <p class="t-muted mt-8 max-w-2xl mx-auto text-sm sm:text-[15px] font-light leading-8 tracking-[0.12em]">
         GlamouraVisuals is a visual lookbook of apparel and accessories we pick to work well together. Photos set the mood, and each button takes you to the item on Amazon, where you can check the exact product, colors, sizes and price before you buy.
+      </p>
+      <p class="mt-8">
+        <button type="button" id="quiz-cta" class="btn-accent rounded-full text-[11px] font-semibold uppercase tracking-[0.18em] px-6 py-3 shadow-lg">Find your vibe in 30 seconds</button>
       </p>
     </section>
 
@@ -3002,35 +3036,12 @@
           </div>
         </article>
 
-        <!-- Card 109: KuaiLu Arch Support Flip Flops -->
-        <article class="masonry-item group" data-category="apparel">
-          <div class="glam-card">
-            <div class="media">
-              <img class="card-img w-full h-96 object-cover" loading="lazy" alt="Mood image for KuaiLu Arch Support Flip Flops"
-                   src="https://images.pexels.com/photos/952843/pexels-photo-952843.jpeg?auto=compress&cs=tinysrgb&w=1200" />
-              <span class="badge">Apparel</span>
-              <span class="mood-tag">Mood image</span>
-            </div>
-            <div class="pt-5 pb-4 px-1">
-              <h3 class="t-main text-sm font-bold uppercase tracking-[0.12em]">KuaiLu Arch Support Flip Flops</h3>
-              <p class="t-muted mt-1 text-xs font-light tracking-wide">Women's · Thong sandals · Cushioned</p>
-            </div>
-            <p class="notes-title">Piece Notes</p>
-            <dl class="notes">
-              <div><dt>First Impression</dt><dd>Easy summer sandals with a slim strap.</dd></div>
-              <div><dt>How It Wears</dt><dd>Listed with arch support and a cushioned sole.</dd></div>
-              <div><dt>Pairs With</dt><dd>A beach bag and a simple dress.</dd></div>
-            </dl>
-            <a href="https://link.amazon/B069B2qHF" target="_blank" rel="sponsored noopener" class="cta">See it on Amazon ↗</a>
-          </div>
-        </article>
-
         <!-- Card 110: Isolde One-Shoulder Ruched Maxi Dress -->
         <article class="masonry-item group" data-category="apparel">
           <div class="glam-card">
             <div class="media">
               <img class="card-img w-full h-80 object-cover" loading="lazy" alt="Mood image for Isolde One-Shoulder Ruched Maxi Dress"
-                   src="https://images.pexels.com/photos/2296397/pexels-photo-2296397.jpeg?auto=compress&cs=tinysrgb&w=1200" />
+                   src="https://images.pexels.com/photos/39172267/pexels-photo-39172267.jpeg?auto=compress&cs=tinysrgb&w=1200" />
               <span class="badge">Apparel</span>
               <span class="mood-tag">Mood image</span>
             </div>
@@ -3099,7 +3110,7 @@
           <div class="glam-card">
             <div class="media">
               <img class="card-img w-full h-[28rem] object-cover" loading="lazy" alt="Mood image for Long Sleeve Pleated Maxi Dress with Pockets"
-                   src="https://images.pexels.com/photos/35324626/pexels-photo-35324626.jpeg?auto=compress&cs=tinysrgb&w=1200" />
+                   src="https://images.unsplash.com/photo-1608078800418-b2cc01444445?auto=format&fit=crop&w=1200&q=85" />
               <span class="badge">Apparel</span>
               <span class="mood-tag">Mood image</span>
             </div>
@@ -3122,7 +3133,7 @@
           <div class="glam-card">
             <div class="media">
               <img class="card-img w-full h-[30rem] object-cover" loading="lazy" alt="Mood image for PRETTYGARDEN Sleeveless A-Line Mini Dress"
-                   src="https://images.pexels.com/photos/1129394/pexels-photo-1129394.jpeg?auto=compress&cs=tinysrgb&w=1200" />
+                   src="https://images.pexels.com/photos/31084870/pexels-photo-31084870.jpeg?auto=compress&cs=tinysrgb&w=1200" />
               <span class="badge">Apparel</span>
               <span class="mood-tag">Mood image</span>
             </div>
@@ -3380,12 +3391,11 @@
         clips: { n: "Flower Claw Hair Clips, 8-Piece Set", l: A('B07Mvg7LL'), i: U('photo-1613405091285-2c3ece70ff2e') },
         tennisskirt: { n: "Stelle Pleated Tennis Skirt with Pockets", l: A('B0cCKWqlB'), i: X('23340246') },
         corset: { n: "Lace Corset Top with Underwire, Going Out", l: A('B01bgTAbj'), i: X('8833891') },
-        flipflops: { n: "KuaiLu Arch Support Flip Flops", l: A('B069B2qHF'), i: X('952843') },
-        oneshoulder: { n: "Isolde One-Shoulder Ruched Maxi Dress", l: A('B04SchlMa'), i: X('2296397') },
+        oneshoulder: { n: "Isolde One-Shoulder Ruched Maxi Dress", l: A('B04SchlMa'), i: X('39172267') },
         bodycon: { n: "ANRABESS Ribbed Bodycon Maxi Dress", l: A('B09G2toiU'), i: X('21967688') },
         gracekarin: { n: "GRACE KARIN Floral Midi Dress with Pockets", l: A('B00OWRaGx'), i: X('4352249') },
-        pleated: { n: "Long Sleeve Pleated Maxi Dress with Pockets", l: A('B08DGVvVC'), i: X('35324626') },
-        prettygarden: { n: "PRETTYGARDEN Sleeveless A-Line Mini Dress", l: A('B07bG6CVm'), i: X('1129394') }
+        pleated: { n: "Long Sleeve Pleated Maxi Dress with Pockets", l: A('B08DGVvVC'), i: U('photo-1608078800418-b2cc01444445') },
+        prettygarden: { n: "PRETTYGARDEN Sleeveless A-Line Mini Dress", l: A('B07bG6CVm'), i: X('31084870') }
       };
 
       /* ---------- VIBES & LOOKS (edit this list to add or change looks) ---------- */
@@ -3430,7 +3440,7 @@
             { name: 'Airport Ready', who: 'Her', items: [['lounge', 'The Set'], ['tbpack', 'The Backpack'], ['luggage', 'The Carry-On'], ['charger', 'The Charger']] },
             { name: 'Carry-On Edit', who: 'Her', items: [['fitted', 'The Top'], ['wide', 'The Bottom'], ['tote', 'The Tote'], ['lotion', 'The Lotion'], ['eyepatch', 'The Ritual']] },
             { name: 'Weekend Away', items: [['hoodie', 'The Top'], ['cargos', 'The Bottom'], ['duffel', 'The Duffel'], ['luggage', 'The Carry-On'], ['charger', 'The Charger']] },
-            { name: 'Beach Break', who: 'Her', items: [['tote', 'The Tote'], ['flipflops', 'The Sandals'], ['headscarf', 'The Detail'], ['lotion', 'The Lotion'], ['clips', 'The Clip']] }
+            { name: 'Beach Break', who: 'Her', items: [['tote', 'The Tote'], ['headscarf', 'The Detail'], ['lotion', 'The Lotion'], ['clips', 'The Clip']] }
           ] },
         { id: 'everyday', name: 'Everyday Finds', tag: 'Home, beauty and everyday picks for regular shoppers', cover: 'furblanket',
           looks: [
@@ -3510,6 +3520,123 @@
           try { history.replaceState(null, '', BASE); } catch (e) {}
         }
       }
+
+      /* ---------- FIND YOUR VIBE QUIZ ---------- */
+      // Each answer adds points to vibes; the highest total wins.
+      var QUIZ_WHO = { q: 'Who are you shopping for?', opts: [['Women’s', 'women'], ['Men’s', 'men'], ['Everyone', 'all']] };
+      var QUIZ = [
+        { q: 'Pick your ideal Saturday.', opts: [
+          ['A rainy-day café date', { romantic: 2, cozy: 1 }],
+          ['Walking the city with headphones on', { urban: 2, y2k: 1 }],
+          ['Catching a flight somewhere new', { jetset: 2, clean: 1 }],
+          ['Staying in and resetting my space', { everyday: 2, cozy: 1 }]] },
+        { q: 'Which colors do you reach for?', opts: [
+          ['Cream, beige and soft neutrals', { clean: 2, cozy: 1, romantic: 1 }],
+          ['Black, grey and denim', { urban: 2, y2k: 1 }],
+          ['Blush, lace and soft pastels', { romantic: 2, y2k: 1 }],
+          ['Warm browns, rust and forest green', { cozy: 2, everyday: 1 }]] },
+        { q: 'Pick a mood.', opts: [
+          ['Grey drizzle and a good playlist', { romantic: 2, cozy: 1 }],
+          ['Cold, crisp air and a warm scarf', { cozy: 2, urban: 1 }],
+          ['City lights after dark', { y2k: 2, urban: 1 }],
+          ['Sun on my face, nowhere to be', { jetset: 2, clean: 1 }]] },
+        { q: 'What are you shopping for today?', opts: [
+          ['Mostly clothes', { urban: 1, clean: 1, y2k: 1 }],
+          ['Clothes with the little extras', { romantic: 1, y2k: 1, clean: 1 }],
+          ['Travel and carry-on gear', { jetset: 3 }],
+          ['Home, beauty and everyday things', { everyday: 3 }]] }
+      ];
+      var quizBox = el('div', 'quiz');
+      quizBox.setAttribute('role', 'region');
+      quizBox.setAttribute('aria-label', 'Find your vibe quiz');
+      folders.insertBefore(quizBox, folderGrid);
+      var quizStep = -1;
+      var quizAns = [];
+
+      function quizVibeFits(v, g) {
+        return v.looks.some(function (l) { var lg = lookGender(l); return g === 'all' || lg === 'all' || lg === g; });
+      }
+      function quizResults() {
+        var who = QUIZ_WHO.opts[quizAns[0]][1];
+        var score = {};
+        VIBES.forEach(function (v) { score[v.id] = 0; });
+        QUIZ.forEach(function (q, i) {
+          var w = q.opts[quizAns[i + 1]][1];
+          Object.keys(w).forEach(function (k) { score[k] += w[k]; });
+        });
+        var ranked = VIBES.filter(function (v) { return quizVibeFits(v, who); }).map(function (v, i) {
+          return { v: v, s: score[v.id], i: i };
+        }).sort(function (a, b) { return b.s - a.s || a.i - b.i; });
+        return { who: who, ranked: ranked };
+      }
+      function quizOpen(vibeId, who) {
+        var btn = document.querySelector('.seg-btn[data-gender="' + who + '"]');
+        if (btn && state.gender !== who) { btn.click(); }
+        enterVibe(vibeId);
+      }
+      function renderQuiz() {
+        quizBox.textContent = '';
+        if (quizStep === -1) {
+          quizBox.appendChild(el('p', 'eyebrow', 'Not sure where to start?'));
+          quizBox.appendChild(el('h3', 'quiz-title', 'Find your vibe'));
+          quizBox.appendChild(el('p', 'quiz-copy', 'Answer 5 quick questions and we’ll point you to the looks that fit you.'));
+          var go = el('button', 'quiz-go', 'Start the quiz');
+          go.type = 'button';
+          go.addEventListener('click', function () { quizAns = []; quizStep = 0; renderQuiz(); });
+          quizBox.appendChild(go);
+          return;
+        }
+        var total = QUIZ.length + 1;
+        if (quizStep < total) {
+          var prog = el('div', 'quiz-prog');
+          for (var n = 0; n < total; n++) { prog.appendChild(el('i', n <= quizStep ? 'on' : '')); }
+          quizBox.appendChild(prog);
+          quizBox.appendChild(el('p', 'eyebrow', 'Question ' + (quizStep + 1) + ' of ' + total));
+          var q = quizStep === 0 ? QUIZ_WHO : QUIZ[quizStep - 1];
+          quizBox.appendChild(el('h3', 'quiz-q', q.q));
+          var opts = el('div', 'quiz-opts' + (quizStep === 0 ? '' : ' two'));
+          q.opts.forEach(function (o, idx) {
+            var b = el('button', 'quiz-opt', o[0]);
+            b.type = 'button';
+            b.addEventListener('click', function () { quizAns[quizStep] = idx; quizStep++; renderQuiz(); });
+            opts.appendChild(b);
+          });
+          quizBox.appendChild(opts);
+          if (quizStep > 0) {
+            var links = el('div', 'quiz-links');
+            var back = el('button', 'back-btn', '← Back');
+            back.type = 'button';
+            back.addEventListener('click', function () { quizStep--; renderQuiz(); });
+            links.appendChild(back);
+            quizBox.appendChild(links);
+          }
+          return;
+        }
+        var res = quizResults();
+        var top = res.ranked[0].v;
+        var second = res.ranked[1] ? res.ranked[1].v : null;
+        quizBox.appendChild(el('p', 'eyebrow', 'Your vibe'));
+        quizBox.appendChild(el('h3', 'quiz-title', top.name));
+        quizBox.appendChild(photo(P[top.cover], 'quiz-img', 'Mood image for ' + top.name));
+        quizBox.appendChild(el('p', 'quiz-copy', top.tag));
+        var see = el('button', 'quiz-go', 'See the ' + top.name + ' looks');
+        see.type = 'button';
+        see.addEventListener('click', function () { quizOpen(top.id, res.who); });
+        quizBox.appendChild(see);
+        var more = el('div', 'quiz-links');
+        if (second) {
+          var alt = el('button', 'back-btn', 'Also try ' + second.name);
+          alt.type = 'button';
+          alt.addEventListener('click', function () { quizOpen(second.id, res.who); });
+          more.appendChild(alt);
+        }
+        var again = el('button', 'back-btn', 'Retake the quiz');
+        again.type = 'button';
+        again.addEventListener('click', function () { quizAns = []; quizStep = 0; renderQuiz(); });
+        more.appendChild(again);
+        quizBox.appendChild(more);
+      }
+      renderQuiz();
 
       /* small labels used while searching */
       var vibesLabel = el('p', 'eyebrow result-label is-gone', 'Matching vibes');
@@ -3596,6 +3723,7 @@
 
         folders.classList.toggle('is-gone', !showFolders);
         headBlock.classList.toggle('is-gone', searching);
+        quizBox.classList.toggle('is-gone', searching);
         vibesLabel.classList.toggle('is-gone', !(searching && showFolders));
         grid.classList.toggle('is-gone', !showGrid);
         prodLabel.classList.toggle('is-gone', !(showGrid && searching && onAll && tilesShown > 0 && shown > 0));
@@ -3780,6 +3908,23 @@
           goTo(folders);
         });
       });
+
+      // Hero button: show the folders and start the quiz
+      var quizCta = $('quiz-cta');
+      if (quizCta) {
+        quizCta.addEventListener('click', function () {
+          if (allPill) { allPill.click(); }
+          input.value = '';
+          state.query = '';
+          state.vibe = null;
+          leaveVibeUrl();
+          render();
+          quizAns = [];
+          quizStep = 0;
+          renderQuiz();
+          goTo(quizBox);
+        });
+      }
 
       // Women's / Men's toggle
       var segBtns = document.querySelectorAll('.seg-btn');
