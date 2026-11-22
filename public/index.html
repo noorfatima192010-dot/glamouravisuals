@@ -501,6 +501,43 @@
     .quiz-skip { display: block; margin: 1rem auto 0; cursor: pointer; font-family: inherit; background: none; border: 0; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--faint); text-decoration: underline; }
     .quiz-skip:hover { color: var(--text); }
 
+    /* ============ LOOK FEED ============ */
+    .vchips { display: flex; flex-wrap: wrap; gap: .5rem; justify-content: center; margin: 0 auto 2rem; max-width: 56rem; }
+    .vchip {
+      cursor: pointer; font-family: inherit; border-radius: 999px; padding: .55rem 1.05rem;
+      font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .14em;
+      color: var(--muted); background: var(--surface); border: 1px solid var(--border); transition: all .25s ease;
+    }
+    .vchip:hover { color: var(--text); border-color: var(--border-strong); }
+    .vchip[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+    .vchip:focus-visible, .look-tile:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+    .look-feed { display: grid; gap: 1rem; grid-template-columns: repeat(2, 1fr); }
+    @media (min-width: 768px) { .look-feed { gap: 1.5rem; grid-template-columns: repeat(3, 1fr); } }
+    @media (min-width: 1100px) { .look-feed { grid-template-columns: repeat(4, 1fr); } }
+    .look-tile {
+      display: block; width: 100%; padding: 0; margin: 0; text-align: left; cursor: pointer; font-family: inherit;
+      border-radius: 1.1rem; overflow: hidden; color: var(--text);
+      border: 1px solid var(--border); background: var(--surface); box-shadow: var(--shadow);
+      transition: transform .3s ease, border-color .3s ease;
+    }
+    .look-tile:hover { transform: translateY(-4px); border-color: var(--border-strong); }
+    .lt-media { display: block; position: relative; aspect-ratio: 4 / 5; background: var(--surface-2); overflow: hidden; }
+    .lt-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .9s cubic-bezier(.2, .7, .2, 1); }
+    .look-tile:hover .lt-img { transform: scale(1.05); }
+    .lt-tag {
+      position: absolute; left: .6rem; top: .6rem; z-index: 2; padding: .28rem .6rem; border-radius: 999px;
+      font-size: 8.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .14em; color: #fff;
+      background: rgba(0, 0, 0, .55); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+    }
+    .lt-body { padding: .9rem 1rem 1.1rem; }
+    .lt-vibe { display: block; font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .22em; color: var(--faint); }
+    .lt-name { display: block; margin-top: .35rem; font-size: .95rem; font-weight: 800; text-transform: uppercase; letter-spacing: .12em; line-height: 1.3; color: var(--text); }
+    .lt-desc { display: block; margin-top: .4rem; font-size: 11.5px; font-weight: 300; letter-spacing: .03em; line-height: 1.55; color: var(--muted); }
+    .lt-go { display: block; margin-top: .7rem; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .18em; color: var(--text); }
+    .look-hero { display: none; width: 100%; max-width: 26rem; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 1.1rem; margin: 0 auto 2.5rem; box-shadow: var(--shadow); }
+    .look-hero-wrap { position: relative; max-width: 26rem; margin: 0 auto; }
+    .look-hero-wrap .lt-tag { font-size: 9px; }
+
     /* ============ ABOUT PANEL ============ */
     .panel { background: var(--accent); color: var(--accent-ink); }
     .panel .panel-eyebrow { opacity: .6; }
@@ -629,8 +666,8 @@
       <div id="vibes" class="anchor mb-16">
         <div class="text-center mb-10">
           <p class="eyebrow mb-4">Shop by Vibe</p>
-          <h2 class="t-main text-2xl sm:text-4xl font-light uppercase tracking-[0.2em] leading-snug">Pick a <span class="font-extrabold">Mood</span></h2>
-          <p class="t-muted mt-5 max-w-xl mx-auto text-sm font-light leading-8 tracking-[0.1em]">Each vibe is a folder of complete looks. Open one to see the full outfit, piece by piece.</p>
+          <h2 class="t-main text-2xl sm:text-4xl font-light uppercase tracking-[0.2em] leading-snug">Pick a <span class="font-extrabold">Vibe</span></h2>
+          <p class="t-muted mt-5 max-w-xl mx-auto text-sm font-light leading-8 tracking-[0.1em]">Open a vibe to see its complete looks, then tap a look to shop each piece with its link.</p>
         </div>
         <div id="folder-grid" class="folder-grid"></div>
       </div>
@@ -3498,6 +3535,37 @@
         i.addEventListener('error', function () { i.style.visibility = 'hidden'; });
         return i;
       }
+      /* every look gets a number (01-35, in the order of the list above) = its model image file name */
+      var LOOK_TOTAL = 0;
+      VIBES.forEach(function (v) { v.looks.forEach(function (l) { l.n = ++LOOK_TOTAL; l.vibe = v; }); });
+      function lookFile(l) { return 'images/looks/look-' + (l.n < 10 ? '0' : '') + l.n + '.jpg'; }
+      function lookDesc(l) {
+        var roles = l.items.map(function (it) { return it[1].replace(/^The /, '').toLowerCase(); });
+        return l.items.length + ' pieces: ' + roles.join(', ') + '.';
+      }
+      function lookKey(l) { return l.vibe.name + (l.who ? ' \u00b7 ' + l.who : ''); }
+      var AI_TAG = 'AI styling preview';
+      var AI_NOTE = 'AI styling previews show the look on a generated model, not the exact items.';
+      /* model image with a safe fallback to the first piece photo while the file is not uploaded yet */
+      function modelImage(l, cls, onState) {
+        var i = document.createElement('img');
+        i.className = cls;
+        i.loading = 'lazy';
+        i.alt = l.name + ' look styled on a model';
+        var fell = false;
+        i.addEventListener('load', function () { onState(!fell); });
+        i.addEventListener('error', function () {
+          if (fell) { i.style.visibility = 'hidden'; return; }
+          fell = true;
+          var p = P[l.items[0][0]];
+          i.alt = 'Mood image for ' + l.name;
+          if (p.pos) { i.style.objectPosition = p.pos; }
+          i.src = p.i;
+          onState(false);
+        });
+        i.src = lookFile(l);
+        return i;
+      }
       function norm(s) {
         return String(s).toLowerCase().replace(/['\u2019]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
       }
@@ -3525,7 +3593,7 @@
       var allPill = document.querySelector('.filter-btn[data-filter="all"]');
       grid.classList.add('anchor');
 
-      var state = { filter: 'all', vibe: null, query: '', gender: 'all' };
+      var state = { filter: 'all', vibe: null, query: '', gender: 'all', vf: 'all' };
       var BASE = location.pathname + location.search;
       var ownEntries = 0;
 
@@ -3538,7 +3606,7 @@
         return 'all';
       }
       function leaveVibeUrl() {
-        if (/^#vibe-/.test(location.hash)) {
+        if (/^#(vibe|look)-/.test(location.hash)) {
           try { history.replaceState(null, '', BASE); } catch (e) {}
         }
       }
@@ -3572,6 +3640,7 @@
       quizBox.setAttribute('role', 'region');
       quizBox.setAttribute('aria-label', 'Find your vibe quiz');
       folders.insertBefore(quizBox, folderGrid);
+      var quizAnchor = folderGrid;
       var quizStep = -1;
       var quizAns = [];
 
@@ -3623,7 +3692,7 @@
         quizSeen();
         quizModal.classList.add('is-gone');
         document.body.style.overflow = '';
-        folders.insertBefore(quizBox, folderGrid);
+        folders.insertBefore(quizBox, quizAnchor);
         quizStep = -1;
         renderQuiz();
         render();
@@ -3709,15 +3778,60 @@
       renderQuiz();
 
       /* small labels used while searching */
-      var vibesLabel = el('p', 'eyebrow result-label is-gone', 'Matching vibes');
+      var vibesLabel = el('p', 'eyebrow result-label is-gone', 'Matching looks');
       folders.insertBefore(vibesLabel, folderGrid);
       var prodLabel = el('p', 'eyebrow result-label is-gone', 'Matching pieces');
       grid.parentNode.insertBefore(prodLabel, grid);
       var none = el('p', 't-muted no-results is-gone', '');
       grid.parentNode.insertBefore(none, grid.nextSibling);
 
-      /* ---------- FOLDER TILES ---------- */
+      /* ---------- VIBE FILTER CHIPS + LOOK FEED ---------- */
+      var chipRow = el('div', 'vchips');
+      chipRow.setAttribute('role', 'group');
+      chipRow.setAttribute('aria-label', 'Filter looks by vibe');
+      var chipBtns = [];
+      function addChip(id, label) {
+        var b = el('button', 'vchip', label);
+        b.type = 'button';
+        b.setAttribute('aria-pressed', id === 'all' ? 'true' : 'false');
+        b.addEventListener('click', function () {
+          state.vf = id;
+          chipBtns.forEach(function (c) { c.b.setAttribute('aria-pressed', c.id === id ? 'true' : 'false'); });
+          render();
+        });
+        chipBtns.push({ id: id, b: b });
+        chipRow.appendChild(b);
+      }
+      addChip('all', 'All looks');
+      VIBES.forEach(function (v) { addChip(v.id, v.name); });
+
+      var searchGrid = el('div', 'look-feed is-gone');
+      folders.insertBefore(searchGrid, folderGrid.nextSibling);
+      var lookNone = el('p', 't-muted no-results is-gone', 'No looks for that mix yet. Try Everyone or another vibe.');
+      folders.appendChild(lookNone);
+
       var tiles = [];
+      var folderTiles = [];
+      function whoLabel(l) { return l.who === 'Her' ? 'Women\u2019s' : (l.who === 'Him' ? 'Men\u2019s' : ''); }
+      function makeLookTile(l, inVibe) {
+        var b = el('button', 'look-tile');
+        b.type = 'button';
+        b.setAttribute('aria-label', 'Open the ' + l.name + ' look');
+        var media = el('span', 'lt-media');
+        var tag = el('span', 'lt-tag', 'Mood image');
+        media.appendChild(modelImage(l, 'lt-img', function (isModel) { tag.textContent = isModel ? AI_TAG : 'Mood image'; }));
+        media.appendChild(tag);
+        b.appendChild(media);
+        var body = el('span', 'lt-body');
+        var top = inVibe ? whoLabel(l) : lookKey(l);
+        if (top) { body.appendChild(el('span', 'lt-vibe', top)); }
+        body.appendChild(el('span', 'lt-name', l.name));
+        body.appendChild(el('span', 'lt-desc', lookDesc(l)));
+        body.appendChild(el('span', 'lt-go', 'See the pieces \u2192'));
+        b.appendChild(body);
+        b.addEventListener('click', function () { enterLook(l.n); });
+        return b;
+      }
       function renderFolders() {
         VIBES.forEach(function (v) {
           var b = el('button', 'folder');
@@ -3732,10 +3846,16 @@
           b.appendChild(body);
           b.addEventListener('click', function () { enterVibe(v.id); });
           folderGrid.appendChild(b);
-
-          var parts = [v.name, v.tag, 'vibe mood look outfit'];
-          v.looks.forEach(function (l) { parts.push(l.name); });
-          tiles.push({ el: b, v: v, badge: badge, hay: norm(parts.join(' ')) });
+          folderTiles.push({ el: b, v: v, badge: badge });
+        });
+        VIBES.forEach(function (v) {
+          v.looks.forEach(function (l) {
+            var b = makeLookTile(l, false);
+            searchGrid.appendChild(b);
+            var parts = [l.name, l.vibe.name, l.vibe.tag, 'look outfit', l.who === 'Her' ? 'women womens' : (l.who === 'Him' ? 'men mens' : '')];
+            l.items.forEach(function (it) { parts.push(P[it[0]].n, it[1]); });
+            tiles.push({ el: b, look: l, hay: norm(parts.join(' ')) });
+          });
         });
       }
 
@@ -3781,12 +3901,17 @@
 
         var tilesShown = 0;
         tiles.forEach(function (t) {
-          var n = t.v.looks.filter(function (l) { return fits(lookGender(l)); }).length;
-          t.badge.textContent = n + (n === 1 ? ' look' : ' looks');
-          var ok = n > 0 && (!searching || matches(t.hay, tokens));
+          var ok = searching && fits(lookGender(t.look)) && matches(t.hay, tokens);
           t.el.classList.toggle('is-gone', !ok);
           if (ok) { tilesShown++; }
         });
+        folderTiles.forEach(function (f) {
+          var n = f.v.looks.filter(function (l) { return fits(lookGender(l)); }).length;
+          f.el.classList.toggle('is-gone', n === 0);
+          f.badge.textContent = n + (n === 1 ? ' look' : ' looks');
+        });
+        folderGrid.classList.toggle('is-gone', searching);
+        searchGrid.classList.toggle('is-gone', !searching);
 
         var showFolders = !inVibe && onAll && (!searching || tilesShown > 0);
         var showGrid = !inVibe && (!onAll || searching);
@@ -3809,7 +3934,7 @@
         var msg = '';
         if (searching && !inVibe && !empty) {
           msg = plural(shown, 'piece');
-          if (onAll) { msg = plural(tilesShown, 'vibe') + ' \u00b7 ' + msg; }
+          if (onAll) { msg = plural(tilesShown, 'look') + ' \u00b7 ' + msg; }
         }
         statusEl.textContent = msg;
 
@@ -3827,6 +3952,115 @@
       function enterVibe(id) {
         ownEntries++;
         location.hash = 'vibe-' + id;
+      }
+
+      function buildLookBlock(look, idx) {
+          var block = el('section', 'look-block');
+          var meta = el('div', 'look-meta');
+          meta.appendChild(el('span', 'look-num', 'Look ' + (idx < 9 ? '0' : '') + (idx + 1)));
+          meta.appendChild(el('h3', 'look-name', look.name));
+          if (look.who) { meta.appendChild(el('span', 'look-who', look.who)); }
+          block.appendChild(meta);
+
+          var row = el('div', 'outfit');
+          row.style.setProperty('--n', look.items.length);
+          look.items.forEach(function (it) {
+            var p = P[it[0]];
+            var art = el('article', 'look-card');
+            var card = el('div', 'glam-card');
+            var media = el('div', 'media');
+            media.appendChild(photo(p, 'piece-img', 'Mood image for ' + p.n));
+            media.appendChild(el('span', 'mood-tag', 'Mood image'));
+            card.appendChild(media);
+
+            var t = el('div', 'piece-text');
+            t.appendChild(el('p', 'look-role', it[1]));
+            t.appendChild(el('h4', 'piece-name', p.n));
+            card.appendChild(t);
+
+            var a = el('a', 'cta', 'See it on Amazon \u2197');
+            a.href = p.l;
+            a.target = '_blank';
+            a.rel = 'sponsored noopener';
+            card.appendChild(a);
+
+            art.appendChild(card);
+            row.appendChild(art);
+          });
+          block.appendChild(row);
+          
+        return block;
+      }
+
+      function enterLook(n) {
+        ownEntries++;
+        location.hash = 'look-' + n;
+      }
+
+      function openLook(n, keepScroll) {
+        var look = null;
+        VIBES.forEach(function (v) { v.looks.forEach(function (l) { if (l.n === n) { look = l; } }); });
+        if (!look) { return; }
+        var v = look.vibe;
+        detail.textContent = '';
+
+        var cameFrom = state.vibe;
+        var bar = el('div', 'vibe-bar');
+        var back = el('button', 'back-btn', '\u2190 ' + v.name + ' looks');
+        back.type = 'button';
+        back.addEventListener('click', function () {
+          if (ownEntries > 0 && cameFrom === v.id) { history.back(); }
+          else { enterVibe(v.id); }
+        });
+        bar.appendChild(back);
+        var share = el('button', 'back-btn', 'Copy link');
+        share.type = 'button';
+        share.addEventListener('click', function () {
+          var url = location.href.split('#')[0] + '#look-' + look.n;
+          function done() {
+            share.textContent = 'Link copied';
+            setTimeout(function () { share.textContent = 'Copy link'; }, 1800);
+          }
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(url).then(done, function () { window.prompt('Copy this link', url); });
+          } else {
+            window.prompt('Copy this link', url);
+          }
+        });
+        bar.appendChild(share);
+        detail.appendChild(bar);
+
+        var head = el('div', 'vibe-head');
+        head.appendChild(el('p', 'eyebrow', lookKey(look)));
+        head.appendChild(el('h2', 'vibe-title', look.name));
+        head.appendChild(el('p', 'vibe-sub', v.tag));
+        detail.appendChild(head);
+
+        var wrap = el('div', 'look-hero-wrap');
+        var tag = el('span', 'lt-tag', AI_TAG + ', not the exact items');
+        tag.style.display = 'none';
+        var hero = document.createElement('img');
+        hero.className = 'look-hero';
+        hero.alt = look.name + ' look styled on a model';
+        hero.addEventListener('load', function () { hero.style.display = 'block'; tag.style.display = ''; });
+        hero.addEventListener('error', function () { hero.style.display = 'none'; tag.style.display = 'none'; });
+        hero.src = lookFile(look);
+        wrap.appendChild(hero);
+        wrap.appendChild(tag);
+        detail.appendChild(wrap);
+
+        detail.appendChild(buildLookBlock(look, v.looks.indexOf(look)));
+        var more = el('div', 'vibe-bar');
+        var all = el('button', 'back-btn', 'See all ' + v.name + ' looks');
+        all.type = 'button';
+        all.addEventListener('click', function () { enterVibe(v.id); });
+        more.appendChild(all);
+        detail.appendChild(more);
+        detail.appendChild(el('p', 't-faint vibe-note', 'Photos are mood images. Tap through to see the exact item, colors and sizes on the retailer’s page. ' + AI_NOTE));
+
+        state.vibe = 'look-' + n;
+        render();
+        if (!keepScroll) { goTo(detail); }
       }
 
       function openVibe(id, keepScroll) {
@@ -3874,44 +4108,11 @@
           detail.appendChild(el('p', 't-muted no-results', 'No looks in this vibe for that filter yet. Switch to Everyone to see them all.'));
         }
 
-        shownLooks.forEach(function (look, idx) {
-          var block = el('section', 'look-block');
-          var meta = el('div', 'look-meta');
-          meta.appendChild(el('span', 'look-num', 'Look ' + (idx < 9 ? '0' : '') + (idx + 1)));
-          meta.appendChild(el('h3', 'look-name', look.name));
-          if (look.who) { meta.appendChild(el('span', 'look-who', look.who)); }
-          block.appendChild(meta);
+        var vfeed = el('div', 'look-feed');
+        shownLooks.forEach(function (look) { vfeed.appendChild(makeLookTile(look, true)); });
+        detail.appendChild(vfeed);
 
-          var row = el('div', 'outfit');
-          row.style.setProperty('--n', look.items.length);
-          look.items.forEach(function (it) {
-            var p = P[it[0]];
-            var art = el('article', 'look-card');
-            var card = el('div', 'glam-card');
-            var media = el('div', 'media');
-            media.appendChild(photo(p, 'piece-img', 'Mood image for ' + p.n));
-            media.appendChild(el('span', 'mood-tag', 'Mood image'));
-            card.appendChild(media);
-
-            var t = el('div', 'piece-text');
-            t.appendChild(el('p', 'look-role', it[1]));
-            t.appendChild(el('h4', 'piece-name', p.n));
-            card.appendChild(t);
-
-            var a = el('a', 'cta', 'See it on Amazon \u2197');
-            a.href = p.l;
-            a.target = '_blank';
-            a.rel = 'sponsored noopener';
-            card.appendChild(a);
-
-            art.appendChild(card);
-            row.appendChild(art);
-          });
-          block.appendChild(row);
-          detail.appendChild(block);
-        });
-
-        detail.appendChild(el('p', 't-faint vibe-note', 'Photos are mood images. Tap through to see the exact item, colors and sizes on the retailer\u2019s page.'));
+        detail.appendChild(el('p', 't-faint vibe-note', 'Tap a look to see each piece with its link. Photos are mood images; the retailer\u2019s page shows the exact item, colors and sizes. ' + AI_NOTE));
 
         state.vibe = id;
         render();
@@ -4002,7 +4203,7 @@
         btn.addEventListener('click', function () {
           state.gender = btn.getAttribute('data-gender');
           segBtns.forEach(function (b) { b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
-          if (state.vibe !== null) { openVibe(state.vibe, true); } else { render(); }
+          if (state.vibe !== null && /^look-/.test(state.vibe)) { render(); } else if (state.vibe !== null) { openVibe(state.vibe, true); } else { render(); }
         });
       });
 
@@ -4010,8 +4211,11 @@
       // returns to the folders instead of leaving the site.
       function fromHash() {
         var m = /^#vibe-([a-z0-9]+)$/.exec(location.hash);
+        var ml = /^#look-(\d+)$/.exec(location.hash);
         if (m) {
           if (state.vibe !== m[1]) { openVibe(m[1]); }
+        } else if (ml) {
+          if (state.vibe !== 'look-' + Number(ml[1])) { openLook(Number(ml[1])); }
         } else if (state.vibe !== null) {
           closeVibe();
         }
@@ -4025,7 +4229,7 @@
       // Open the quiz as a popup once per visit (not on shared vibe links)
       var quizShownAlready = false;
       try { quizShownAlready = sessionStorage.getItem('gv_quiz_seen') === '1'; } catch (e) {}
-      if (!quizShownAlready && state.vibe === null && !/^#vibe-/.test(location.hash)) {
+      if (!quizShownAlready && state.vibe === null && !/^#(vibe|look)-/.test(location.hash)) {
         setTimeout(function () { if (state.vibe === null) { showQuizModal(); } }, 900);
       }
     })();
