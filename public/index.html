@@ -4,12 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GlamouraVisuals | Curated Lifestyle Lookbook</title>
-  <meta name="description" content="GlamouraVisuals is a curated lifestyle lookbook. Browse apparel and accessories picked to work together, with links to each item on Amazon." />
+  <meta name="description" content="GlamouraVisuals is a curated lookbook of Amazon best sellers, picked to work together as complete looks, with links to each item on Amazon." />
   <meta name="google-site-verification" content="fuqvPR9pxs0kihM69Obs0RJ7dBdLdQWsJLYL0a71Pts" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="GlamouraVisuals" />
   <meta property="og:title" content="GlamouraVisuals | Curated Lifestyle Lookbook" />
-  <meta property="og:description" content="Outfits picked to work together, grouped by mood. Browse the looks and shop each piece on Amazon." />
+  <meta property="og:description" content="Complete looks built from Amazon best sellers, grouped by mood. Shop each piece on Amazon." />
   <meta property="og:image" content="https://images.unsplash.com/photo-1564557287817-3785e38ec1f5?auto=format&fit=crop&w=1200&h=630&q=80" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="theme-color" content="#09090b" />
@@ -558,12 +558,14 @@
     #vibe-detail .vibe-sub { font-size: 13px; letter-spacing: .08em; margin-top: 1rem; }
     #vibe-detail .vibe-head::after { content: '\2726  \2727  \2726'; display: block; margin-top: 1.4rem; font-size: 11px; letter-spacing: .6em; color: #e9b4d2; opacity: .9; }
 
-    /* masonry feed of looks */
-    .look-feed { display: block; columns: 2; column-gap: 1rem; }
-    @media (min-width: 768px) { .look-feed { columns: 3; column-gap: 1.6rem; } }
-    @media (min-width: 1100px) { .look-feed { columns: 4; } }
+    /* staggered grid of looks (fills the full width on laptops) */
+    .look-feed { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 1rem; align-items: start; width: 100%; }
+    @media (min-width: 768px) { .look-feed { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 1.6rem; } }
+    @media (min-width: 1000px) { .look-feed { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+    .look-feed .look-tile:nth-child(even) { margin-top: 1.6rem; }
+    @media (min-width: 768px) { .look-feed .look-tile:nth-child(even) { margin-top: 0; } .look-feed .look-tile:nth-child(4n+2), .look-feed .look-tile:nth-child(4n+4) { margin-top: 2rem; } }
     .look-tile {
-      display: inline-block; width: 100%; margin: 0 0 1.5rem; break-inside: avoid; -webkit-column-break-inside: avoid;
+      display: block; width: 100%; margin: 0 0 1.5rem;
       background: transparent; border: 0; box-shadow: none; border-radius: 1.5rem; overflow: visible;
     }
     .look-tile { text-align: center; }
@@ -572,8 +574,6 @@
       border-radius: 1.5rem; aspect-ratio: 4 / 5;
       box-shadow: 0 18px 40px -18px rgba(214, 150, 200, .55), 0 2px 0 rgba(255, 255, 255, .18) inset;
     }
-    .look-feed .look-tile:nth-child(3n+2) .lt-media { aspect-ratio: 4 / 5.7; }
-    .look-feed .look-tile:nth-child(3n) .lt-media { aspect-ratio: 1 / 1.12; }
     .lt-tag {
       left: 50%; top: auto; bottom: .7rem; transform: translateX(-50%); white-space: nowrap;
       font-size: 8px; letter-spacing: .16em; background: rgba(255, 255, 255, .22); border: 1px solid rgba(255, 255, 255, .35);
@@ -613,6 +613,16 @@
       background: linear-gradient(120deg, #f8c8dc, #d7c4f7 62%, #bcdcf8);
     }
     .look-more { text-align: center; }
+    .bs-pill {
+      display: inline-flex; align-items: center; gap: .5rem; padding: .55rem 1.1rem; border-radius: 999px;
+      font-size: 10.5px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: #2a1f3d;
+      background: linear-gradient(120deg, #ffe3a8, #f8c8dc 55%, #d7c4f7); box-shadow: 0 10px 30px -14px rgba(240, 180, 140, .8);
+    }
+    .bs-tag {
+      position: absolute; right: .55rem; top: .55rem; z-index: 2; padding: .28rem .55rem; border-radius: 999px;
+      font-size: 8px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: #3a2606;
+      background: linear-gradient(120deg, #ffe3a8, #ffd0e0);
+    }
 
     /* ============ ABOUT PANEL ============ */
     .panel { background: var(--accent); color: var(--accent-ink); }
@@ -668,9 +678,10 @@
         Curated <span class="font-extrabold">Style</span>,<br class="hidden sm:block" /> Gathered For You
       </h1>
       <p class="t-muted mt-8 max-w-2xl mx-auto text-sm sm:text-[15px] font-light leading-8 tracking-[0.12em]">
-        GlamouraVisuals is a visual lookbook of apparel and accessories we pick to work well together. Photos set the mood, and each button takes you to the item on Amazon, where you can check the exact product, colors, sizes and price before you buy.
+        GlamouraVisuals is a visual lookbook of Amazon best sellers, picked to work well together. Photos set the mood, and each button takes you to the item on Amazon, where you can check the exact product, colors, sizes and price before you buy.
       </p>
-      <p class="mt-8">
+      <p class="mt-7"><span class="bs-pill">&#9733; Every piece is an Amazon Best Seller pick</span></p>
+      <p class="mt-6">
         <button type="button" id="quiz-cta" class="btn-accent rounded-full text-[11px] font-semibold uppercase tracking-[0.18em] px-6 py-3 shadow-lg">Find your vibe in 30 seconds</button>
       </p>
     </section>
@@ -3295,7 +3306,7 @@
         <p class="panel-eyebrow text-[11px] font-semibold uppercase tracking-[0.5em] mb-5">About</p>
         <h2 class="text-2xl sm:text-4xl font-light uppercase tracking-[0.2em] leading-snug">Picked. Styled. <span class="font-extrabold">Linked.</span></h2>
         <p class="panel-copy mt-6 max-w-xl mx-auto text-sm font-light leading-8 tracking-[0.1em]">
-          GlamouraVisuals is an independent lookbook. We choose pieces that pair well, group them into looks, and link each one to the retailer. When you buy through our links we may earn a commission, at no extra cost to you.
+          GlamouraVisuals is an independent lookbook. We pick Amazon best sellers that pair well, group them into looks, and link each one to the retailer. When you buy through our links we may earn a commission, at no extra cost to you.
         </p>
         <a href="#feed" class="panel-btn inline-block mt-10 rounded-full text-[11px] font-bold uppercase tracking-[0.2em] px-8 py-4">Browse the Edit</a>
       </div>
@@ -4049,6 +4060,7 @@
             var media = el('div', 'media');
             media.appendChild(photo(p, 'piece-img', 'Mood image for ' + p.n));
             media.appendChild(el('span', 'mood-tag', 'Mood image'));
+            media.appendChild(el('span', 'bs-tag', '\u2605 Best Seller'));
             card.appendChild(media);
 
             var t = el('div', 'piece-text');
@@ -4129,7 +4141,7 @@
 
         var ph = el('div', 'look-pieces-head');
         ph.appendChild(el('h3', '', 'Shop the pieces'));
-        ph.appendChild(el('p', '', look.items.length + ' pieces \u00b7 tap to open on Amazon'));
+        ph.appendChild(el('p', '', look.items.length + ' Amazon best-seller picks \u00b7 tap to open'));
         detail.appendChild(ph);
         detail.appendChild(buildLookBlock(look, v.looks.indexOf(look), true));
         var more = el('div', 'vibe-bar look-more');
