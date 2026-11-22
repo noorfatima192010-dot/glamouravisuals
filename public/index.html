@@ -21,7 +21,7 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400;1,500;1,600&display=swap" rel="stylesheet" />
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -537,6 +537,82 @@
     .look-hero { display: none; width: 100%; max-width: 26rem; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 1.1rem; margin: 0 auto 2.5rem; box-shadow: var(--shadow); }
     .look-hero-wrap { position: relative; max-width: 26rem; margin: 0 auto; }
     .look-hero-wrap .lt-tag { font-size: 9px; }
+
+    /* ============ DREAMY PINTEREST LOOKS ============ */
+    #vibe-detail { position: relative; isolation: isolate; }
+    #vibe-detail::before {
+      content: ''; position: absolute; z-index: -1; inset: -4rem -3rem; pointer-events: none; filter: blur(34px);
+      background:
+        radial-gradient(38% 22% at 12% 6%, rgba(255, 182, 213, .30), transparent 70%),
+        radial-gradient(34% 22% at 90% 24%, rgba(190, 170, 255, .28), transparent 70%),
+        radial-gradient(38% 24% at 22% 62%, rgba(255, 214, 186, .20), transparent 70%),
+        radial-gradient(40% 24% at 84% 92%, rgba(168, 214, 255, .24), transparent 70%);
+    }
+    #vibe-detail .vibe-head { margin-bottom: 2.6rem; }
+    #vibe-detail .vibe-head .eyebrow { letter-spacing: .34em; }
+    #vibe-detail .vibe-title {
+      font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500;
+      text-transform: none; letter-spacing: .005em; font-size: 2.9rem; line-height: 1.05;
+    }
+    @media (min-width: 640px) { #vibe-detail .vibe-title { font-size: 4.2rem; } }
+    #vibe-detail .vibe-sub { font-size: 13px; letter-spacing: .08em; margin-top: 1rem; }
+    #vibe-detail .vibe-head::after { content: '\2726  \2727  \2726'; display: block; margin-top: 1.4rem; font-size: 11px; letter-spacing: .6em; color: #e9b4d2; opacity: .9; }
+
+    /* masonry feed of looks */
+    .look-feed { display: block; columns: 2; column-gap: 1rem; }
+    @media (min-width: 768px) { .look-feed { columns: 3; column-gap: 1.6rem; } }
+    @media (min-width: 1100px) { .look-feed { columns: 4; } }
+    .look-tile {
+      display: inline-block; width: 100%; margin: 0 0 1.5rem; break-inside: avoid; -webkit-column-break-inside: avoid;
+      background: transparent; border: 0; box-shadow: none; border-radius: 1.5rem; overflow: visible;
+    }
+    .look-tile { text-align: center; }
+    .look-tile:hover { transform: translateY(-5px); }
+    .lt-media {
+      border-radius: 1.5rem; aspect-ratio: 4 / 5;
+      box-shadow: 0 18px 40px -18px rgba(214, 150, 200, .55), 0 2px 0 rgba(255, 255, 255, .18) inset;
+    }
+    .look-feed .look-tile:nth-child(3n+2) .lt-media { aspect-ratio: 4 / 5.7; }
+    .look-feed .look-tile:nth-child(3n) .lt-media { aspect-ratio: 1 / 1.12; }
+    .lt-tag {
+      left: 50%; top: auto; bottom: .7rem; transform: translateX(-50%); white-space: nowrap;
+      font-size: 8px; letter-spacing: .16em; background: rgba(255, 255, 255, .22); border: 1px solid rgba(255, 255, 255, .35);
+    }
+    .lt-body { padding: .85rem .25rem .2rem; text-align: center; }
+    .lt-vibe { font-size: 9px; letter-spacing: .26em; color: #e3a9cc; }
+    .lt-name {
+      font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 600; text-transform: none;
+      letter-spacing: .005em; font-size: 1.45rem; line-height: 1.1; margin-top: .3rem;
+    }
+    .lt-desc { font-size: 11px; line-height: 1.5; margin-top: .35rem; }
+    .lt-go {
+      display: inline-block; margin-top: .7rem; padding: .45rem 1rem; border-radius: 999px; font-size: 9px; letter-spacing: .2em;
+      color: #2a1f3d; background: linear-gradient(120deg, #f8c8dc, #d7c4f7 62%, #bcdcf8);
+    }
+
+    /* the single look page */
+    .look-hero-wrap { max-width: 24rem; margin: 0 auto 1rem; padding: .7rem; border-radius: 999px 999px 2rem 2rem;
+      background: linear-gradient(160deg, rgba(255, 255, 255, .28), rgba(255, 255, 255, .05));
+      border: 1px solid rgba(255, 255, 255, .28); box-shadow: 0 30px 70px -28px rgba(220, 150, 210, .7); }
+    .look-hero { max-width: none; margin: 0; border-radius: 999px 999px 1.5rem 1.5rem; box-shadow: none; }
+    .look-hero-wrap .lt-tag { bottom: 1.5rem; font-size: 8.5px; }
+    .look-pieces-head { text-align: center; margin: 2.2rem 0 1.8rem; }
+    .look-pieces-head h3 { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 500; font-size: 2rem; color: var(--text); line-height: 1.1; }
+    .look-pieces-head p { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--faint); margin-top: .5rem; }
+    .outfit { gap: 1.1rem; }
+    .outfit .glam-card { border-radius: 1.6rem; padding: .7rem; background: var(--surface); border: 1px solid rgba(255, 255, 255, .2);
+      box-shadow: 0 16px 36px -22px rgba(214, 150, 200, .6); }
+    .outfit .media, .outfit .media img { border-radius: 1.2rem; }
+    .outfit .look-role { color: #e3a9cc; letter-spacing: .22em; }
+    .outfit .piece-name {
+      font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 600; text-transform: none;
+      letter-spacing: 0; font-size: 1.1rem; line-height: 1.2;
+    }
+    .outfit .cta, .outfit .cta:hover {
+      border: 0; border-radius: 999px; color: #2a1f3d; font-weight: 700;
+      background: linear-gradient(120deg, #f8c8dc, #d7c4f7 62%, #bcdcf8);
+    }
+    .look-more { text-align: center; }
 
     /* ============ ABOUT PANEL ============ */
     .panel { background: var(--accent); color: var(--accent-ink); }
@@ -3827,7 +3903,7 @@
         if (top) { body.appendChild(el('span', 'lt-vibe', top)); }
         body.appendChild(el('span', 'lt-name', l.name));
         body.appendChild(el('span', 'lt-desc', lookDesc(l)));
-        body.appendChild(el('span', 'lt-go', 'See the pieces \u2192'));
+        body.appendChild(el('span', 'lt-go', 'Shop this look \u2661'));
         b.appendChild(body);
         b.addEventListener('click', function () { enterLook(l.n); });
         return b;
@@ -3954,13 +4030,15 @@
         location.hash = 'vibe-' + id;
       }
 
-      function buildLookBlock(look, idx) {
+      function buildLookBlock(look, idx, noMeta) {
           var block = el('section', 'look-block');
-          var meta = el('div', 'look-meta');
-          meta.appendChild(el('span', 'look-num', 'Look ' + (idx < 9 ? '0' : '') + (idx + 1)));
-          meta.appendChild(el('h3', 'look-name', look.name));
-          if (look.who) { meta.appendChild(el('span', 'look-who', look.who)); }
-          block.appendChild(meta);
+          if (!noMeta) {
+            var meta = el('div', 'look-meta');
+            meta.appendChild(el('span', 'look-num', 'Look ' + (idx < 9 ? '0' : '') + (idx + 1)));
+            meta.appendChild(el('h3', 'look-name', look.name));
+            if (look.who) { meta.appendChild(el('span', 'look-who', look.who)); }
+            block.appendChild(meta);
+          }
 
           var row = el('div', 'outfit');
           row.style.setProperty('--n', look.items.length);
@@ -4031,7 +4109,7 @@
         detail.appendChild(bar);
 
         var head = el('div', 'vibe-head');
-        head.appendChild(el('p', 'eyebrow', lookKey(look)));
+        head.appendChild(el('p', 'eyebrow', v.name + (look.who ? ' \u00b7 ' + whoLabel(look) : '')));
         head.appendChild(el('h2', 'vibe-title', look.name));
         head.appendChild(el('p', 'vibe-sub', v.tag));
         detail.appendChild(head);
@@ -4049,8 +4127,12 @@
         wrap.appendChild(tag);
         detail.appendChild(wrap);
 
-        detail.appendChild(buildLookBlock(look, v.looks.indexOf(look)));
-        var more = el('div', 'vibe-bar');
+        var ph = el('div', 'look-pieces-head');
+        ph.appendChild(el('h3', '', 'Shop the pieces'));
+        ph.appendChild(el('p', '', look.items.length + ' pieces \u00b7 tap to open on Amazon'));
+        detail.appendChild(ph);
+        detail.appendChild(buildLookBlock(look, v.looks.indexOf(look), true));
+        var more = el('div', 'vibe-bar look-more');
         var all = el('button', 'back-btn', 'See all ' + v.name + ' looks');
         all.type = 'button';
         all.addEventListener('click', function () { enterVibe(v.id); });
